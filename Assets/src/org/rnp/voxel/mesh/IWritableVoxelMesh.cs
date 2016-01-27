@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace org.rnp.voxel.mesh
 {
-  /// <auhor>Cédric DEMONGIVERT <cedric.demongivert@gmail.com></author>
+  /// <auhor>Cédric DEMONGIVERT [cedric.demongivert@gmail.com]</author>
   /// 
   /// <summary>
   ///   A voxel mesh that can be modified.
@@ -19,10 +19,21 @@ namespace org.rnp.voxel.mesh
       set;
     }
 
+    new Color32 this[int x, int y, int z]
+    {
+      get;
+      set;
+    }
+
     new Color32 this[Vector3 location]
     {
       get;
       set;
     }
+
+    /// <summary>
+    ///   Clear the voxel mesh.
+    /// </summary>
+    void Clear();
   }
 }

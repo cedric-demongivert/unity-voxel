@@ -5,7 +5,7 @@ using System.Text;
 
 namespace org.rnp.voxel.utils
 {
-  /// <author>Cédric DEMONGIVERT <cedric.demongivert@gmail.com></author>
+  /// <author>Cédric DEMONGIVERT [cedric.demongivert@gmail.com]</author>
   /// 
   /// <summary>
   ///   A simple struct for 3D voxel cubes dimensions.

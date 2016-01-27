@@ -49,6 +49,11 @@
      <Compile Include="Assets\src\org\rnp\voxel\mesh\IVoxelMesh.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\mesh\IWritableVoxelMesh.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\mesh\VoxelMap.cs" />
+     <Compile Include="Assets\src\org\rnp\voxel\translator\ITranslator.cs" />
+     <Compile Include="Assets\src\org\rnp\voxel\unity\components\AssetVoxelMesh.cs" />
+     <Compile Include="Assets\src\org\rnp\voxel\unity\components\PrototypeTranslator.cs" />
+     <Compile Include="Assets\src\org\rnp\voxel\unity\components\SphereVoxelMesh.cs" />
+     <Compile Include="Assets\src\org\rnp\voxel\unity\components\VoxelMesh.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\utils\Dimensions3D.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\utils\IDimensions3D.cs" />
  <Reference Include="UnityEngine.UI">

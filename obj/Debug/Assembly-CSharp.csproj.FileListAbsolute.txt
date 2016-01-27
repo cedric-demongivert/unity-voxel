@@ -1,0 +1,1 @@
+E:\unity-projets\unity-voxel\obj\Debug\Assembly-CSharp.csprojResolveAssemblyReference.cache
