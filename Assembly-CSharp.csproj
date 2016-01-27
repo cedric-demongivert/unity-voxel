@@ -5,7 +5,7 @@
 	<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
 	<ProductVersion>10.0.20506</ProductVersion>
 	<SchemaVersion>2.0</SchemaVersion>
-	<ProjectGuid>{24147965-48E0-17B4-6E29-46F02954FD57}</ProjectGuid>
+	<ProjectGuid>{030EE5D3-DE60-AFC5-2AA8-D9CBE1D051A1}</ProjectGuid>
 	<OutputType>Library</OutputType>
 	<AppDesignerFolder>Properties</AppDesignerFolder>
 	<RootNamespace></RootNamespace>
@@ -46,7 +46,11 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\src\org\rnp\voxel\IVoxelMesh.cs" />
+     <Compile Include="Assets\src\org\rnp\voxel\mesh\IVoxelMesh.cs" />
+     <Compile Include="Assets\src\org\rnp\voxel\mesh\IWritableVoxelMesh.cs" />
+     <Compile Include="Assets\src\org\rnp\voxel\mesh\VoxelMap.cs" />
+     <Compile Include="Assets\src\org\rnp\voxel\utils\Dimensions3D.cs" />
+     <Compile Include="Assets\src\org\rnp\voxel\utils\IDimensions3D.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>E:/unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
