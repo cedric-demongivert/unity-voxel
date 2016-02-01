@@ -121,7 +121,7 @@ namespace org.rnp.voxel.unity.components
     }
 
     /// <see cref="org.rnp.voxel.translator.ITranslator"/>
-    public void Translate()
+    public virtual void Translate()
     {
       this.Clear();
 
@@ -130,13 +130,15 @@ namespace org.rnp.voxel.unity.components
         return;
       }
 
-      for (int x = 0; x < this.VoxelMesh.Mesh.Width; ++x)
+      IVoxelMesh mesh = this.VoxelMesh.Mesh;
+
+      for (int x = 0; x < mesh.Width; ++x)
       {
-        for (int y = 0; y < this.VoxelMesh.Mesh.Height; ++y)
+        for (int y = 0; y < mesh.Height; ++y)
         {
-          for (int z = 0; z < this.VoxelMesh.Mesh.Depth; ++z)
+          for (int z = 0; z < mesh.Depth; ++z)
           {
-            this.Translate(x, y, z);
+            this.Translate(x + mesh.Start.X, y + mesh.Start.Y, z + mesh.Start.Z);
           }
         }
       }
@@ -188,13 +190,8 @@ namespace org.rnp.voxel.unity.components
     /// <returns></returns>
     protected bool AsVoxelAt(int x, int y, int z)
     {
-      return x >= 0
-          && y >= 0
-          && z >= 0
-          && x < this.VoxelMesh.Mesh.Width
-          && y < this.VoxelMesh.Mesh.Height
-          && z < this.VoxelMesh.Mesh.Depth
-          && this.VoxelMesh.Mesh[x, y, z].a == 0;
+      return this.VoxelMesh.Mesh.AbsoluteContains(x, y, z)
+          && this.VoxelMesh.Mesh.AbsoluteGet(x, y, z).a == 0;
     }
 
     /// <summary>
@@ -210,9 +207,9 @@ namespace org.rnp.voxel.unity.components
     protected Vector3 GetVector(int x, int y, int z, int dx, int dy, int dz)
     {
       return new Vector3(
-        ((float) (x + dx)) - this.VoxelMesh.Mesh.Width / 2f,
-        ((float) (y + dy)) - this.VoxelMesh.Mesh.Height / 2f,
-        ((float) (z + dz)) - this.VoxelMesh.Mesh.Depth / 2f
+        (float) (x + dx),
+        (float) (y + dy),
+        (float) (z + dz)
       );
     }
 
@@ -229,7 +226,7 @@ namespace org.rnp.voxel.unity.components
         this.GetVector(x, y, z, 1, 1, 1),
         this.GetVector(x, y, z, 1, 1, 0),
         this.GetVector(x, y, z, 0, 1, 0)
-      }, this.VoxelMesh.Mesh[x, y, z]);
+      }, this.VoxelMesh.Mesh.AbsoluteGet(x, y, z));
     }
 
     /// <summary>
@@ -245,7 +242,7 @@ namespace org.rnp.voxel.unity.components
         this.GetVector(x, y, z, 1, 0, 0),
         this.GetVector(x, y, z, 1, 0, 1),
         this.GetVector(x, y, z, 0, 0, 1)
-      }, this.VoxelMesh.Mesh[x, y, z]);
+      }, this.VoxelMesh.Mesh.AbsoluteGet(x, y, z));
     }
 
     /// <summary>
@@ -261,7 +258,7 @@ namespace org.rnp.voxel.unity.components
         this.GetVector(x, y, z, 0, 1, 1),
         this.GetVector(x, y, z, 0, 1, 0),
         this.GetVector(x, y, z, 0, 0, 0)
-      }, this.VoxelMesh.Mesh[x, y, z]);
+      }, this.VoxelMesh.Mesh.AbsoluteGet(x, y, z));
     }
 
     /// <summary>
@@ -277,7 +274,7 @@ namespace org.rnp.voxel.unity.components
         this.GetVector(x, y, z, 1, 1, 0),
         this.GetVector(x, y, z, 1, 1, 1),
         this.GetVector(x, y, z, 1, 0, 1)
-      }, this.VoxelMesh.Mesh[x, y, z]);
+      }, this.VoxelMesh.Mesh.AbsoluteGet(x, y, z));
     }
 
     /// <summary>
@@ -293,7 +290,7 @@ namespace org.rnp.voxel.unity.components
         this.GetVector(x, y, z, 0, 1, 0),
         this.GetVector(x, y, z, 1, 1, 0),
         this.GetVector(x, y, z, 1, 0, 0)
-      }, this.VoxelMesh.Mesh[x, y, z]);
+      }, this.VoxelMesh.Mesh.AbsoluteGet(x, y, z));
     }
 
     /// <summary>
@@ -309,7 +306,7 @@ namespace org.rnp.voxel.unity.components
         this.GetVector(x, y, z, 1, 1, 1),
         this.GetVector(x, y, z, 0, 1, 1),
         this.GetVector(x, y, z, 0, 0, 1)
-      }, this.VoxelMesh.Mesh[x, y, z]);
+      }, this.VoxelMesh.Mesh.AbsoluteGet(x, y, z));
     }
 
     /// <summary>

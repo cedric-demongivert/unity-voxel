@@ -46,16 +46,23 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\src\org\rnp\voxel\mesh\AbstractWritableVoxelMesh.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\mesh\IVoxelMesh.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\mesh\IWritableVoxelMesh.cs" />
-     <Compile Include="Assets\src\org\rnp\voxel\mesh\VoxelMap.cs" />
+     <Compile Include="Assets\src\org\rnp\voxel\mesh\VoxelArray.cs" />
+     <Compile Include="Assets\src\org\rnp\voxel\mesh\octree\BaseVoxelOctreeNodeBuilder.cs" />
+     <Compile Include="Assets\src\org\rnp\voxel\mesh\octree\IVoxelOctreeNodeBuilder.cs" />
+     <Compile Include="Assets\src\org\rnp\voxel\mesh\octree\VoxelOctree.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\translator\ITranslator.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\unity\components\AssetVoxelMesh.cs" />
+     <Compile Include="Assets\src\org\rnp\voxel\unity\components\OctreeTranslator.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\unity\components\PrototypeTranslator.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\unity\components\SphereVoxelMesh.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\unity\components\VoxelMesh.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\utils\Dimensions3D.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\utils\IDimensions3D.cs" />
+     <Compile Include="Assets\src\org\rnp\voxel\utils\IVoxelLocation.cs" />
+     <Compile Include="Assets\src\org\rnp\voxel\utils\VoxelLocation.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>E:/unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>

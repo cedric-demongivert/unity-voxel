@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using org.rnp.voxel.mesh.octree;
 using UnityEngine;
+using org.rnp.voxel.utils;
 
 namespace org.rnp.voxel.unity.components
 {
@@ -13,19 +14,19 @@ namespace org.rnp.voxel.unity.components
   ///   A simple, procedural, spheric voxel mesh
   /// </summary>
   [ExecuteInEditMode]
-  public class SphereVoxelMesh : VoxelMesh
+  public sealed class SphereVoxelMesh : VoxelMesh
   {
     /// <summary>
     ///   Sphere radius in voxels.
     /// </summary>
     [SerializeField]
-    protected int _Radius;
+    private int _Radius;
 
     /// <summary>
     ///   Sphere color.
     /// </summary>
     [SerializeField]
-    protected Color32 _Color;
+    private Color32 _Color;
 
     /// <summary>
     ///   Sphere radius in voxels.
@@ -63,20 +64,24 @@ namespace org.rnp.voxel.unity.components
       this.RefreshMesh();
     }
 
-    /// <summary>
-    ///   Return a point in space.
-    /// </summary>
-    /// <param name="x"></param>
-    /// <param name="y"></param>
-    /// <param name="z"></param>
-    /// <returns></returns>
-    protected Vector3 GetPoint(int x, int y, int z)
+    private Vector3 GetPoint(int x, int y, int z)
     {
-      return (new Vector3(
-        (float)(x - this.Radius) + 0.5f,
-        (float)(y - this.Radius) + 0.5f,
-        (float)(z - this.Radius) + 0.5f
-      ));
+      Vector3 point = new Vector3(
+        x - this.Radius,
+        y - this.Radius,
+        z - this.Radius
+      );
+
+      if (point.x < 0) point.x += 0.5f;
+      else point.x += 0.5f;
+
+      if (point.y < 0) point.y += 0.5f;
+      else point.y += 0.5f;
+
+      if (point.z < 0) point.z += 0.5f;
+      else point.z += 0.5f;
+
+      return point;
     }
 
     /// <summary>
@@ -87,7 +92,10 @@ namespace org.rnp.voxel.unity.components
       int size = this.Radius * 2;
       Color32 empty = new Color32(0, 0, 0, 255);
 
-      IWritableVoxelMesh sphere = new VoxelOctree(size, size, size);
+      IWritableVoxelMesh sphere = new VoxelArray(size, size, size);
+      sphere.Start.X -= this.Radius;
+      sphere.Start.Y -= this.Radius;
+      sphere.Start.Z -= this.Radius;
 
       for(int x = 0; x < size; ++x) 
       {
@@ -99,11 +107,11 @@ namespace org.rnp.voxel.unity.components
 
             if (point.magnitude <= this.Radius)
             {
-              sphere[x, y, z] = this.Color;
+              sphere.AbsoluteSet(point, this.Color);
             }
             else 
             {
-              sphere[x, y, z] = empty;
+              sphere.AbsoluteSet(point, empty);
             }
           }
         }

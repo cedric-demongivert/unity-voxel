@@ -14,12 +14,18 @@ namespace org.rnp.voxel.mesh
     /// <summary>
     ///   Starting X,Y,Z position of the mesh.
     /// </summary>
-    Vector3 Start
+    IVoxelLocation Start
+    {
+      get;
+      set;
+    }
+
+    Color32 this[int x, int y, int z]
     {
       get;
     }
 
-    Color32 this[int x, int y, int z]
+    Color32 this[IVoxelLocation location]
     {
       get;
     }
@@ -28,5 +34,17 @@ namespace org.rnp.voxel.mesh
     {
       get;
     }
+
+    bool Contains(int x, int y, int z);
+    bool Contains(Vector3 location);
+    bool Contains(IVoxelLocation location);
+
+    bool AbsoluteContains(int x, int y, int z);
+    bool AbsoluteContains(Vector3 location);
+    bool AbsoluteContains(IVoxelLocation location);
+
+    Color32 AbsoluteGet(int x, int y, int z);
+    Color32 AbsoluteGet(Vector3 location);
+    Color32 AbsoluteGet(IVoxelLocation location);
   }
 }
