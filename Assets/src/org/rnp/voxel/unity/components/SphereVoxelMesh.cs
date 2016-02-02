@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using org.rnp.voxel.mesh.octree;
 using UnityEngine;
 
 namespace org.rnp.voxel.unity.components
@@ -86,7 +87,7 @@ namespace org.rnp.voxel.unity.components
       int size = this.Radius * 2;
       Color32 empty = new Color32(0, 0, 0, 255);
 
-      VoxelArray sphere = new VoxelArray(size, size, size);
+      IWritableVoxelMesh sphere = new VoxelOctree(size, size, size);
 
       for(int x = 0; x < size; ++x) 
       {

@@ -12,47 +12,29 @@ namespace org.rnp.voxel.utils
   /// </summary>
   public struct Dimensions3D : IDimensions3D
   {
-    private uint _Width;
-    private uint _Height;
-    private uint _Depth;
+    private int _width;
+    private int _height;
+    private int _depth;
 
     /// <see cref="org.rnp.voxel.utils.IDimensions3D"></see>
-    public uint Width
+    public int Width
     {
-      get
-      {
-        return _Width;
-      }
-      set
-      {
-        _Width = value;
-      }
+      get { return _width; }
+      set { _width = value; }
     }
 
     /// <see cref="org.rnp.voxel.utils.IDimensions3D"></see>
-    public uint Height
+    public int Height
     {
-      get
-      {
-        return _Height;
-      }
-      set
-      {
-        _Height = value;
-      }
+      get { return _height; }
+      set { _height = value; }
     }
 
     /// <see cref="org.rnp.voxel.utils.IDimensions3D"></see>
-    public uint Depth
+    public int Depth
     {
-      get
-      {
-        return _Depth;
-      }
-      set
-      {
-        _Depth = value;
-      }
+      get { return _depth; }
+      set { _depth = value; }
     }
 
     /// <summary>
@@ -62,11 +44,11 @@ namespace org.rnp.voxel.utils
     /// <param name="width"></param>
     /// <param name="height"></param>
     /// <param name="depth"></param>
-    public Dimensions3D(uint width, uint height, uint depth)
+    public Dimensions3D(int width, int height, int depth)
     {
-      this.Width = width;
-      this.Height = height;
-      this.Depth = depth;
+      this._width = width;
+      this._height = height;
+      this._depth = depth;
     }
 
     /// <summary>
@@ -74,10 +56,20 @@ namespace org.rnp.voxel.utils
     /// </summary>
     /// 
     /// <param name="toCopy"></param>
-    public Dimensions3D(IDimensions3D toCopy) {
-      this.Width = toCopy.Width;
-      this.Height = toCopy.Height;
-      this.Depth = toCopy.Depth;
+    public Dimensions3D(IDimensions3D toCopy)
+    {
+      this._width = toCopy.Width;
+      this._height = toCopy.Height;
+      this._depth = toCopy.Depth;
+    }
+
+    /// <summary>
+    ///   Return true if the dimensions is null (0,0,0)
+    /// </summary>
+    /// <returns></returns>
+    public bool IsEmpty()
+    {
+      return this._width == 0 && this._height == 0 && this._depth == 0;
     }
   }
 }

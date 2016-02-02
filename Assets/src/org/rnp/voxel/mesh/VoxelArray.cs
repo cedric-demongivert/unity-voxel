@@ -31,19 +31,19 @@ namespace org.rnp.voxel.mesh
     }
 
     /// <see cref="org.rnp.voxel.utils.IDimensions3D"></see>
-    public uint Width
+    public int Width
     {
       get { return this._dimensions.Width; }
     }
 
     /// <see cref="org.rnp.voxel.utils.IDimensions3D"></see>
-    public uint Height
+    public int Height
     {
       get { return this._dimensions.Height; }
     }
 
     /// <see cref="org.rnp.voxel.utils.IDimensions3D"></see>
-    public uint Depth
+    public int Depth
     {
       get { return this._dimensions.Depth; }
     } 
@@ -106,23 +106,9 @@ namespace org.rnp.voxel.mesh
     /// <param name="width"></param>
     /// <param name="height"></param>
     /// <param name="depth"></param>
-    public VoxelArray(uint width, uint height, uint depth)
-    {
-      this._dimensions = new Dimensions3D(width, height, depth);
-      this._datas = new Color32[width, height, depth];
-      this.Clear();
-    }
-
-    /// <summary>
-    ///   Create a custom voxel mesh.
-    /// </summary>
-    /// 
-    /// <param name="width"></param>
-    /// <param name="height"></param>
-    /// <param name="depth"></param>
     public VoxelArray(int width, int height, int depth)
     {
-      this._dimensions = new Dimensions3D((uint)width, (uint)height, (uint)depth);
+      this._dimensions = new Dimensions3D(width, height, depth);
       this._datas = new Color32[width, height, depth];
       this.Clear();
     }

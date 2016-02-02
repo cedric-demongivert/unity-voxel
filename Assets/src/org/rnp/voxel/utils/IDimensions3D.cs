@@ -10,17 +10,18 @@ namespace org.rnp.voxel.utils
   /// </summary>
   public interface IDimensions3D
   {
-    uint Width
+    int Width
     {
       get;
     }
 
-    uint Height
+    int Height
     {
       get;
     }
 
-    uint Depth{
+    int Depth
+    {
       get;
     }
   }
