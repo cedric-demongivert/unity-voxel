@@ -13,12 +13,6 @@ namespace org.rnp.voxel.mesh
   /// </summary>
   public interface IWritableVoxelMesh : IVoxelMesh
   {
-    new Color32 this[uint x, uint y, uint z]
-    {
-      get;
-      set;
-    }
-
     new Color32 this[int x, int y, int z]
     {
       get;

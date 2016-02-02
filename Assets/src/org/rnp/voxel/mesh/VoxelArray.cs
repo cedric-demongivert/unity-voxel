@@ -12,56 +12,44 @@ namespace org.rnp.voxel.mesh
   /// <summary>
   ///   A simple voxel mesh that store data in an array.
   /// </summary>
-  public sealed class VoxelMap : IWritableVoxelMesh
+  public sealed class VoxelArray : IWritableVoxelMesh
   {
     /// <summary>
     ///   Voxel dimension of the mesh.
     /// </summary>
-    private Dimensions3D Dimensions;
+    private Dimensions3D _dimensions;
 
     /// <summary>
     ///   Mesh data.
     /// </summary>
-    private Color32[, ,] Datas;
+    private readonly Color32[, ,] _datas;
 
-    /// <see cref="org.rnp.voxel.utils.IDimensions3D"></see>
-    public uint Width
+    /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"></see>
+    public Vector3 Start
     {
-      get
-      {
-        return this.Dimensions.Width;
-      }
+      get;
     }
 
     /// <see cref="org.rnp.voxel.utils.IDimensions3D"></see>
-    public uint Height
-    {
-      get
-      {
-        return this.Dimensions.Height;
-      }
-    }
+    public uint Width => this._dimensions.Width;
 
     /// <see cref="org.rnp.voxel.utils.IDimensions3D"></see>
-    public uint Depth
-    {
-      get
-      {
-        return this.Dimensions.Depth;
-      }
-    }
+    public uint Height => this._dimensions.Height;
+
+    /// <see cref="org.rnp.voxel.utils.IDimensions3D"></see>
+    public uint Depth => this._dimensions.Depth;
 
     /// <see cref="org.rnp.voxel.mesh.IWritableVoxelMesh"></see>
     public Color32 this[uint x, uint y, uint z] 
     {
       get
       {
-        Color32 copy = this.Datas[x, y, z];
+        Color32 copy = this._datas[x, y, z];
         return copy;
       }
       set
       {
-        this.Datas[x, y, z] = value;
+        this._datas[x, y, z] = value;
       }
     }
 
@@ -70,12 +58,12 @@ namespace org.rnp.voxel.mesh
     {
       get
       {
-        Color32 copy = this.Datas[x, y, z];
+        Color32 copy = this._datas[x, y, z];
         return copy;
       }
       set
       {
-        this.Datas[x, y, z] = value;
+        this._datas[x, y, z] = value;
       }
     }
 
@@ -84,22 +72,22 @@ namespace org.rnp.voxel.mesh
     {
       get
       {
-        Color32 copy = this.Datas[(int)location.x, (int)location.y, (int)location.z];
+        Color32 copy = this._datas[(int)location.x, (int)location.y, (int)location.z];
         return copy;
       }
       set
       {
-        this.Datas[(int)location.x, (int)location.y, (int)location.z] = value;
+        this._datas[(int)location.x, (int)location.y, (int)location.z] = value;
       }
     }
 
     /// <summary>
     ///   Create an empty voxel mesh.
     /// </summary>
-    public VoxelMap()
+    public VoxelArray()
     {
-      this.Dimensions = new Dimensions3D();
-      this.Datas = new Color32[0, 0, 0];
+      this._dimensions = new Dimensions3D();
+      this._datas = new Color32[0, 0, 0];
     }
 
     /// <summary>
@@ -109,10 +97,10 @@ namespace org.rnp.voxel.mesh
     /// <param name="width"></param>
     /// <param name="height"></param>
     /// <param name="depth"></param>
-    public VoxelMap(uint width, uint height, uint depth)
+    public VoxelArray(uint width, uint height, uint depth)
     {
-      this.Dimensions = new Dimensions3D(width, height, depth);
-      this.Datas = new Color32[width, height, depth];
+      this._dimensions = new Dimensions3D(width, height, depth);
+      this._datas = new Color32[width, height, depth];
       this.Clear();
     }
 
@@ -123,20 +111,20 @@ namespace org.rnp.voxel.mesh
     /// <param name="width"></param>
     /// <param name="height"></param>
     /// <param name="depth"></param>
-    public VoxelMap(int width, int height, int depth)
+    public VoxelArray(int width, int height, int depth)
     {
-      this.Dimensions = new Dimensions3D((uint)width, (uint)height, (uint)depth);
-      this.Datas = new Color32[width, height, depth];
+      this._dimensions = new Dimensions3D((uint)width, (uint)height, (uint)depth);
+      this._datas = new Color32[width, height, depth];
       this.Clear();
     }
 
     /// Create a custom voxel mesh.
     /// 
     /// <param name="dimensions"></param>
-    public VoxelMap(IDimensions3D dimensions)
+    public VoxelArray(IDimensions3D dimensions)
     {
-      this.Dimensions = new Dimensions3D(dimensions);
-      this.Datas = new Color32[
+      this._dimensions = new Dimensions3D(dimensions);
+      this._datas = new Color32[
         this.Width, 
         this.Height, 
         this.Depth
@@ -148,10 +136,10 @@ namespace org.rnp.voxel.mesh
     ///   Copy an existing voxel mesh.
     /// </summary>
     /// <param name="toCopy"></param>
-    public VoxelMap(IVoxelMesh toCopy)
+    public VoxelArray(IVoxelMesh toCopy)
     {
-      this.Dimensions = new Dimensions3D(toCopy);
-      this.Datas = new Color32[
+      this._dimensions = new Dimensions3D(toCopy);
+      this._datas = new Color32[
         this.Width,
         this.Height,
         this.Depth
@@ -163,7 +151,7 @@ namespace org.rnp.voxel.mesh
         {
           for (int z = 0; z < this.Depth; ++z)
           {
-            this.Datas[x, y, z] = toCopy[x, y, z];
+            this._datas[x, y, z] = toCopy[x, y, z];
           }
         }
       }
@@ -179,7 +167,7 @@ namespace org.rnp.voxel.mesh
         {
           for (int z = 0; z < this.Depth; ++z)
           {
-            this.Datas[x, y, z] = empty;
+            this._datas[x, y, z] = empty;
           }
         }
       }

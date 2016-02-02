@@ -11,7 +11,10 @@ namespace org.rnp.voxel.mesh
   /// </summary>
   public interface IVoxelMesh : IDimensions3D
   {
-    Color32 this[uint x, uint y, uint z]
+    /// <summary>
+    ///   Starting X,Y,Z position of the mesh.
+    /// </summary>
+    Vector3 Start
     {
       get;
     }
