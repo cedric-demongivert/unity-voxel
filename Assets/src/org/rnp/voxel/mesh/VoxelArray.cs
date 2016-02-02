@@ -27,17 +27,26 @@ namespace org.rnp.voxel.mesh
     /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"></see>
     public Vector3 Start
     {
-      get;
+      get { return Vector3.zero; }
     }
 
     /// <see cref="org.rnp.voxel.utils.IDimensions3D"></see>
-    public uint Width => this._dimensions.Width;
+    public uint Width
+    {
+      get { return this._dimensions.Width; }
+    }
 
     /// <see cref="org.rnp.voxel.utils.IDimensions3D"></see>
-    public uint Height => this._dimensions.Height;
+    public uint Height
+    {
+      get { return this._dimensions.Height; }
+    }
 
     /// <see cref="org.rnp.voxel.utils.IDimensions3D"></see>
-    public uint Depth => this._dimensions.Depth;
+    public uint Depth
+    {
+      get { return this._dimensions.Depth; }
+    } 
 
     /// <see cref="org.rnp.voxel.mesh.IWritableVoxelMesh"></see>
     public Color32 this[uint x, uint y, uint z] 
