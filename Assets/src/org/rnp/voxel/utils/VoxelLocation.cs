@@ -27,40 +27,27 @@ namespace org.rnp.voxel.utils
       );
     }
 
-
+    /// <see cref="org.rnp.utils.IVoxelLocation"/>
     public int X 
     {
       get { return this._x; }
       set { this._x = value; }
     }
 
+    /// <see cref="org.rnp.utils.IVoxelLocation"/>
     public int Y
     {
       get { return this._y; }
       set { this._y = value; }
     }
 
+    /// <see cref="org.rnp.utils.IVoxelLocation"/>
     public int Z
     {
       get { return this._z; }
       set { this._z = value; }
     }
-
-    public Vector3 Vector
-    {
-      get
-      {
-        return new Vector3(this._x, this._y, this._z);
-      }
-      set
-      {
-        this._x = (int) value.x;
-        this._y = (int) value.y;
-        this._z = (int) value.z;
-      }
-    }
-
-
+    
     public VoxelLocation()
     {
       this._x = this._y = this._z = 0;
@@ -94,6 +81,7 @@ namespace org.rnp.voxel.utils
       this._z = 0;
     }
 
+    /// <see cref="org.rnp.utils.IVoxelLocation"/>
     public IVoxelLocation Set(IVoxelLocation location)
     {
       this._x = location.X;
@@ -102,6 +90,7 @@ namespace org.rnp.voxel.utils
       return this;
     }
 
+    /// <see cref="org.rnp.utils.IVoxelLocation"/>
     public IVoxelLocation Set(int x, int y, int z)
     {
       this._x = x;
@@ -110,6 +99,7 @@ namespace org.rnp.voxel.utils
       return this;
     }
 
+    /// <see cref="org.rnp.utils.IVoxelLocation"/>
     public IVoxelLocation Add(IVoxelLocation location)
     {
       this._x += location.X;
@@ -118,12 +108,26 @@ namespace org.rnp.voxel.utils
       return this;
     }
 
+    /// <see cref="org.rnp.utils.IVoxelLocation"/>
     public IVoxelLocation Add(int x, int y, int z)
     {
       this._x += x;
       this._y += y;
       this._z += z;
       return this;
+    }
+
+    /// <see cref="Object"/>
+    public override string ToString()
+    {
+      return "VoxelLocation (" + this._x 
+             + ", " + this._y + ", " + this._z + ")";
+    }
+
+    /// <see cref="Object"/>
+    public override int GetHashCode()
+    {
+      return ((this._x) * 31 + this._y) * 61 + this._z) * 97;
     }
   }
 }

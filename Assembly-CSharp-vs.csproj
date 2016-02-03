@@ -50,6 +50,7 @@
      <Compile Include="Assets\src\org\rnp\voxel\mesh\IVoxelMesh.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\mesh\IWritableVoxelMesh.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\mesh\VoxelArray.cs" />
+     <Compile Include="Assets\src\org\rnp\voxel\mesh\map\VoxelMap.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\mesh\octree\BaseVoxelOctreeNodeBuilder.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\mesh\octree\IVoxelOctreeNodeBuilder.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\mesh\octree\VoxelOctree.cs" />
