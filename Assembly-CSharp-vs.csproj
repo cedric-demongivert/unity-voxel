@@ -46,15 +46,21 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\src\org\rnp\voxel\mesh\AbstractWritableVoxelMesh.cs" />
+     <Compile Include="Assets\src\org\rnp\voxel\mesh\AbstractReadonlyVoxelMesh.cs" />
+     <Compile Include="Assets\src\org\rnp\voxel\mesh\AbstractVoxelMesh.cs" />
+     <Compile Include="Assets\src\org\rnp\voxel\mesh\IReadonlyVoxelMesh.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\mesh\IVoxelMesh.cs" />
-     <Compile Include="Assets\src\org\rnp\voxel\mesh\IWritableVoxelMesh.cs" />
-     <Compile Include="Assets\src\org\rnp\voxel\mesh\VoxelArray.cs" />
+     <Compile Include="Assets\src\org\rnp\voxel\mesh\array\ArrayVoxelMesh.cs" />
+     <Compile Include="Assets\src\org\rnp\voxel\mesh\array\IArrayVoxelMesh.cs" />
+     <Compile Include="Assets\src\org\rnp\voxel\mesh\array\ReadonlyArrayVoxelMesh.cs" />
+     <Compile Include="Assets\src\org\rnp\voxel\mesh\builder\IVoxelOctreeNodeBuilder.cs" />
+     <Compile Include="Assets\src\org\rnp\voxel\mesh\builder\VoxelOctreeNodeBuilder.cs" />
+     <Compile Include="Assets\src\org\rnp\voxel\mesh\exceptions\UnmodifiableVoxelMeshException.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\mesh\map\VoxelMap.cs" />
-     <Compile Include="Assets\src\org\rnp\voxel\mesh\octree\BaseVoxelOctreeNodeBuilder.cs" />
-     <Compile Include="Assets\src\org\rnp\voxel\mesh\octree\IVoxelOctreeNodeBuilder.cs" />
-     <Compile Include="Assets\src\org\rnp\voxel\mesh\octree\VoxelOctree.cs" />
-     <Compile Include="Assets\src\org\rnp\voxel\mesh\octree\VoxelOctreeFormat.cs" />
+     <Compile Include="Assets\src\org\rnp\voxel\mesh\octree\IOctreeVoxelMesh.cs" />
+     <Compile Include="Assets\src\org\rnp\voxel\mesh\octree\OctreeVoxelMesh.cs" />
+     <Compile Include="Assets\src\org\rnp\voxel\mesh\octree\OctreeVoxelMeshFormat.cs" />
+     <Compile Include="Assets\src\org\rnp\voxel\mesh\octree\ReadonlyOctreeVoxelMesh.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\translator\ITranslator.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\unity\components\debuggers\OctreeDebugguer.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\unity\components\meshes\AssetVoxelMesh.cs" />

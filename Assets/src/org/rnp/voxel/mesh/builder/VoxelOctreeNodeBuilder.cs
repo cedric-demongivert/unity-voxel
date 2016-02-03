@@ -1,16 +1,17 @@
-﻿using org.rnp.voxel.mesh;
+﻿using UnityEngine;
+using org.rnp.voxel.mesh;
+using org.rnp.voxel.mesh.array;
 using org.rnp.voxel.mesh.octree;
-using UnityEngine;
 
-namespace rnp.voxel.mesh.octree
+namespace org.rnp.voxel.mesh.builder
 {
   /// <author>Cédric DEMONGIVERT [cedric.demongivert@gmail.com]</author>
   /// <summary>
   ///   A base voxel octree node builder for simple octrees, this builder
   /// make octree node until a specific size limit is reached. Then, this builder
-  /// will return somes VoxelArray.
+  /// will return somes ArrayVoxelMesh.
   /// </summary>
-  public sealed class BaseVoxelOctreeNodeBuilder : IVoxelOctreeNodeBuilder
+  public sealed class VoxelOctreeNodeBuilder : IVoxelMeshBuilder
   {
     private readonly int _minSize;
 
@@ -18,7 +19,7 @@ namespace rnp.voxel.mesh.octree
     ///   A basic builder that stop to produce octrees for
     /// 8x8x8 (or less) box.
     /// </summary>
-    public BaseVoxelOctreeNodeBuilder()
+    public VoxelOctreeNodeBuilder()
     {
       this._minSize = 4;
     }
@@ -27,7 +28,7 @@ namespace rnp.voxel.mesh.octree
     ///   A custom basic builder.
     /// </summary>
     /// <param name="minNodeSize"></param>
-    public BaseVoxelOctreeNodeBuilder(int minNodeSize)
+    public VoxelOctreeNodeBuilder(int minNodeSize)
     {
       this._minSize = minNodeSize;
     }
@@ -36,7 +37,7 @@ namespace rnp.voxel.mesh.octree
     ///   Copy an existing builder.
     /// </summary>
     /// <param name="toCopy"></param>
-    public BaseVoxelOctreeNodeBuilder(BaseVoxelOctreeNodeBuilder toCopy)
+    public VoxelOctreeNodeBuilder(VoxelOctreeNodeBuilder toCopy)
     {
       this._minSize = toCopy._minSize;
     }
@@ -58,23 +59,23 @@ namespace rnp.voxel.mesh.octree
              || depth <= this._minSize;
     }
 
-    /// <see cref="org.rnp.voxel.mesh.octree.IVoxelOctreeNodeBuilder"/>
-    public IWritableVoxelMesh Build(int width, int height, int depth)
+    /// <see cref="org.rnp.voxel.mesh.builder.IVoxelMeshBuilder"/>
+    public IVoxelMesh Build(int width, int height, int depth)
     {
       if (this.IsLeaf(width, height, depth))
       {
-        return new VoxelArray(width, height, depth);
+        return new ArrayVoxelMesh(width, height, depth);
       }
       else
       {
-        return new VoxelOctree(VoxelOctreeFormat.GetFormat(width, height, depth), this.Copy());
+        return new OctreeVoxelMesh(OctreeVoxelMeshFormat.GetFormat(width, height, depth), this);
       }
     }
 
-    /// <see cref="org.rnp.voxel.mesh.octree.IVoxelOctreeNodeBuilder"/>
-    public IVoxelOctreeNodeBuilder Copy()
+    /// <see cref="org.rnp.voxel.mesh.builder.IVoxelMeshBuilder"/>
+    public IVoxelMeshBuilder Copy()
     {
-      return new BaseVoxelOctreeNodeBuilder(this);
+      return new VoxelOctreeNodeBuilder(this);
     }
   }
 }

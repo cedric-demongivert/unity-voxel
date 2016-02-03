@@ -18,8 +18,6 @@ namespace org.rnp.voxel.unity.components.translators
   [ExecuteInEditMode]
   public class OctreeTranslator : PrototypeTranslator
   {
-
-
     /// <see cref="org.rnp.voxel.translator.ITranslator"/>
     public override void Translate()
     {
@@ -30,9 +28,9 @@ namespace org.rnp.voxel.unity.components.translators
         return;
       }
 
-      if (this.VoxelMesh.Mesh is VoxelOctree)
+      if (this.VoxelMesh.Mesh is IOctreeVoxelMesh)
       {
-        this.TranslateTree(this.VoxelMesh.Mesh.Start, (VoxelOctree) this.VoxelMesh.Mesh);
+        this.TranslateTree(this.VoxelMesh.Mesh.Start, (IOctreeVoxelMesh) this.VoxelMesh.Mesh);
       }
       else
       {
@@ -45,7 +43,7 @@ namespace org.rnp.voxel.unity.components.translators
     /// </summary>
     /// <param name="root"></param>
     /// <param name="octree"></param>
-    public void TranslateTree(IVoxelLocation root, VoxelOctree octree)
+    public void TranslateTree(IVoxelLocation root, IOctreeVoxelMesh octree)
     {
       VoxelLocation nextRoot = new VoxelLocation();
       for (int x = 0; x < 2; ++x)
@@ -63,9 +61,9 @@ namespace org.rnp.voxel.unity.components.translators
                 z * octree.Depth / 2
               );
 
-              if (child is VoxelOctree)
+              if (child is IOctreeVoxelMesh)
               {
-                this.TranslateTree(nextRoot, (VoxelOctree) child);
+                this.TranslateTree(nextRoot, (IOctreeVoxelMesh)child);
               }
               else
               {

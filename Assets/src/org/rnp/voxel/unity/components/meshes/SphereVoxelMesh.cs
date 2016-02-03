@@ -91,7 +91,7 @@ namespace org.rnp.voxel.unity.components.meshes
     {
       int size = this.Radius * 2;
 
-      IWritableVoxelMesh sphere = new VoxelOctree(VoxelOctreeFormat.GetFormat(size, size, size));
+      IVoxelMesh sphere = new OctreeVoxelMesh(OctreeVoxelMeshFormat.GetFormat(size, size, size));
       
       for(int x = 0; x < size; ++x) 
       {

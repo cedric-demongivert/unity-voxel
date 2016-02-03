@@ -117,17 +117,39 @@ namespace org.rnp.voxel.utils
       return this;
     }
 
-    /// <see cref="Object"/>
+    /// <see cref="object"/>
     public override string ToString()
     {
       return "VoxelLocation (" + this._x 
              + ", " + this._y + ", " + this._z + ")";
     }
 
-    /// <see cref="Object"/>
+    /// <see cref="object"/>
     public override int GetHashCode()
     {
-      return ((this._x) * 31 + this._y) * 61 + this._z) * 97;
+      return (((this._x) * 31 + this._y) * 61 + this._z) * 97;
+    }
+
+    /// <see cref="object"/>
+    public override bool Equals(object obj)
+    {
+      if (obj == null)
+      {
+        return false;
+      }
+
+      if (base.Equals(obj))
+      {
+        return true;
+      }
+
+      if (obj is IVoxelLocation)
+      {
+        IVoxelLocation toCmp = (IVoxelLocation) obj;
+        return this.X == toCmp.X && this.Y == toCmp.Y && this.Z == toCmp.Z;
+      }
+
+      return false;
     }
   }
 }

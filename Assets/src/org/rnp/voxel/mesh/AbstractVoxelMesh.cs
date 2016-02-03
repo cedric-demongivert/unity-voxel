@@ -11,7 +11,7 @@ namespace org.rnp.voxel.mesh
   /// <summary>
   ///   A helper implementation class.
   /// </summary>
-  public abstract class AbstractWritableVoxelMesh : IWritableVoxelMesh
+  public abstract class AbstractVoxelMesh : IVoxelMesh
   {
     /// <summary>
     ///   Get the minimum point of that voxel mesh (inclusive).
@@ -41,14 +41,14 @@ namespace org.rnp.voxel.mesh
       get;
     }
 
-    /// <see cref="org.rnp.voxel.mesh.IWritableVoxelMesh"/>
+    /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"/>
     public abstract Color32 this[int x, int y, int z]
     {
       get;
       set;
     }
 
-    /// <see cref="org.rnp.voxel.mesh.IWritableVoxelMesh"/>
+    /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"/>
     public Color32 this[IVoxelLocation location]
     {
       get 
@@ -61,7 +61,7 @@ namespace org.rnp.voxel.mesh
       }
     }
 
-    /// <see cref="org.rnp.voxel.mesh.IWritableVoxelMesh"/>
+    /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"/>
     public Color32 this[Vector3 location]
     {
       get
@@ -74,7 +74,7 @@ namespace org.rnp.voxel.mesh
       }
     }
 
-    /// <see cref="org.rnp.voxel.mesh.IWritableVoxelMesh"/>
+    /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"/>
     public abstract void Clear();
 
     /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"/>
@@ -115,5 +115,11 @@ namespace org.rnp.voxel.mesh
     {
       return !this.Contains(location) || this[location].a == 255;
     }
+
+    /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"/>
+    public abstract IVoxelMesh Copy();
+
+    /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"/>
+    public abstract IReadonlyVoxelMesh ReadOnly();
   }
 }

@@ -22,36 +22,56 @@ namespace org.rnp.voxel.mesh
     IVoxelLocation End { get; }
 
     /// <summary>
-    ///   Get a voxel at a specific location.
+    ///   Get or set a voxel in the mesh.
     /// </summary>
     /// <param name="x"></param>
     /// <param name="y"></param>
     /// <param name="z"></param>
-    /// <returns>A voxel.</returns>
+    /// <returns></returns>
     Color32 this[int x, int y, int z]
     {
       get;
+      set;
     }
 
     /// <summary>
-    ///   Get a voxel at a specific location.
+    ///   Get or set a voxel in the mesh.
     /// </summary>
     /// <param name="location"></param>
     /// <returns></returns>
     Color32 this[IVoxelLocation location]
     {
       get;
+      set;
     }
 
     /// <summary>
-    ///   Get a voxel at a specific location.
+    ///   Get or set a voxel in the mesh.
     /// </summary>
     /// <param name="location"></param>
     /// <returns></returns>
     Color32 this[Vector3 location]
     {
       get;
+      set;
     }
+
+    /// <summary>
+    ///   Clear the voxel mesh.
+    /// </summary>
+    void Clear();
+
+    /// <summary>
+    ///   Get a ReadOnly implementation.
+    /// </summary>
+    /// <returns></returns>
+    IReadonlyVoxelMesh ReadOnly();
+
+    /// <summary>
+    ///   Copy the voxel mesh.
+    /// </summary>
+    /// <returns></returns>
+    IVoxelMesh Copy();
 
     /// <summary>
     ///   Check if a location is in the voxel mesh.
@@ -92,7 +112,7 @@ namespace org.rnp.voxel.mesh
     bool IsEmpty(int x, int y, int z);
 
     /// <summary>
-    ///   Check if a location is in the voxel mesh.
+    ///   Check if the mesh contains data at a specific location.
     /// </summary>
     /// <param name="location"></param>
     /// <returns></returns>

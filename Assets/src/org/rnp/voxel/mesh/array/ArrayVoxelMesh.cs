@@ -5,19 +5,24 @@ using System.Text;
 using org.rnp.voxel.utils;
 using UnityEngine;
 
-namespace org.rnp.voxel.mesh
+namespace org.rnp.voxel.mesh.array
 {
   /// <author>Cédric DEMONGIVERT [cedric.demongivert@gmail.com]</author>
   /// 
   /// <summary>
-  ///   A simple voxel mesh that store data in an array.
+  ///   A voxel mesh implementation that store data in a buffer.
   /// </summary>
-  public sealed class VoxelArray : AbstractWritableVoxelMesh
+  public sealed class ArrayVoxelMesh : AbstractVoxelMesh, IArrayVoxelMesh
   {
     /// <summary>
     ///   Voxel dimension of the mesh.
     /// </summary>
     private Dimensions3D _dimensions;
+
+    /// <summary>
+    ///   ReadOnly implementation.
+    /// </summary>
+    private ReadonlyArrayVoxelMesh _readOnly;
 
     /// <summary>
     ///   Mesh data.
@@ -67,7 +72,7 @@ namespace org.rnp.voxel.mesh
     /// <summary>
     ///   Create an empty voxel mesh.
     /// </summary>
-    public VoxelArray() : base()
+    public ArrayVoxelMesh() : base()
     {
       this._dimensions = new Dimensions3D();
       this._datas = new Color32[0, 0, 0];
@@ -80,7 +85,7 @@ namespace org.rnp.voxel.mesh
     /// <param name="width"></param>
     /// <param name="height"></param>
     /// <param name="depth"></param>
-    public VoxelArray(int width, int height, int depth) : base()
+    public ArrayVoxelMesh(int width, int height, int depth) : base()
     {
       this._dimensions = new Dimensions3D(width, height, depth);
       this._datas = new Color32[width, height, depth];
@@ -90,7 +95,7 @@ namespace org.rnp.voxel.mesh
     /// Create a custom voxel mesh.
     /// 
     /// <param name="dimensions"></param>
-    public VoxelArray(IDimensions3D dimensions) : base()
+    public ArrayVoxelMesh(IDimensions3D dimensions) : base()
     {
       this._dimensions = new Dimensions3D(dimensions);
       this._datas = new Color32[
@@ -105,7 +110,7 @@ namespace org.rnp.voxel.mesh
     ///   Copy an existing voxel mesh.
     /// </summary>
     /// <param name="toCopy"></param>
-    public VoxelArray(IVoxelMesh toCopy) : base()
+    public ArrayVoxelMesh(IVoxelMesh toCopy) : base()
     {
       this._dimensions = new Dimensions3D(toCopy);
       this._datas = new Color32[
@@ -159,6 +164,22 @@ namespace org.rnp.voxel.mesh
       }
 
       return true;
+    }
+
+    /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"/>
+    public override IVoxelMesh Copy()
+    {
+      return new ArrayVoxelMesh(this);
+    }
+
+    /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"/>
+    public override IReadonlyVoxelMesh ReadOnly()
+    {
+      if (this._readOnly == null)
+      {
+        this._readOnly = new ReadonlyArrayVoxelMesh(this);
+      }
+      return this._readOnly;
     }
   }
 }
