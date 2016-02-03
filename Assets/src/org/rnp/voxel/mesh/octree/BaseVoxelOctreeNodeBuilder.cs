@@ -19,7 +19,7 @@ namespace rnp.voxel.mesh.octree
     /// </summary>
     public BaseVoxelOctreeNodeBuilder()
     {
-      this._minSize = 8;
+      this._minSize = 4;
     }
 
     /// <summary>
@@ -66,14 +66,14 @@ namespace rnp.voxel.mesh.octree
       }
       else
       {
-        return new VoxelOctree(width, height, depth, this.Copy());
+        return new VoxelOctree(VoxelOctreeFormat.GetFormat(width, height, depth), this.Copy());
       }
     }
 
     /// <see cref="org.rnp.voxel.mesh.octree.IVoxelOctreeNodeBuilder"/>
     public IVoxelOctreeNodeBuilder Copy()
     {
-      return new BaseVoxelOctreeNodeBuilder(this);
+      return this;
     }
   }
 }

@@ -13,14 +13,15 @@ namespace org.rnp.voxel.mesh
   /// </summary>
   public abstract class AbstractWritableVoxelMesh : IWritableVoxelMesh
   {
-    protected VoxelLocation _meshLocation;
+    /// <summary>
+    ///   Get the minimum point of that voxel mesh (inclusive).
+    /// </summary>
+    public abstract IVoxelLocation Start { get; }
 
-    /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"/>
-    public IVoxelLocation Start
-    {
-      get { return _meshLocation; }
-      set { _meshLocation.Set(value);  }
-    }
+    /// <summary>
+    ///   Get the end point of that voxel mesh (exclusive).
+    /// </summary>
+    public abstract IVoxelLocation End { get; }
 
     /// <see cref="org.rnp.voxel.utils.IDimensions3D"></see>
     public abstract int Width
@@ -73,47 +74,6 @@ namespace org.rnp.voxel.mesh
       }
     }
 
-    public AbstractWritableVoxelMesh()
-    {
-      this._meshLocation = new VoxelLocation();
-    }
-
-    /// <see cref="org.rnp.voxel.mesh.IWritableVoxelMesh"/>
-    public void AbsoluteSet(int x, int y, int z, Color32 color)
-    {
-      this[x - this.Start.X, y - this.Start.Y, z - this.Start.Z] = color;
-    }
-
-    /// <see cref="org.rnp.voxel.mesh.IWritableVoxelMesh"/>
-    public void AbsoluteSet(Vector3 location, Color32 color)
-    {
-      this[(int)location.x - this.Start.X, (int)location.y - this.Start.Y, (int)location.z - this.Start.Z] = color;
-    }
-
-    /// <see cref="org.rnp.voxel.mesh.IWritableVoxelMesh"/>
-    public void AbsoluteSet(IVoxelLocation location, Color32 color)
-    {
-      this[location.X - this.Start.X, location.Y - this.Start.Y, location.Z - this.Start.Z] = color;
-    }
-
-    /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"/>
-    public Color32 AbsoluteGet(int x, int y, int z)
-    {
-      return this[x - this.Start.X, y - this.Start.Y, z - this.Start.Z];
-    }
-
-    /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"/>
-    public Color32 AbsoluteGet(Vector3 location)
-    {
-      return this[(int)location.x - this.Start.X, (int)location.y - this.Start.Y, (int)location.z - this.Start.Z];
-    }
-
-    /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"/>
-    public Color32 AbsoluteGet(IVoxelLocation location)
-    {
-      return this[location.X - this.Start.X, location.Y - this.Start.Y, location.Z - this.Start.Z];
-    }
-
     /// <see cref="org.rnp.voxel.mesh.IWritableVoxelMesh"/>
     public abstract void Clear();
 
@@ -136,29 +96,6 @@ namespace org.rnp.voxel.mesh
     }
 
     /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"/>
-    public bool AbsoluteContains(int x, int y, int z)
-    {
-      return this.Contains(x - this.Start.X, y - this.Start.Y, z - this.Start.Z);
-    }
-
-    /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"/>
-    public bool AbsoluteContains(Vector3 location)
-    {
-      return this.Contains(
-        (int)location.x - this.Start.X, 
-        (int)location.y - this.Start.Y, 
-        (int)location.z - this.Start.Z
-      );
-    }
-
-    /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"/>
-    public bool AbsoluteContains(IVoxelLocation location)
-    {
-      return this.Contains(
-        location.X - this.Start.X,
-        location.Y - this.Start.Y,
-        location.Z - this.Start.Z
-      );
-    }
+    public abstract bool IsEmpty();
   }
 }

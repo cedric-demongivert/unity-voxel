@@ -64,19 +64,27 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\src\org\rnp\voxel\mesh\AbstractWritableVoxelMesh.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\mesh\IVoxelMesh.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\mesh\IWritableVoxelMesh.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\mesh\octree\VoxelOctreeFormat.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\mesh\VoxelArray.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\mesh\octree\BaseVoxelOctreeNodeBuilder.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\mesh\octree\IVoxelOctreeNodeBuilder.cs" />
-    <Compile Include="Assets\src\org\rnp\voxel\mesh\IWritableVoxelMesh.cs" />
-    <Compile Include="Assets\src\org\rnp\voxel\mesh\VoxelArray.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\mesh\octree\VoxelOctree.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\translator\ITranslator.cs" />
-    <Compile Include="Assets\src\org\rnp\voxel\unity\components\AssetVoxelMesh.cs" />
-    <Compile Include="Assets\src\org\rnp\voxel\unity\components\PrototypeTranslator.cs" />
-    <Compile Include="Assets\src\org\rnp\voxel\unity\components\SphereVoxelMesh.cs" />
-    <Compile Include="Assets\src\org\rnp\voxel\unity\components\VoxelMesh.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\unity\components\debuggers\OctreeDebugguer.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\unity\components\meshes\AssetVoxelMesh.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\unity\components\translators\OctreeTranslator.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\unity\components\translators\PrototypeTranslator.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\unity\components\meshes\SphereVoxelMesh.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\unity\components\meshes\VoxelMesh.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\utils\Dimensions3D.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\utils\IDimensions3D.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\utils\IVoxelLocation.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\utils\VoxelLocation.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\utils\Voxels.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>

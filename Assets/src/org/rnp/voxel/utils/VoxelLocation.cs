@@ -16,6 +16,18 @@ namespace org.rnp.voxel.utils
     private int _y;
     private int _z;
 
+    public static readonly VoxelLocation Zero = new VoxelLocation();
+
+    public static Vector3 ToVector3(IVoxelLocation location)
+    {
+      return new Vector3(
+        location.X,
+        location.Y,
+        location.Z
+      );
+    }
+
+
     public int X 
     {
       get { return this._x; }
@@ -87,6 +99,13 @@ namespace org.rnp.voxel.utils
       this._x = location.X;
       this._y = location.Y;
       this._z = location.Z;
+    }
+
+    public void Set(int x, int y, int z)
+    {
+      this._x = x;
+      this._y = y;
+      this._z = z;
     }
   }
 }

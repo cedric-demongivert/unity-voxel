@@ -4,9 +4,11 @@ using System.Linq;
 using System.Text;
 using org.rnp.voxel.translator;
 using org.rnp.voxel.mesh;
+using org.rnp.voxel.unity.components.meshes;
+using org.rnp.voxel.utils;
 using UnityEngine;
 
-namespace org.rnp.voxel.unity.components
+namespace org.rnp.voxel.unity.components.translators
 {
   /// <author>Cédric DEMONGIVERT [cedric.demongivert@gmail.com]</author>
   /// <summary>
@@ -19,13 +21,13 @@ namespace org.rnp.voxel.unity.components
     ///   Where we need to publish the result of the translation.
     /// </summary>
     [SerializeField]
-    protected MeshFilter _Publisher;
+    protected MeshFilter _publisher;
 
     /// <summary>
     ///   The mesh to translate.
     /// </summary>
     [SerializeField]
-    protected VoxelMesh _VoxelMesh;
+    protected VoxelMesh _voxelMesh;
 
     /// <summary>
     ///   Where we need to publish the result of the translation.
@@ -34,15 +36,15 @@ namespace org.rnp.voxel.unity.components
     {
       get
       {
-        return _Publisher;
+        return _publisher;
       }
       set
       {
-        if (this._Publisher != null)
+        if (this._publisher != null)
         {
-          this._Publisher.sharedMesh = null;
+          this._publisher.sharedMesh = null;
         }
-        this._Publisher = value;
+        this._publisher = value;
         this.Publish();
       }
     }
@@ -54,11 +56,11 @@ namespace org.rnp.voxel.unity.components
     {
       get
       {
-        return this._VoxelMesh;
+        return this._voxelMesh;
       }
       set
       {
-        this._VoxelMesh = value;
+        this._voxelMesh = value;
         this.Translate();
         this.Publish();
       }
@@ -131,14 +133,22 @@ namespace org.rnp.voxel.unity.components
       }
 
       IVoxelMesh mesh = this.VoxelMesh.Mesh;
+      this.TranslateMesh(VoxelLocation.Zero, mesh);
+    }
 
-      for (int x = 0; x < mesh.Width; ++x)
+    public void TranslateMesh(IVoxelLocation location, IVoxelMesh mesh)
+    {
+      IVoxelLocation start = mesh.Start;
+      IVoxelLocation end = mesh.End;
+      VoxelLocation toTranslate = new VoxelLocation();
+      for (int x = start.X; x < end.X; ++x)
       {
-        for (int y = 0; y < mesh.Height; ++y)
+        for (int y = start.Y; y < end.Y; ++y)
         {
-          for (int z = 0; z < mesh.Depth; ++z)
+          for (int z = start.Z; z < end.Z; ++z)
           {
-            this.Translate(x + mesh.Start.X, y + mesh.Start.Y, z + mesh.Start.Z);
+            toTranslate.Set(x, y, z);
+            this.Translate(location, mesh, toTranslate);
           }
         }
       }
@@ -150,7 +160,7 @@ namespace org.rnp.voxel.unity.components
     /// <param name="x"></param>
     /// <param name="y"></param>
     /// <param name="z"></param>
-    protected void Translate(int x, int y, int z)
+    protected void Translate(Location, mesh, toTranslate)
     {
       if (this.AsVoxelAt(x, y, z))
       {

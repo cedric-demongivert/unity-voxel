@@ -45,14 +45,22 @@ namespace org.rnp.voxel.mesh
     /// <see cref="org.rnp.voxel.mesh.IWritableVoxelMesh"></see>
     public override Color32 this[int x, int y, int z]
     {
+      get { return this._datas[x, y, z]; }
+      set { this._datas[x, y, z] = value; }
+    }
+
+    /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"></see>
+    public override IVoxelLocation Start
+    {
+      get { return VoxelLocation.Zero; }
+    }
+
+    /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"></see>
+    public override IVoxelLocation End
+    {
       get
       {
-        Color32 copy = this._datas[x, y, z];
-        return copy;
-      }
-      set
-      {
-        this._datas[x, y, z] = value;
+        return new VoxelLocation(this.Width, this.Height, this.Depth);
       }
     }
 
@@ -121,17 +129,36 @@ namespace org.rnp.voxel.mesh
     /// <see cref="org.rnp.voxel.mesh.IWritableVoxelMesh"/>
     public override void Clear()
     {
-      Color32 empty = new Color32(0, 0, 0, 255);
       for (int x = 0; x < this.Width; ++x)
       {
         for (int y = 0; y < this.Height; ++y)
         {
           for (int z = 0; z < this.Depth; ++z)
           {
-            this._datas[x, y, z] = empty;
+            this._datas[x, y, z] = Voxels.Empty;
           }
         }
       }
+    }
+
+    /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"/>
+    public override bool IsEmpty()
+    {
+      for (int x = 0; x < this.Width; ++x)
+      {
+        for (int y = 0; y < this.Height; ++y)
+        {
+          for (int z = 0; z < this.Depth; ++z)
+          {
+            if (this._datas[x, y, z].a != 255)
+            {
+              return false;
+            }
+          }
+        }
+      }
+
+      return true;
     }
   }
 }

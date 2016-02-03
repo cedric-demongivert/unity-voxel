@@ -7,7 +7,7 @@ using org.rnp.voxel.mesh.octree;
 using UnityEngine;
 using org.rnp.voxel.utils;
 
-namespace org.rnp.voxel.unity.components
+namespace org.rnp.voxel.unity.components.meshes
 {
   /// <author>Cédric DEMONGIVERT [cedric.demongivert@gmail.com]</author>
   /// <summary>
@@ -90,9 +90,8 @@ namespace org.rnp.voxel.unity.components
     public void RefreshMesh()
     {
       int size = this.Radius * 2;
-      Color32 empty = new Color32(0, 0, 0, 255);
 
-      IWritableVoxelMesh sphere = new VoxelArray(size, size, size);
+      IWritableVoxelMesh sphere = new VoxelOctree(VoxelOctreeFormat.GetFormat(size, size, size));
       sphere.Start.X -= this.Radius;
       sphere.Start.Y -= this.Radius;
       sphere.Start.Z -= this.Radius;
@@ -107,11 +106,11 @@ namespace org.rnp.voxel.unity.components
 
             if (point.magnitude <= this.Radius)
             {
-              sphere.AbsoluteSet(point, this.Color);
+              sphere[x,y,z] = this.Color;
             }
             else 
             {
-              sphere.AbsoluteSet(point, empty);
+              sphere[x, y, z] = Voxels.Empty;
             }
           }
         }

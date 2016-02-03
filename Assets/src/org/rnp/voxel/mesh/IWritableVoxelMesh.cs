@@ -14,18 +14,35 @@ namespace org.rnp.voxel.mesh
   /// </summary>
   public interface IWritableVoxelMesh : IVoxelMesh
   {
+    /// <summary>
+    ///   Get or set a voxel in the mesh.
+    /// </summary>
+    /// <param name="x"></param>
+    /// <param name="y"></param>
+    /// <param name="z"></param>
+    /// <returns></returns>
     new Color32 this[int x, int y, int z]
     {
       get;
       set;
     }
 
+    /// <summary>
+    ///   Get or set a voxel in the mesh.
+    /// </summary>
+    /// <param name="location"></param>
+    /// <returns></returns>
     new Color32 this[IVoxelLocation location]
     {
       get;
       set;
     }
 
+    /// <summary>
+    ///   Get or set a voxel in the mesh.
+    /// </summary>
+    /// <param name="location"></param>
+    /// <returns></returns>
     new Color32 this[Vector3 location]
     {
       get;
@@ -36,9 +53,5 @@ namespace org.rnp.voxel.mesh
     ///   Clear the voxel mesh.
     /// </summary>
     void Clear();
-
-    void AbsoluteSet(int x, int y, int z, Color32 color);
-    void AbsoluteSet(Vector3 location, Color32 color);
-    void AbsoluteSet(IVoxelLocation location, Color32 color);
   }
 }

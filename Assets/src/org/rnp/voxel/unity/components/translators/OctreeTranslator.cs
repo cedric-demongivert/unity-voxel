@@ -6,9 +6,10 @@ using org.rnp.voxel.translator;
 using org.rnp.voxel.mesh;
 using org.rnp.voxel.mesh.octree;
 using org.rnp.voxel.utils;
+using org.rnp.voxel.unity.components.meshes;
 using UnityEngine;
 
-namespace org.rnp.voxel.unity.components
+namespace org.rnp.voxel.unity.components.translators
 {
   /// <author>Cédric DEMONGIVERT [cedric.demongivert@gmail.com]</author>
   /// <summary>
@@ -39,28 +40,41 @@ namespace org.rnp.voxel.unity.components
       }
     }
 
-    public void TranslateTree(VoxelLocation root, VoxelOctree octree)
+    /// <summary>
+    ///   Translate an octree node.
+    /// </summary>
+    /// <param name="root"></param>
+    /// <param name="octree"></param>
+    public void TranslateTree(IVoxelLocation root, VoxelOctree octree)
     {
       VoxelLocation nextRoot = new VoxelLocation();
       for (int indx = 0; indx < 8; ++indx)
       {
         IVoxelMesh child = octree.GetChild(indx);
-        nextRoot.X = root.X + child.Start.X;
-        nextRoot.Y = root.Y + child.Start.Y;
-        nextRoot.Z = root.Z + child.Start.Z;
+        if (child != null)
+        {
+          nextRoot.X = root.X + child.Start.X;
+          nextRoot.Y = root.Y + child.Start.Y;
+          nextRoot.Z = root.Z + child.Start.Z;
 
-        if (child is VoxelOctree)
-        {
-          this.TranslateTree(nextRoot, (VoxelOctree)child);
-        }
-        else
-        {
-          this.TranslateLeaf(nextRoot, child);
+          if (child is VoxelOctree)
+          {
+            this.TranslateTree(nextRoot, (VoxelOctree)child);
+          }
+          else
+          {
+            this.TranslateLeaf(nextRoot, child);
+          }
         }
       }
     }
 
-    public void TranslateLeaf(VoxelLocation root, IVoxelMesh mesh)
+    /// <summary>
+    ///   Translate an octree leaf.
+    /// </summary>
+    /// <param name="root"></param>
+    /// <param name="mesh"></param>
+    public void TranslateLeaf(IVoxelLocation root, IVoxelMesh mesh)
     {
       for (int x = 0; x < mesh.Width; ++x)
       {
