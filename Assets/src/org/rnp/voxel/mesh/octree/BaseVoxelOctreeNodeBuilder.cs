@@ -1,5 +1,6 @@
 ﻿using org.rnp.voxel.mesh;
 using org.rnp.voxel.mesh.octree;
+using UnityEngine;
 
 namespace rnp.voxel.mesh.octree
 {
@@ -73,7 +74,7 @@ namespace rnp.voxel.mesh.octree
     /// <see cref="org.rnp.voxel.mesh.octree.IVoxelOctreeNodeBuilder"/>
     public IVoxelOctreeNodeBuilder Copy()
     {
-      return this;
+      return new BaseVoxelOctreeNodeBuilder(this);
     }
   }
 }

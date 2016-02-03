@@ -81,5 +81,28 @@ namespace org.rnp.voxel.mesh
     /// </summary>
     /// <returns></returns>
     bool IsEmpty();
+
+    /// <summary>
+    ///   Check if the mesh contains data at a specific location.
+    /// </summary>
+    /// <param name="x"></param>
+    /// <param name="y"></param>
+    /// <param name="z"></param>
+    /// <returns></returns>
+    bool IsEmpty(int x, int y, int z);
+
+    /// <summary>
+    ///   Check if a location is in the voxel mesh.
+    /// </summary>
+    /// <param name="location"></param>
+    /// <returns></returns>
+    bool IsEmpty(Vector3 location);
+
+    /// <summary>
+    ///   Check if the mesh contains data at a specific location.
+    /// </summary>
+    /// <param name="location"></param>
+    /// <returns></returns>
+    bool IsEmpty(IVoxelLocation location);
   }
 }

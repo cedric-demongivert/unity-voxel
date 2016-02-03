@@ -94,18 +94,36 @@ namespace org.rnp.voxel.utils
       this._z = 0;
     }
 
-    public void Set(IVoxelLocation location)
+    public IVoxelLocation Set(IVoxelLocation location)
     {
       this._x = location.X;
       this._y = location.Y;
       this._z = location.Z;
+      return this;
     }
 
-    public void Set(int x, int y, int z)
+    public IVoxelLocation Set(int x, int y, int z)
     {
       this._x = x;
       this._y = y;
       this._z = z;
+      return this;
+    }
+
+    public IVoxelLocation Add(IVoxelLocation location)
+    {
+      this._x += location.X;
+      this._y += location.Y;
+      this._z += location.Z;
+      return this;
+    }
+
+    public IVoxelLocation Add(int x, int y, int z)
+    {
+      this._x += x;
+      this._y += y;
+      this._z += z;
+      return this;
     }
   }
 }

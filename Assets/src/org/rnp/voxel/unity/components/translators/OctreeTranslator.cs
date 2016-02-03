@@ -32,7 +32,7 @@ namespace org.rnp.voxel.unity.components.translators
 
       if (this.VoxelMesh.Mesh is VoxelOctree)
       {
-        this.TranslateTree(this.VoxelMesh.Mesh.Start, (VoxelOctree)this.VoxelMesh.Mesh);
+        this.TranslateTree(this.VoxelMesh.Mesh.Start, (VoxelOctree) this.VoxelMesh.Mesh);
       }
       else
       {
@@ -48,22 +48,30 @@ namespace org.rnp.voxel.unity.components.translators
     public void TranslateTree(IVoxelLocation root, VoxelOctree octree)
     {
       VoxelLocation nextRoot = new VoxelLocation();
-      for (int indx = 0; indx < 8; ++indx)
+      for (int x = 0; x < 2; ++x)
       {
-        IVoxelMesh child = octree.GetChild(indx);
-        if (child != null)
+        for (int y = 0; y < 2; ++y)
         {
-          nextRoot.X = root.X + child.Start.X;
-          nextRoot.Y = root.Y + child.Start.Y;
-          nextRoot.Z = root.Z + child.Start.Z;
+          for (int z = 0; z < 2; ++z)
+          {
+            IVoxelMesh child = octree.GetChild(x, y, z);
+            if (child != null)
+            {
+              nextRoot.Set(root).Add(
+                x * octree.Width / 2,
+                y * octree.Height / 2,
+                z * octree.Depth / 2
+              );
 
-          if (child is VoxelOctree)
-          {
-            this.TranslateTree(nextRoot, (VoxelOctree)child);
-          }
-          else
-          {
-            this.TranslateLeaf(nextRoot, child);
+              if (child is VoxelOctree)
+              {
+                this.TranslateTree(nextRoot, (VoxelOctree) child);
+              }
+              else
+              {
+                this.TranslateLeaf(nextRoot, child);
+              }
+            }
           }
         }
       }
@@ -76,13 +84,20 @@ namespace org.rnp.voxel.unity.components.translators
     /// <param name="mesh"></param>
     public void TranslateLeaf(IVoxelLocation root, IVoxelMesh mesh)
     {
-      for (int x = 0; x < mesh.Width; ++x)
+      IVoxelLocation start = mesh.Start;
+      IVoxelLocation end = mesh.End;
+      VoxelLocation voxelLocation = new VoxelLocation();
+      VoxelLocation finalLocation = new VoxelLocation();
+
+      for (int x = start.X; x < end.X; ++x)
       {
-        for (int y = 0; y < mesh.Height; ++y)
+        for (int y = start.Y; y < end.Y; ++y)
         {
-          for (int z = 0; z < mesh.Depth; ++z)
+          for (int z = start.Z; z < end.Z; ++z)
           {
-            this.Translate(root.X + x, root.Y + y, root.Z + z);
+            voxelLocation.Set(x, y, z);
+            finalLocation.Set(root).Add(voxelLocation);
+            this.Translate(finalLocation, this.VoxelMesh.Mesh, finalLocation);
           }
         }
       }

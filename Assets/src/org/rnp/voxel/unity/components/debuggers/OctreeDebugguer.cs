@@ -45,7 +45,7 @@ namespace org.rnp.voxel.unity.components.debuggers
       }
       else
       {
-        this.DebugLeaf(this.VoxelMesh.Mesh.Start, this.VoxelMesh.Mesh);
+        this.DebugLeaf(this.VoxelMesh.Mesh.Start, this.VoxelMesh.Mesh, StartDeep, StartDeep + Deep);
       }
     }
 
@@ -83,7 +83,7 @@ namespace org.rnp.voxel.unity.components.debuggers
               }
               else
               {
-                this.DebugLeaf(nextRoot, child);
+                this.DebugLeaf(nextRoot, child, minDeep - 1, maxDeep - 1);
               }
             }
           }
@@ -96,9 +96,14 @@ namespace org.rnp.voxel.unity.components.debuggers
     /// </summary>
     /// <param name="root"></param>
     /// <param name="mesh"></param>
-    public void DebugLeaf(IVoxelLocation root, IVoxelMesh mesh)
+    public void DebugLeaf(IVoxelLocation root, IVoxelMesh mesh, int minDeep, int maxDeep)
     {
-      this.DrawCube(root, mesh);
+      if (maxDeep <= 0) return;
+
+      if (minDeep <= 0)
+      {
+        this.DrawCube(root, mesh);
+      }
     }
 
     /// <summary>

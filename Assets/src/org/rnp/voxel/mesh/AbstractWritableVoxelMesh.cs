@@ -97,5 +97,23 @@ namespace org.rnp.voxel.mesh
 
     /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"/>
     public abstract bool IsEmpty();
+
+    /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"/>
+    public bool IsEmpty(int x, int y, int z)
+    {
+      return !this.Contains(x,y,z) || this[x, y, z].a == 255;
+    }
+
+    /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"/>
+    public bool IsEmpty(Vector3 location)
+    {
+      return !this.Contains(location) || this[location].a == 255;
+    }
+
+    /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"/>
+    public bool IsEmpty(IVoxelLocation location)
+    {
+      return !this.Contains(location) || this[location].a == 255;
+    }
   }
 }

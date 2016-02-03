@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 
 namespace org.rnp.voxel.mesh.octree
 {
@@ -52,15 +53,14 @@ namespace org.rnp.voxel.mesh.octree
     public static VoxelOctreeFormat GetFormat(int width, int height, int depth)
     {
       int order = 0;
-
+      int value = 1;
+      
       if (width == 0 && height == 0 && depth == 0) return VoxelOctreeFormat.Empty;
 
-      while (width > 0 && height > 0 && depth > 0)
+      while (width - value > 1 || height - value > 1 || depth - value > 1)
       {
-        width /= 2;
-        height /= 2;
-        depth /= 2;
         order += 1;
+        value = value << 1;
       }
 
       switch (order)
@@ -101,8 +101,8 @@ namespace org.rnp.voxel.mesh.octree
     /// <param name="order">The octree size will be 2^order</param>
     public VoxelOctreeFormat(int order)
     {
-      this.Width = this.Height = this.Depth = 1 >> order;
-      this.ChildWidth = this.ChildDepth = this.ChildHeight = 1 >> (order - 1);
+      this.Width = this.Height = this.Depth = 1 << order;
+      this.ChildWidth = this.ChildDepth = this.ChildHeight = 1 << (order - 1);
     }
   }
 }

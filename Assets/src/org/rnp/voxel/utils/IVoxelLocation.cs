@@ -38,5 +38,11 @@ namespace org.rnp.voxel.utils
       get;
       set;
     }
+
+    IVoxelLocation Add(int x, int y, int z);
+    IVoxelLocation Add(IVoxelLocation toAdd);
+
+    IVoxelLocation Set(int x, int y, int z);
+    IVoxelLocation Set(IVoxelLocation location);
   }
 }

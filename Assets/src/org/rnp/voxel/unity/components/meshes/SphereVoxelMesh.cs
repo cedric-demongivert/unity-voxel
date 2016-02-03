@@ -72,13 +72,13 @@ namespace org.rnp.voxel.unity.components.meshes
         z - this.Radius
       );
 
-      if (point.x < 0) point.x += 0.5f;
+      if (point.x < 0) point.x -= 0.5f;
       else point.x += 0.5f;
 
-      if (point.y < 0) point.y += 0.5f;
+      if (point.y < 0) point.y -= 0.5f;
       else point.y += 0.5f;
 
-      if (point.z < 0) point.z += 0.5f;
+      if (point.z < 0) point.z -= 0.5f;
       else point.z += 0.5f;
 
       return point;
@@ -92,10 +92,7 @@ namespace org.rnp.voxel.unity.components.meshes
       int size = this.Radius * 2;
 
       IWritableVoxelMesh sphere = new VoxelOctree(VoxelOctreeFormat.GetFormat(size, size, size));
-      sphere.Start.X -= this.Radius;
-      sphere.Start.Y -= this.Radius;
-      sphere.Start.Z -= this.Radius;
-
+      
       for(int x = 0; x < size; ++x) 
       {
         for(int y = 0; y < size; ++y) 
@@ -106,7 +103,7 @@ namespace org.rnp.voxel.unity.components.meshes
 
             if (point.magnitude <= this.Radius)
             {
-              sphere[x,y,z] = this.Color;
+              sphere[x, y, z] = this.Color;
             }
             else 
             {

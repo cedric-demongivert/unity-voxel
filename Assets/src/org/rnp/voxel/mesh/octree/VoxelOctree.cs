@@ -214,7 +214,7 @@ namespace org.rnp.voxel.mesh.octree
       int lx = (int)(x / this._dimensions.ChildWidth);
       int ly = (int)(y / this._dimensions.ChildHeight);
       int lz = (int)(z / this._dimensions.ChildDepth);
-
+      
       if (color.a == 0)
       {
         this.GetChildOrCreate(lx, ly, lz)[
