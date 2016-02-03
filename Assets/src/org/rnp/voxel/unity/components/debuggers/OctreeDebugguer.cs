@@ -39,9 +39,9 @@ namespace org.rnp.voxel.unity.components.debuggers
 
       if (this.VoxelMesh == null || this.VoxelMesh.Mesh == null) return;
 
-      if (this.VoxelMesh.Mesh is OctreeVoxelMesh)
+      if (this.VoxelMesh.Mesh is IOctreeVoxelMesh)
       {
-        this.DebugTree(this.VoxelMesh.Mesh.Start, (OctreeVoxelMesh)this.VoxelMesh.Mesh, StartDeep, StartDeep + Deep);
+        this.DebugTree(this.VoxelMesh.Mesh.Start, (IOctreeVoxelMesh) this.VoxelMesh.Mesh, StartDeep, StartDeep + Deep);
       }
       else
       {
@@ -54,7 +54,7 @@ namespace org.rnp.voxel.unity.components.debuggers
     /// </summary>
     /// <param name="root"></param>
     /// <param name="octree"></param>
-    public void DebugTree(IVoxelLocation root, OctreeVoxelMesh octree, int minDeep, int maxDeep)
+    public void DebugTree(IVoxelLocation root, IOctreeVoxelMesh octree, int minDeep, int maxDeep)
     {
       if (maxDeep <= 0) return;
 
@@ -77,9 +77,9 @@ namespace org.rnp.voxel.unity.components.debuggers
               nextRoot.Y = root.Y + j * octree.Height / 2;
               nextRoot.Z = root.Z + k * octree.Depth / 2;
 
-              if (child is OctreeVoxelMesh)
+              if (child is IOctreeVoxelMesh)
               {
-                this.DebugTree(nextRoot, (OctreeVoxelMesh) child, minDeep - 1, maxDeep - 1);
+                this.DebugTree(nextRoot, (IOctreeVoxelMesh) child, minDeep - 1, maxDeep - 1);
               }
               else
               {

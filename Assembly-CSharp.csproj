@@ -53,7 +53,7 @@
      <Compile Include="Assets\src\org\rnp\voxel\mesh\array\ArrayVoxelMesh.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\mesh\array\IArrayVoxelMesh.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\mesh\array\ReadonlyArrayVoxelMesh.cs" />
-     <Compile Include="Assets\src\org\rnp\voxel\mesh\builder\IVoxelOctreeNodeBuilder.cs" />
+     <Compile Include="Assets\src\org\rnp\voxel\mesh\builder\IVoxelMeshBuilder.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\mesh\builder\VoxelOctreeNodeBuilder.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\mesh\exceptions\UnmodifiableVoxelMeshException.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\mesh\map\VoxelMap.cs" />
