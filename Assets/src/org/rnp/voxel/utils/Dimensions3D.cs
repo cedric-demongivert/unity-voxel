@@ -82,5 +82,11 @@ namespace org.rnp.voxel.utils
     {
       return this._width == 0 && this._height == 0 && this._depth == 0;
     }
+
+    /// <see cref="org.rnp.voxel.utils.ICopiable"></see>
+    public IDimensions3D Copy()
+    {
+      return new Dimensions3D(this);
+    }
   }
 }

@@ -37,6 +37,15 @@ namespace org.rnp.voxel.mesh.map
     IReadonlyVoxelMesh GetChild(IVoxelLocation location);
 
     /// <summary>
+    ///   Transform an absolute location to a local chunck location.
+    /// </summary>
+    /// <param name="x"></param>
+    /// <param name="y"></param>
+    /// <param name="z"></param>
+    /// <returns></returns>
+    IVoxelLocation ToLocale(int x, int y, int z);
+
+    /// <summary>
     ///   Get child dimensions.
     /// </summary>
     /// <returns></returns>

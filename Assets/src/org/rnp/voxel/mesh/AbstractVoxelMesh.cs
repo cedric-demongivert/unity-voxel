@@ -78,19 +78,19 @@ namespace org.rnp.voxel.mesh
     public abstract void Clear();
 
     /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"/>
-    public bool Contains(int x, int y, int z)
+    public virtual bool Contains(int x, int y, int z)
     {
       return x >= 0 && y >= 0 && z >= 0 && x < this.Width && y < this.Height && z < this.Depth;
     }
 
     /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"/>
-    public bool Contains(Vector3 location)
+    public virtual bool Contains(Vector3 location)
     {
       return this.Contains((int)location.x, (int)location.y, (int)location.z);
     }
 
     /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"/>
-    public bool Contains(IVoxelLocation location)
+    public virtual bool Contains(IVoxelLocation location)
     {
       return this.Contains(location.X, location.Y, location.Z);
     }
@@ -99,21 +99,46 @@ namespace org.rnp.voxel.mesh
     public abstract bool IsEmpty();
 
     /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"/>
-    public bool IsEmpty(int x, int y, int z)
+    public virtual bool IsEmpty(int x, int y, int z)
     {
       return !this.Contains(x,y,z) || this[x, y, z].a == 255;
     }
 
     /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"/>
-    public bool IsEmpty(Vector3 location)
+    public virtual bool IsEmpty(Vector3 location)
     {
       return !this.Contains(location) || this[location].a == 255;
     }
 
     /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"/>
-    public bool IsEmpty(IVoxelLocation location)
+    public virtual bool IsEmpty(IVoxelLocation location)
     {
       return !this.Contains(location) || this[location].a == 255;
+    }
+
+    /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"/>
+    public virtual void Copy(IVoxelLocation from, IVoxelLocation to, IVoxelLocation where, IVoxelMesh toCopy)
+    {
+      Dimensions3D size = new Dimensions3D(
+        to.X - from.X, to.Y - from.Y, to.Z - from.Z
+      );
+
+      this.Copy(from, size, where, toCopy);
+    }
+
+    /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"/>
+    public virtual void Copy(IVoxelLocation start, IDimensions3D size, IVoxelLocation where, IVoxelMesh toCopy)
+    {
+      for (int x = 0; x < size.Width; ++x)
+      {
+        for (int y = 0; y < size.Height; ++y)
+        {
+          for (int z = 0; z < size.Depth; ++z)
+          {
+            this[where.X + x, where.Y + y, where.Z + z] = toCopy[start.X + x, start.Y + y, start.Z + z];
+          }
+        }
+      }
     }
 
     /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"/>

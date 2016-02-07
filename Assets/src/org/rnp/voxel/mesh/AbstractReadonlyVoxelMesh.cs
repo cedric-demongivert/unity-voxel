@@ -86,5 +86,17 @@ namespace org.rnp.voxel.mesh
     {
       return this._writableMesh.IsEmpty();
     }
+
+    /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"/>
+    public override void Copy(IVoxelLocation from, IVoxelLocation to, IVoxelLocation where, IVoxelMesh toCopy)
+    {
+      throw new UnmodifiableVoxelMeshException(this);
+    }
+
+    /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"/>
+    public override void Copy(IVoxelLocation start, IDimensions3D size, IVoxelLocation where, IVoxelMesh toCopy)
+    {
+      throw new UnmodifiableVoxelMeshException(this);
+    }
   }
 }

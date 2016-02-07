@@ -111,7 +111,7 @@ namespace org.rnp.voxel.unity.components.debuggers
     /// </summary>
     /// <param name="root"></param>
     /// <param name="dimensions"></param>
-    private void DrawCube(IVoxelLocation root, IDimensions3D dimensions)
+    private void DrawCube(IVoxelLocation root, IVoxelMesh dimensions)
     {
       Vector3 toMid = new Vector3(
         dimensions.Width / 2f,

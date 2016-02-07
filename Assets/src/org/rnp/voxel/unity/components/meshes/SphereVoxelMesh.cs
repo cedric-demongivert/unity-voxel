@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using org.rnp.voxel.mesh.octree;
+using org.rnp.voxel.mesh.map;
 using UnityEngine;
 using org.rnp.voxel.utils;
 
@@ -86,7 +86,7 @@ namespace org.rnp.voxel.unity.components.meshes
     {
       int size = this.Radius * 2;
 
-      IVoxelMesh sphere = new OctreeVoxelMesh(OctreeVoxelMeshFormat.GetFormat(size, size, size));
+      IVoxelMesh sphere = new MapVoxelMesh();
       
       for(int x = 0; x < size; ++x) 
       {
@@ -98,11 +98,11 @@ namespace org.rnp.voxel.unity.components.meshes
 
             if (point.magnitude <= this.Radius)
             {
-              sphere[x, y, z] = this.Color;
+              sphere[x - this.Radius, y - this.Radius, z - this.Radius] = this.Color;
             }
             else 
             {
-              sphere[x, y, z] = Voxels.Empty;
+              sphere[x - this.Radius, y - this.Radius, z - this.Radius] = Voxels.Empty;
             }
           }
         }

@@ -35,7 +35,7 @@ namespace org.rnp.voxel.mesh.builder
     }
 
     public OctreeChunckBuilder() {
-      this._chunckFormat = OctreeVoxelMeshFormat.Medium;
+      this._chunckFormat = OctreeVoxelMeshFormat.Small;
     }
 
     public OctreeChunckBuilder(OctreeVoxelMeshFormat format)

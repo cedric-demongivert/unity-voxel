@@ -40,9 +40,16 @@ namespace org.rnp.voxel.utils
     }
 
     IVoxelLocation Add(int x, int y, int z);
+    IVoxelLocation Add(float x, float y, float z);
     IVoxelLocation Add(IVoxelLocation toAdd);
 
     IVoxelLocation Set(int x, int y, int z);
+    IVoxelLocation Set(float x, float y, float z);
     IVoxelLocation Set(IVoxelLocation location);
+
+    IVoxelLocation Mul(int x, int y, int z);
+    IVoxelLocation Mul(float x, float y, float z);
+    IVoxelLocation Mul(int s);
+    IVoxelLocation Mul(float s);
   }
 }

@@ -109,7 +109,7 @@ namespace org.rnp.voxel.mesh.octree
     /// <summary>
     ///   Child singleton.
     /// </summary>
-    private readonly OctreeVoxelMesh _childFormat = null;
+    private OctreeVoxelMeshFormat _childFormat = null;
 
     /// <summary>
     ///   Get node child format.
@@ -131,7 +131,7 @@ namespace org.rnp.voxel.mesh.octree
     /// </summary>
     public OctreeVoxelMeshFormat()
     {
-      this.Width = this.Height = this.Depth = this.ChildWidth = this.ChildHeight = this.ChildDepth = 0;
+      this.Width = this.Height = this.Depth = 0;
       this.Order = 0;
     }
 
@@ -142,7 +142,6 @@ namespace org.rnp.voxel.mesh.octree
     public OctreeVoxelMeshFormat(int order)
     {
       this.Width = this.Height = this.Depth = 1 << order;
-      this.ChildWidth = this.ChildDepth = this.ChildHeight = 1 << (order - 1);
       this.Order = order;
     }
   }

@@ -127,18 +127,7 @@ namespace org.rnp.voxel.mesh.octree
       this._format = OctreeVoxelMeshFormat.GetFormat(toCopy.Width, toCopy.Height, toCopy.Depth);
       this._builder = new OctreeNodeBuilder();
 
-      IVoxelLocation end = toCopy.End;
-      IVoxelLocation start = toCopy.Start;
-      for (int i = start.X; i < end.X; ++i)
-      {
-        for (int j = start.Y; j < end.Y; ++j)
-        {
-          for (int k = start.Z; k < end.Z; ++k)
-          {
-            this[i - start.X, j - start.Y, k - start.Z] = toCopy[i, j, k];
-          }
-        }
-      }
+      this.Copy(toCopy.Start, toCopy.End, VoxelLocation.Zero, toCopy);
     }
 
     /// <summary>
@@ -150,18 +139,9 @@ namespace org.rnp.voxel.mesh.octree
     {
       this._childs = new IVoxelMesh[2, 2, 2];
       this._format = toCopy._format;
-      this._builder = toCopy._builder.Copy();
+      this._builder = (IOctreeNodeBuilder) toCopy._builder.Copy();
 
-      for (int i = 0; i < this.Width; ++i)
-      {
-        for (int j = 0; j < this.Height; ++j)
-        {
-          for (int k = 0; k < this.Depth; ++k)
-          {
-            this[i, j, k] = toCopy[i, j, k];
-          }
-        }
-      }
+      this.Copy(toCopy.Start, toCopy.End, VoxelLocation.Zero, toCopy);
     }
 
     /// <see cref="org.rnp.voxel.mesh.octree.IOctreeVoxelMesh"/>
@@ -283,7 +263,7 @@ namespace org.rnp.voxel.mesh.octree
         {
           for (int k = 0; k < 2; ++k)
           {
-            if (this._childs[i, j, k] != null && !this._childs[i, j, k].IsEmpty())
+            if (this._childs[i, j, k] != null)
             {
               return false;
             }

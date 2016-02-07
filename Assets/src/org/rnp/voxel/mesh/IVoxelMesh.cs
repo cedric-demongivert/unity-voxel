@@ -148,5 +148,23 @@ namespace org.rnp.voxel.mesh
     /// <param name="location"></param>
     /// <returns></returns>
     bool IsEmpty(IVoxelLocation location);
+
+    /// <summary>
+    ///   Copy a part of another voxel mesh.
+    /// </summary>
+    /// <param name="from"></param>
+    /// <param name="to"></param>
+    /// <param name="where"></param>
+    /// <param name="toCopy"></param>
+    void Copy(IVoxelLocation from, IVoxelLocation to, IVoxelLocation where, IVoxelMesh toCopy);
+
+    /// <summary>
+    ///   Copy a part of another voxel mesh.
+    /// </summary>
+    /// <param name="start"></param>
+    /// <param name="size"></param>
+    /// <param name="where"></param>
+    /// <param name="toCopy"></param>
+    void Copy(IVoxelLocation start, IDimensions3D size, IVoxelLocation where, IVoxelMesh toCopy);
   }
 }

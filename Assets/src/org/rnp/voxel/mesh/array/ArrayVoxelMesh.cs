@@ -118,17 +118,7 @@ namespace org.rnp.voxel.mesh.array
         this.Height,
         this.Depth
       ];
-
-      for (int x = 0; x < this.Width; ++x)
-      {
-        for (int y = 0; y < this.Height; ++y)
-        {
-          for (int z = 0; z < this.Depth; ++z)
-          {
-            this._datas[x, y, z] = toCopy[x, y, z];
-          }
-        }
-      }
+      this.Copy(toCopy.Start, toCopy.End, VoxelLocation.Zero, toCopy);
     }
 
     /// <see cref="org.rnp.voxel.mesh.IWritableVoxelMesh"/>

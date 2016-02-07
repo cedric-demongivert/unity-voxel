@@ -69,15 +69,15 @@ namespace org.rnp.voxel.utils
 
     public VoxelLocation(Vector3 vec)
     {
-      this._x = (int)vec.x;
-      this._y = (int)vec.y;
-      this._z = (int)vec.z;
+      this._x = (int) vec.x;
+      this._y = (int) vec.y;
+      this._z = (int) vec.z;
     }
 
     public VoxelLocation(Vector2 vec)
     {
-      this._x = (int)vec.x;
-      this._y = (int)vec.y;
+      this._x = (int) vec.x;
+      this._y = (int) vec.y;
       this._z = 0;
     }
 
@@ -87,6 +87,15 @@ namespace org.rnp.voxel.utils
       this._x = location.X;
       this._y = location.Y;
       this._z = location.Z;
+      return this;
+    }
+
+    /// <see cref="org.rnp.utils.IVoxelLocation"/>
+    public IVoxelLocation Set(float x, float y, float z)
+    {
+      this._x = (int) x;
+      this._y = (int) y;
+      this._z = (int) z;
       return this;
     }
 
@@ -109,6 +118,15 @@ namespace org.rnp.voxel.utils
     }
 
     /// <see cref="org.rnp.utils.IVoxelLocation"/>
+    public IVoxelLocation Add(float x, float y, float z)
+    {
+      this._x += (int) x;
+      this._y += (int) y;
+      this._z += (int) z;
+      return this;
+    }
+
+    /// <see cref="org.rnp.utils.IVoxelLocation"/>
     public IVoxelLocation Add(int x, int y, int z)
     {
       this._x += x;
@@ -117,17 +135,53 @@ namespace org.rnp.voxel.utils
       return this;
     }
 
+    /// <see cref="org.rnp.utils.IVoxelLocation"/>
+    public IVoxelLocation Mul(float x, float y, float z)
+    {
+      this._x *= (int) x;
+      this._y *= (int) y;
+      this._z *= (int) z;
+      return this;
+    }
+
+    /// <see cref="org.rnp.utils.IVoxelLocation"/>
+    public IVoxelLocation Mul(int x, int y, int z)
+    {
+      this._x *= x;
+      this._y *= y;
+      this._z *= z;
+      return this;
+    }
+
+    /// <see cref="org.rnp.utils.IVoxelLocation"/>
+    public IVoxelLocation Mul(float s)
+    {
+      this._x *= (int) s;
+      this._y *= (int) s;
+      this._z *= (int) s;
+      return this;
+    }
+    
+    /// <see cref="org.rnp.utils.IVoxelLocation"/>
+    public IVoxelLocation Mul(int s)
+    {
+      this._x *= s;
+      this._y *= s;
+      this._z *= s;
+      return this;
+    }
+
     /// <see cref="object"/>
     public override string ToString()
     {
-      return "VoxelLocation (" + this._x 
-             + ", " + this._y + ", " + this._z + ")";
+      return "VoxelLocation (" + this.X 
+             + ", " + this.Y + ", " + this.Z + ")";
     }
 
     /// <see cref="object"/>
     public override int GetHashCode()
     {
-      return (((this._x) * 31 + this._y) * 61 + this._z) * 97;
+      return (((this.X) * 31 + this.Y) * 31 + this.Z) * 31;
     }
 
     /// <see cref="object"/>
