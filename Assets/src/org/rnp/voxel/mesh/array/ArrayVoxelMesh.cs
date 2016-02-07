@@ -112,7 +112,7 @@ namespace org.rnp.voxel.mesh.array
     /// <param name="toCopy"></param>
     public ArrayVoxelMesh(IVoxelMesh toCopy) : base()
     {
-      this._dimensions = new Dimensions3D(toCopy);
+      this._dimensions = new Dimensions3D(toCopy.Width, toCopy.Height, toCopy.Depth);
       this._datas = new Color32[
         this.Width,
         this.Height,

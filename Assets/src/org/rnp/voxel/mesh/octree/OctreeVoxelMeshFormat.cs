@@ -17,7 +17,7 @@ namespace org.rnp.voxel.mesh.octree
     ///   A 0x0x0 voxel octree.
     /// </summary>
     public static readonly OctreeVoxelMeshFormat Empty = new OctreeVoxelMeshFormat();
-
+    
     /// <summary>
     ///   A 64x64x64 voxel octree.
     /// </summary>
@@ -44,6 +44,26 @@ namespace org.rnp.voxel.mesh.octree
     public static readonly OctreeVoxelMeshFormat Gigantic = new OctreeVoxelMeshFormat(10);
 
     /// <summary>
+    ///   For determinate childrens.
+    /// </summary>
+    private static readonly OctreeVoxelMeshFormat[] _formats = new OctreeVoxelMeshFormat[] {
+      new OctreeVoxelMeshFormat(0), new OctreeVoxelMeshFormat(1), new OctreeVoxelMeshFormat(2),
+      new OctreeVoxelMeshFormat(3), new OctreeVoxelMeshFormat(4), new OctreeVoxelMeshFormat(5),
+      Tiny, Small, Medium, Big, Gigantic
+    };
+
+    /// <summary>
+    ///   Get optimized OctreeVoxelMeshFormat.
+    /// </summary>
+    /// <param name="order"></param>
+    /// <returns></returns>
+    private static OctreeVoxelMeshFormat Get(int order)
+    {
+      if(order >= 0 && order <= 10) return OctreeVoxelMeshFormat._formats[order];
+      else return new OctreeVoxelMeshFormat(order);
+    }
+
+    /// <summary>
     ///   Get a octree format for a specific size.
     /// </summary>
     /// <param name="width"></param>
@@ -63,29 +83,48 @@ namespace org.rnp.voxel.mesh.octree
         value = value << 1;
       }
 
-      switch (order)
-      {
-        case 6:
-          return OctreeVoxelMeshFormat.Tiny;
-        case 7:
-          return OctreeVoxelMeshFormat.Small;
-        case 8:
-          return OctreeVoxelMeshFormat.Medium;
-        case 9:
-          return OctreeVoxelMeshFormat.Big;
-        case 10:
-          return OctreeVoxelMeshFormat.Gigantic;
-        default:
-          return new OctreeVoxelMeshFormat(order);
-      }
+      return OctreeVoxelMeshFormat.Get(order);
     }
 
+    /// <summary>
+    ///   Node width.
+    /// </summary>
     public readonly int Width;
+
+    /// <summary>
+    ///   Node height.
+    /// </summary>
     public readonly int Height;
+
+    /// <summary>
+    ///   Node depth.
+    /// </summary>
     public readonly int Depth;
-    public readonly int ChildWidth;
-    public readonly int ChildHeight;
-    public readonly int ChildDepth;
+
+    /// <summary>
+    ///   Node order of two.
+    /// </summary>
+    public readonly int Order;
+
+    /// <summary>
+    ///   Child singleton.
+    /// </summary>
+    private readonly OctreeVoxelMesh _childFormat = null;
+
+    /// <summary>
+    ///   Get node child format.
+    /// </summary>
+    public OctreeVoxelMeshFormat ChildFormat {
+      get {
+        if(this.Order <= 0) return null;
+
+        if(this._childFormat == null) {
+          this._childFormat = OctreeVoxelMeshFormat.Get(this.Order - 1);
+        }
+
+        return this._childFormat;
+      }
+    }
 
     /// <summary>
     ///   Create an empty octree format.
@@ -93,6 +132,7 @@ namespace org.rnp.voxel.mesh.octree
     public OctreeVoxelMeshFormat()
     {
       this.Width = this.Height = this.Depth = this.ChildWidth = this.ChildHeight = this.ChildDepth = 0;
+      this.Order = 0;
     }
 
     /// <summary>
@@ -103,6 +143,7 @@ namespace org.rnp.voxel.mesh.octree
     {
       this.Width = this.Height = this.Depth = 1 << order;
       this.ChildWidth = this.ChildDepth = this.ChildHeight = 1 << (order - 1);
+      this.Order = order;
     }
   }
 }

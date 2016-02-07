@@ -40,7 +40,6 @@ namespace org.rnp.voxel.utils
     /// <summary>
     ///   Create a custom Dimensions3D struct.
     /// </summary>
-    /// 
     /// <param name="width"></param>
     /// <param name="height"></param>
     /// <param name="depth"></param>
@@ -54,7 +53,6 @@ namespace org.rnp.voxel.utils
     /// <summary>
     ///   Create a copy of an existing IDimensions3D element.
     /// </summary>
-    /// 
     /// <param name="toCopy"></param>
     public Dimensions3D(IDimensions3D toCopy)
     {
@@ -63,10 +61,23 @@ namespace org.rnp.voxel.utils
       this._depth = toCopy.Depth;
     }
 
-    /// <summary>
-    ///   Return true if the dimensions is null (0,0,0)
-    /// </summary>
-    /// <returns></returns>
+    /// <see cref="org.rnp.voxel.utils.IDimensions3D"></see>
+    public void Set(int x, int y, int z)
+    {
+      this._width = x;
+      this._height = y;
+      this._depth = z;
+    }
+
+    /// <see cref="org.rnp.voxel.utils.IDimensions3D"></see>
+    public void Set(IDimensions3D other)
+    {
+      this._width = other.Width;
+      this._height = other.Height;
+      this._depth = other.Depth;
+    }
+
+    /// <see cref="org.rnp.voxel.utils.IDimensions3D"></see>
     public bool IsEmpty()
     {
       return this._width == 0 && this._height == 0 && this._depth == 0;

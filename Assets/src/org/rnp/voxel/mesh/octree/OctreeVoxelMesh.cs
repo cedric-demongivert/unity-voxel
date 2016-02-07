@@ -27,7 +27,7 @@ namespace org.rnp.voxel.mesh.octree
     /// <summary>
     ///   Format of the octree. Store valid octree dimensions.
     /// </summary>
-    private readonly OctreeVoxelMeshFormat _dimensions;
+    private readonly OctreeVoxelMeshFormat _format;
 
     /// <summary>
     ///   Readonly implementation.
@@ -37,24 +37,24 @@ namespace org.rnp.voxel.mesh.octree
     /// <summary>
     ///   A builder that create octree nodes.
     /// </summary>
-    private readonly IVoxelMeshBuilder _builder;
+    private readonly IOctreeNodeBuilder _builder;
 
     /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"></see>
     public override int Width
     {
-      get { return _dimensions.Width; }
+      get { return _format.Width; }
     }
 
     /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"></see>
     public override int Height
     {
-      get { return _dimensions.Height; }
+      get { return _format.Height; }
     }
 
     /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"></see>
     public override int Depth
     {
-      get { return _dimensions.Depth; }
+      get { return _format.Depth; }
     }
 
     /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"></see>
@@ -87,8 +87,8 @@ namespace org.rnp.voxel.mesh.octree
       : base()
     {
       this._childs = null;
-      this._dimensions = OctreeVoxelMeshFormat.Small;
-      this._builder = null;
+      this._format = OctreeVoxelMeshFormat.Empty;
+      this._builder = new OctreeNodeBuilder();
     }
 
     /// <summary>
@@ -99,8 +99,8 @@ namespace org.rnp.voxel.mesh.octree
       : base()
     {
       this._childs = new IVoxelMesh[2, 2, 2];
-      this._dimensions = format;
-      this._builder = new VoxelOctreeNodeBuilder();
+      this._format = format;
+      this._builder = new OctreeNodeBuilder();
     }
 
     /// <summary>
@@ -108,12 +108,12 @@ namespace org.rnp.voxel.mesh.octree
     /// </summary>
     /// <param name="format"></param>
     /// <param name="builder"></param>
-    public OctreeVoxelMesh(OctreeVoxelMeshFormat format, IVoxelMeshBuilder builder)
+    public OctreeVoxelMesh(OctreeVoxelMeshFormat format, IOctreeNodeBuilder builder)
       : base()
     {
       this._childs = new IVoxelMesh[2, 2, 2];
-      this._dimensions = format;
-      this._builder = builder.Copy();
+      this._format = format;
+      this._builder = builder;
     }
 
     /// <summary>
@@ -124,8 +124,8 @@ namespace org.rnp.voxel.mesh.octree
       : base()
     {
       this._childs = new IVoxelMesh[2, 2, 2];
-      this._dimensions = OctreeVoxelMeshFormat.GetFormat(toCopy.Width, toCopy.Height, toCopy.Depth);
-      this._builder = new VoxelOctreeNodeBuilder();
+      this._format = OctreeVoxelMeshFormat.GetFormat(toCopy.Width, toCopy.Height, toCopy.Depth);
+      this._builder = new OctreeNodeBuilder();
 
       IVoxelLocation end = toCopy.End;
       IVoxelLocation start = toCopy.Start;
@@ -149,7 +149,7 @@ namespace org.rnp.voxel.mesh.octree
       : base()
     {
       this._childs = new IVoxelMesh[2, 2, 2];
-      this._dimensions = toCopy._dimensions;
+      this._format = toCopy._format;
       this._builder = toCopy._builder.Copy();
 
       for (int i = 0; i < this.Width; ++i)
@@ -186,17 +186,17 @@ namespace org.rnp.voxel.mesh.octree
     /// <returns></returns>
     public Color32 Get(int x, int y, int z)
     {
-      int lx = x / this._dimensions.ChildWidth;
-      int ly = y / this._dimensions.ChildHeight;
-      int lz = z / this._dimensions.ChildDepth;
+      int lx = x / this._format.ChildFormat.Width;
+      int ly = y / this._format.ChildFormat.Height;
+      int lz = z / this._format.ChildFormat.Depth;
       IVoxelMesh child = this.GetChild(lx, ly, lz);
 
       if (child != null)
       {
         return child[
-          x - lx * this._dimensions.ChildWidth,
-          y - ly * this._dimensions.ChildHeight,
-          z - lz * this._dimensions.ChildDepth
+          x - lx * this._format.ChildFormat.Width,
+          y - ly * this._format.ChildFormat.Height,
+          z - lz * this._format.ChildFormat.Depth
         ];
       }
       else
@@ -216,11 +216,8 @@ namespace org.rnp.voxel.mesh.octree
     {
       if (this._childs[x, y, z] == null)
       {
-        this._childs[x, y, z] = this._builder.Build(
-          this._dimensions.ChildWidth,
-          this._dimensions.ChildHeight,
-          this._dimensions.ChildDepth
-        );
+        this._builder.Format = this._format.ChildFormat;
+        this._childs[x, y, z] = this._builder.Build();
       }
 
       return this._childs[x, y, z];
@@ -235,24 +232,24 @@ namespace org.rnp.voxel.mesh.octree
     /// <param name="color"></param>
     public void Set(int x, int y, int z, Color32 color)
     {
-      int lx = (int)(x / this._dimensions.ChildWidth);
-      int ly = (int)(y / this._dimensions.ChildHeight);
-      int lz = (int)(z / this._dimensions.ChildDepth);
+      int lx = (int)(x / this._format.ChildFormat.Width);
+      int ly = (int)(y / this._format.ChildFormat.Height);
+      int lz = (int)(z / this._format.ChildFormat.Depth);
 
       if (color.a == 0)
       {
         this.GetChildOrCreate(lx, ly, lz)[
-          x - lx * this._dimensions.ChildWidth,
-          y - ly * this._dimensions.ChildHeight,
-          z - lz * this._dimensions.ChildDepth
+          x - lx * this._format.ChildFormat.Width,
+          y - ly * this._format.ChildFormat.Height,
+          z - lz * this._format.ChildFormat.Depth
         ] = color;
       }
       else if (this._childs[lx, ly, lz] != null)
       {
         this._childs[lx, ly, lz][
-          x - lx * this._dimensions.ChildWidth,
-          y - ly * this._dimensions.ChildHeight,
-          z - lz * this._dimensions.ChildDepth
+          x - lx * this._format.ChildFormat.Width,
+          y - ly * this._format.ChildFormat.Height,
+          z - lz * this._format.ChildFormat.Depth
         ] = color;
 
         if (this._childs[lx, ly, lz].IsEmpty())

@@ -9,8 +9,32 @@ namespace org.rnp.voxel.mesh
   /// <summary>
   ///   A voxel mesh full of colors.
   /// </summary>
-  public interface IVoxelMesh : IDimensions3D
+  public interface IVoxelMesh
   {
+    /// <summary>
+    ///   Get voxel mesh width.
+    /// </summary>
+    int Width
+    {
+      get;
+    }
+
+    /// <summary>
+    ///   Get voxel mesh height.
+    /// </summary>
+    int Height
+    {
+      get;
+    }
+
+    /// <summary>
+    ///   Get voxel mesh depth.
+    /// </summary>
+    int Depth
+    {
+      get;
+    }
+
     /// <summary>
     ///   Get the minimum point of that voxel mesh (inclusive).
     /// </summary>

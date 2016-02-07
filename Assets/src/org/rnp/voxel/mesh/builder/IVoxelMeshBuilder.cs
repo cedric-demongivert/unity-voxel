@@ -1,5 +1,6 @@
 ﻿using JetBrains.Annotations;
 using org.rnp.voxel.mesh;
+using org.rnp.voxel.utils;
 
 namespace org.rnp.voxel.mesh.builder
 {
@@ -7,21 +8,12 @@ namespace org.rnp.voxel.mesh.builder
   /// <summary>
   ///   A builder that produce voxel mesh.
   /// </summary>
-  public interface IVoxelMeshBuilder
+  public interface IVoxelMeshBuilder : ICopiable<IVoxelMeshBuilder>
   {
     /// <summary>
-    ///   Build a new voxel mesh of a specific size.
-    /// </summary>
-    /// <param name="width"></param>
-    /// <param name="height"></param>
-    /// <param name="depth"></param>
-    /// <returns></returns>
-    IVoxelMesh Build(int width, int height, int depth);
-
-    /// <summary>
-    ///   Copy the builder.
+    ///   Build a new voxel mesh.
     /// </summary>
     /// <returns></returns>
-    IVoxelMeshBuilder Copy();
+    IVoxelMesh Build();
   }
 }
