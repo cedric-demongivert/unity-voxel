@@ -72,14 +72,9 @@ namespace org.rnp.voxel.unity.components.meshes
         z - this.Radius
       );
 
-      if (point.x < 0) point.x -= 0.5f;
-      else point.x += 0.5f;
-
-      if (point.y < 0) point.y -= 0.5f;
-      else point.y += 0.5f;
-
-      if (point.z < 0) point.z -= 0.5f;
-      else point.z += 0.5f;
+      point.x += 0.5f;
+      point.y += 0.5f;
+      point.z += 0.5f;
 
       return point;
     }
