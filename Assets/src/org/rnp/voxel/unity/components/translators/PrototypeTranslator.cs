@@ -140,7 +140,6 @@ namespace org.rnp.voxel.unity.components.translators
     {
       IVoxelLocation start = mesh.Start;
       IVoxelLocation end = mesh.End;
-      VoxelLocation voxelLocation = new VoxelLocation();
       VoxelLocation finalLocation = new VoxelLocation();
 
       for (int x = start.X; x < end.X; ++x)
@@ -149,9 +148,8 @@ namespace org.rnp.voxel.unity.components.translators
         {
           for (int z = start.Z; z < end.Z; ++z)
           {
-            voxelLocation.Set(x, y, z);
-            finalLocation.Set(location).Add(voxelLocation);
-            this.Translate(finalLocation, mesh, voxelLocation);
+            finalLocation.Set(location).Add(x,y,z);
+            this.Translate(finalLocation, mesh, finalLocation);
           }
         }
       }

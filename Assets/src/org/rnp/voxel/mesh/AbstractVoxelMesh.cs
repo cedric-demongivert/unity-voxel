@@ -80,7 +80,9 @@ namespace org.rnp.voxel.mesh
     /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"/>
     public virtual bool Contains(int x, int y, int z)
     {
-      return x >= 0 && y >= 0 && z >= 0 && x < this.Width && y < this.Height && z < this.Depth;
+      IVoxelLocation start = this.Start;
+      IVoxelLocation end = this.End;
+      return x >= start.X && y >= start.Y && z >= start.Z && x < end.X && y < end.Y && z < end.Z;
     }
 
     /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"/>

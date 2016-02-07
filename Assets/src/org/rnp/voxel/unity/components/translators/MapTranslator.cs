@@ -45,13 +45,13 @@ namespace org.rnp.voxel.unity.components.translators
 
     public void TranslateMap(IVoxelLocation start, IMapVoxelMesh map)
     {
+
+      IVoxelLocation chunckStart = new VoxelLocation();
       foreach (IVoxelLocation chunckLocation in map.Keys())
       {
         IVoxelMesh chunck = map.GetChild(chunckLocation);
-        IVoxelLocation chunckStart = new VoxelLocation(chunckLocation);
-        chunckStart.Mul(map.ChildWidth, map.ChildHeight, map.ChildDepth);
-        chunckStart.Add(start);
-
+        chunckStart.Set(chunckLocation).Mul(map.ChildWidth, map.ChildHeight, map.ChildDepth);
+        
         if (chunck is IOctreeVoxelMesh)
         {
           this.TranslateTree(chunckStart, (IOctreeVoxelMesh)chunck);

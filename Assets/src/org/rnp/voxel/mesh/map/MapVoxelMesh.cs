@@ -186,6 +186,10 @@ namespace org.rnp.voxel.mesh.map
     /// <returns></returns>
     public IVoxelLocation ToChunckLocation(int x, int y, int z)
     {
+      if (x < 0) x -= this.ChildWidth;
+      if (y < 0) y -= this.ChildHeight;
+      if (z < 0) z -= this.ChildDepth;
+
       return new VoxelLocation(x / this.ChildWidth, y / this.ChildHeight, z / this.ChildDepth);
     }
 
@@ -331,7 +335,7 @@ namespace org.rnp.voxel.mesh.map
       }
       else
       {
-        return chunck[this.ToLocale(x,y,z)];
+        return chunck[this.ToLocale(x, y, z)];
       }
     }
 

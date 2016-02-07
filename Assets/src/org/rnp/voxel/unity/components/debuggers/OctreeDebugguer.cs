@@ -10,7 +10,7 @@ using UnityEngine;
 
 namespace org.rnp.voxel.unity.components.debuggers
 {
-  public sealed class OctreeDebugguer : MonoBehaviour
+  public class OctreeDebugguer : MonoBehaviour
   {
 
     /// <summary>
@@ -33,7 +33,7 @@ namespace org.rnp.voxel.unity.components.debuggers
 
     /// <see cref="http://docs.unity3d.com/ScriptReference/MonoBehaviour.html"/>
     /// <see cref="http://docs.unity3d.com/ScriptReference/Gizmos.html"/>
-    public void OnDrawGizmosSelected()
+    public virtual void OnDrawGizmosSelected()
     {
       Gizmos.color = Color.red;
 
