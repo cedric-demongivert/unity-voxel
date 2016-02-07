@@ -56,7 +56,6 @@
      <Compile Include="Assets\src\org\rnp\voxel\mesh\builder\IVoxelMeshBuilder.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\mesh\builder\VoxelOctreeNodeBuilder.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\mesh\exceptions\UnmodifiableVoxelMeshException.cs" />
-     <Compile Include="Assets\src\org\rnp\voxel\mesh\map\VoxelMap.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\mesh\octree\IOctreeVoxelMesh.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\mesh\octree\OctreeVoxelMesh.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\mesh\octree\OctreeVoxelMeshFormat.cs" />
