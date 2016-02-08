@@ -7,29 +7,35 @@
 
     namespace org.rnp.voxel.unity.components
     {
-    /// <author>Cédric DEMONGIVERT [cedric.demongivert@gmail.com]</author>
-    /// <summary>
-    ///   A simple, procedural, spheric voxel mesh
-    /// </summary>
-    [ExecuteInEditMode]
-    public class SphereVoxelMesh : VoxelMesh
-    {
-    /// <summary>
-    ///   Sphere radius in voxels.
-    /// </summary>
-    [SerializeField]
-    protected int _Radius;
+        /// <author>Cédric DEMONGIVERT [cedric.demongivert@gmail.com]</author>
+        /// <summary>
+        ///   A simple, procedural, spheric voxel mesh
+        /// </summary>
+        [ExecuteInEditMode]
+        public class SphereVoxelMesh : VoxelMesh
+        {
+        /// <summary>
+        ///   Sphere radius in voxels.
+        /// </summary>
+        [SerializeField]
+        protected int _Radius;
 
-    /// <summary>
-    ///   Sphere color.
-    /// </summary>
-    [SerializeField]
-    protected Color32 _Color;
+        /// <summary>
+        ///   Sphere color.
+        /// </summary>
+        [SerializeField]
+        protected Color32 _Color;
 
-    /// <summary>
-    ///   Sphere radius in voxels.
-    /// </summary>
-    public int Radius {
+        /// <summary>
+        ///   Color gap.
+        /// </summary>
+        [SerializeField]
+        protected byte _ColorGap;
+
+        /// <summary>
+        ///   Sphere radius in voxels.
+        /// </summary>
+        public int Radius {
         get
         {
         return _Radius;
@@ -83,12 +89,13 @@
     /// </summary>
     public void RefreshMesh()
     {
+        
         int size = this.Radius * 2;
         Color32 empty = new Color32(0, 0, 0, 255);
 
         VoxelArray sphere = new VoxelArray(size, size, size);
 
-        Color32 currColor = new Color32((byte)(this._Color.r), (byte)(this._Color.g), (byte)(this._Color.b ), 0);
+        Color32 currColor = _Color;
 
         for (int x = 0; x < size; ++x) 
         {
@@ -100,9 +107,13 @@
 
                     if (point.magnitude <= this.Radius)
                     {
-                        currColor = new Color32((byte)(UnityEngine.Random.Range(0,255)), (byte)(UnityEngine.Random.Range(0, 255)), (byte)(UnityEngine.Random.Range(0, 255)), 0);
-                        sphere[x, y, z] = currColor;
-                        System.Console.WriteLine(currColor.ToString());
+                        int offset = UnityEngine.Random.Range(-_ColorGap, _ColorGap);
+                        int newR= currColor.r + offset, newG= currColor.g + offset, newB= currColor.b + offset;
+                        if (newR > 255) newR = 255; if (newR <0) newR = 0;
+                        if (newB > 255) newB = 255; if (newB <0) newB = 0;
+                        if (newG > 255) newG = 255; if (newG <0) newG = 0;
+
+                        sphere[x, y, z] = new Color32((byte)(newR), (byte)(newG), (byte)(newB), 0);
                     }
                     else 
                     {

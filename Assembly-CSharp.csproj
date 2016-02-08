@@ -50,6 +50,7 @@
      <Compile Include="Assets\src\org\rnp\voxel\mesh\VoxelArray.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\translator\ITranslator.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\unity\components\AssetVoxelMesh.cs" />
+     <Compile Include="Assets\src\org\rnp\voxel\unity\components\IColorizable.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\unity\components\PrototypeTranslator.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\unity\components\SphereVoxelMesh.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\unity\components\VoxelMesh.cs" />
