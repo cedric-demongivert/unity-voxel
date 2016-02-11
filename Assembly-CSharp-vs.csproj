@@ -67,6 +67,8 @@
      <Compile Include="Assets\src\org\rnp\voxel\mesh\octree\OctreeVoxelMeshFormat.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\mesh\octree\ReadonlyOctreeVoxelMesh.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\translator\ITranslator.cs" />
+     <Compile Include="Assets\src\org\rnp\voxel\unity\components\IColorizable.cs" />
+     <Compile Include="Assets\src\org\rnp\voxel\unity\components\collider\VoxelMeshCollider.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\unity\components\debuggers\MapDebugguer.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\unity\components\debuggers\OctreeDebugguer.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\unity\components\meshes\AssetVoxelMesh.cs" />
@@ -81,6 +83,10 @@
      <Compile Include="Assets\src\org\rnp\voxel\utils\IVoxelLocation.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\utils\VoxelLocation.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\utils\Voxels.cs" />
+     <None Include="Assets\shaders\UnityVC\StandardVC.shader" />
+     <None Include="Assets\shaders\UnityVC\StandardSpecularVC.shader" />
+     <None Include="Assets\src\org\rnp\Shaders\NewSurfaceShader.shader" />
+     <None Include="Assets\shaders\UnityVC\UnityVC.cginc" />
  <Reference Include="UnityEngine.UI">
  <HintPath>E:/unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>

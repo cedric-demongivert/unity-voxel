@@ -5,7 +5,7 @@
 	<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
 	<ProductVersion>10.0.20506</ProductVersion>
 	<SchemaVersion>2.0</SchemaVersion>
-	<ProjectGuid>{463C4DE9-6A97-C355-3FAE-D1DFFEA5FE5F}</ProjectGuid>
+	<ProjectGuid>{D78867C2-4478-67AC-4064-FD3690BCE8F6}</ProjectGuid>
 	<OutputType>Library</OutputType>
 	<AppDesignerFolder>Properties</AppDesignerFolder>
 	<RootNamespace></RootNamespace>
@@ -46,9 +46,11 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Shaders\UnityVC\Editor\StandardShaderVCGUI.cs" />
-     <None Include="Assets\Shaders\UnityVC\StandardVC.shader" />
-     <None Include="Assets\Shaders\UnityVC\UnityVC.cginc" />
+     <Compile Include="Assets\shaders\UnityVC\Editor\StandardShaderVCGUI.cs" />
+     <None Include="Assets\shaders\UnityVC\StandardVC.shader" />
+     <None Include="Assets\shaders\UnityVC\StandardSpecularVC.shader" />
+     <None Include="Assets\src\org\rnp\Shaders\NewSurfaceShader.shader" />
+     <None Include="Assets\shaders\UnityVC\UnityVC.cginc" />
  <Reference Include="UnityEngine.UI">
  <HintPath>E:/unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
@@ -106,7 +108,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Assembly-CSharp-vs.csproj">
-      <Project>{24147965-48E0-17B4-6E29-46F02954FD57}</Project>      <Name>Assembly-CSharp-vs</Name>    </ProjectReference>
+      <Project>{030EE5D3-DE60-AFC5-2AA8-D9CBE1D051A1}</Project>      <Name>Assembly-CSharp-vs</Name>    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
