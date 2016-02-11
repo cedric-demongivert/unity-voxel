@@ -46,6 +46,11 @@ namespace org.rnp.voxel.mesh
     IVoxelLocation End { get; }
 
     /// <summary>
+    ///   Get the center of that voxel mesh.
+    /// </summary>
+    IVoxelLocation Center { get; }
+
+    /// <summary>
     ///   Get or set a voxel in the mesh.
     /// </summary>
     /// <param name="x"></param>

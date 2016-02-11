@@ -13,15 +13,19 @@ namespace org.rnp.voxel.mesh
   /// </summary>
   public abstract class AbstractVoxelMesh : IVoxelMesh
   {
-    /// <summary>
-    ///   Get the minimum point of that voxel mesh (inclusive).
-    /// </summary>
+    /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"></see>
     public abstract IVoxelLocation Start { get; }
 
-    /// <summary>
-    ///   Get the end point of that voxel mesh (exclusive).
-    /// </summary>
+    /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"></see>
     public abstract IVoxelLocation End { get; }
+
+    /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"></see>
+    public IVoxelLocation Center {
+      get
+      {
+        return new VoxelLocation().Add(this.Start).Add(this.End).Mul(0.5f);
+      } 
+    }
 
     /// <see cref="org.rnp.voxel.utils.IDimensions3D"></see>
     public abstract int Width
