@@ -26,11 +26,6 @@
         [SerializeField]
         protected Color32 _Color;
 
-        /// <summary>
-        ///   Color gap.
-        /// </summary>
-        [SerializeField]
-        protected byte _ColorGap;
 
         /// <summary>
         ///   Sphere radius in voxels.
@@ -107,11 +102,7 @@
 
                     if (point.magnitude <= this.Radius)
                     {
-                        int offset = UnityEngine.Random.Range(-_ColorGap, _ColorGap);
-                        int newR= currColor.r + offset, newG= currColor.g + offset, newB= currColor.b + offset;
-                        if (newR > 255) newR = 255; if (newR <0) newR = 0;
-                        if (newB > 255) newB = 255; if (newB <0) newB = 0;
-                        if (newG > 255) newG = 255; if (newG <0) newG = 0;
+                        int newR= currColor.r, newG= currColor.g, newB= currColor.b;
 
                         sphere[x, y, z] = new Color32((byte)(newR), (byte)(newG), (byte)(newB), 0);
                     }
