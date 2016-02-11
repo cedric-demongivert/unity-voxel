@@ -82,6 +82,12 @@ namespace org.rnp.voxel.mesh
     }
 
     /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"/>
+    public override bool IsFull()
+    {
+      return this._writableMesh.IsFull();
+    }
+
+    /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"/>
     public override bool IsEmpty()
     {
       return this._writableMesh.IsEmpty();

@@ -126,6 +126,12 @@ namespace org.rnp.voxel.mesh
     bool Contains(IVoxelLocation location);
 
     /// <summary>
+    ///   Check if the mesh don't contains gaps.
+    /// </summary>
+    /// <returns></returns>
+    bool IsFull();
+
+    /// <summary>
     ///   Check if the mesh contains data.
     /// </summary>
     /// <returns></returns>

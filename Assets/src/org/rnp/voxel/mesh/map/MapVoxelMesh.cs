@@ -372,6 +372,20 @@ namespace org.rnp.voxel.mesh.map
     }
 
     /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"/>
+    public override bool IsFull()
+    {
+      foreach(IVoxelMesh chunck in this._chunks.Values)
+      {
+        if (!chunck.IsFull())
+        {
+          return false;
+        }
+      }
+
+      return true;
+    }
+
+    /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"/>
     public override bool IsEmpty()
     {
       return this._chunks.Keys.Count == 0;

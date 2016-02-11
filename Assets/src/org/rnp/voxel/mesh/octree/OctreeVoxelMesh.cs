@@ -255,6 +255,26 @@ namespace org.rnp.voxel.mesh.octree
     }
 
     /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"></see>
+    public override bool IsFull()
+    {
+      for (int i = 0; i < 2; ++i)
+      {
+        for (int j = 0; j < 2; ++j)
+        {
+          for (int k = 0; k < 2; ++k)
+          {
+            if (this._childs[i, j, k] == null || !this._childs[i, j, k].IsFull())
+            {
+              return false;
+            }
+          }
+        }
+      }
+
+      return true;
+    }
+
+    /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"></see>
     public override bool IsEmpty()
     {
       for (int i = 0; i < 2; ++i)

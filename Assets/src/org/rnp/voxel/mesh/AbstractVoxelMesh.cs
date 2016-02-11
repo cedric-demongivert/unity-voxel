@@ -102,6 +102,9 @@ namespace org.rnp.voxel.mesh
     }
 
     /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"/>
+    public abstract bool IsFull();
+
+    /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"/>
     public abstract bool IsEmpty();
 
     /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"/>
