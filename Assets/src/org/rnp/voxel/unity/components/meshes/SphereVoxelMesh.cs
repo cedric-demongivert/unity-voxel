@@ -1,3 +1,4 @@
+<<<<<<< HEAD:Assets/src/org/rnp/voxel/unity/components/SphereVoxelMesh.cs
 ﻿    using org.rnp.voxel.mesh;
     using System;
     using System.Collections.Generic;
@@ -25,6 +26,37 @@
         /// </summary>
         [SerializeField]
         protected Color32 _Color;
+=======
+﻿using org.rnp.voxel.mesh;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using org.rnp.voxel.mesh.map;
+using UnityEngine;
+using org.rnp.voxel.utils;
+
+namespace org.rnp.voxel.unity.components.meshes
+{
+  /// <author>Cédric DEMONGIVERT [cedric.demongivert@gmail.com]</author>
+  /// <summary>
+  ///   A simple, procedural, spheric voxel mesh
+  /// </summary>
+  [ExecuteInEditMode]
+  public sealed class SphereVoxelMesh : VoxelMesh
+  {
+    /// <summary>
+    ///   Sphere radius in voxels.
+    /// </summary>
+    [SerializeField]
+    private int _Radius;
+
+    /// <summary>
+    ///   Sphere color.
+    /// </summary>
+    [SerializeField]
+    private Color32 _Color;
+>>>>>>> 534af84b7fc5ad7f2ff98112c32db95d7cd64c22:Assets/src/org/rnp/voxel/unity/components/meshes/SphereVoxelMesh.cs
 
 
         /// <summary>
@@ -63,20 +95,27 @@
         this.RefreshMesh();
     }
 
-    /// <summary>
-    ///   Return a point in space.
-    /// </summary>
-    /// <param name="x"></param>
-    /// <param name="y"></param>
-    /// <param name="z"></param>
-    /// <returns></returns>
-    protected Vector3 GetPoint(int x, int y, int z)
+    private Vector3 GetPoint(int x, int y, int z)
     {
+<<<<<<< HEAD:Assets/src/org/rnp/voxel/unity/components/SphereVoxelMesh.cs
         return (new Vector3(
         (float)(x - this.Radius) + 0.5f,
         (float)(y - this.Radius) + 0.5f,
         (float)(z - this.Radius) + 0.5f
         ));
+=======
+      Vector3 point = new Vector3(
+        x - this.Radius,
+        y - this.Radius,
+        z - this.Radius
+      );
+
+      point.x += 0.5f;
+      point.y += 0.5f;
+      point.z += 0.5f;
+
+      return point;
+>>>>>>> 534af84b7fc5ad7f2ff98112c32db95d7cd64c22:Assets/src/org/rnp/voxel/unity/components/meshes/SphereVoxelMesh.cs
     }
 
     /// <summary>
@@ -84,6 +123,7 @@
     /// </summary>
     public void RefreshMesh()
     {
+<<<<<<< HEAD:Assets/src/org/rnp/voxel/unity/components/SphereVoxelMesh.cs
         
         int size = this.Radius * 2;
         Color32 empty = new Color32(0, 0, 0, 255);
@@ -111,6 +151,27 @@
                         sphere[x, y, z] = empty;
                     }
                 }
+=======
+      int size = this.Radius * 2;
+
+      IVoxelMesh sphere = new MapVoxelMesh();
+      
+      for(int x = 0; x < size; ++x) 
+      {
+        for(int y = 0; y < size; ++y) 
+        {
+          for(int z = 0; z < size; ++z) 
+          {
+            Vector3 point = this.GetPoint(x, y, z);
+
+            if (point.magnitude <= this.Radius)
+            {
+              sphere[x - this.Radius, y - this.Radius, z - this.Radius] = this.Color;
+            }
+            else 
+            {
+              sphere[x - this.Radius, y - this.Radius, z - this.Radius] = Voxels.Empty;
+>>>>>>> 534af84b7fc5ad7f2ff98112c32db95d7cd64c22:Assets/src/org/rnp/voxel/unity/components/meshes/SphereVoxelMesh.cs
             }
         }
 

@@ -2,8 +2,11 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2008
 
 Project("{378DCD3A-B0BB-B08E-898E-CF13E51D010A}") = "unity-voxel", "Assembly-CSharp.csproj", "{030EE5D3-DE60-AFC5-2AA8-D9CBE1D051A1}"
+<<<<<<< HEAD
 EndProject
 Project("{378DCD3A-B0BB-B08E-898E-CF13E51D010A}") = "unity-voxel", "Assembly-CSharp-Editor.csproj", "{D78867C2-4478-67AC-4064-FD3690BCE8F6}"
+=======
+>>>>>>> 534af84b7fc5ad7f2ff98112c32db95d7cd64c22
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,15 +18,22 @@ Global
 		{030EE5D3-DE60-AFC5-2AA8-D9CBE1D051A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{030EE5D3-DE60-AFC5-2AA8-D9CBE1D051A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{030EE5D3-DE60-AFC5-2AA8-D9CBE1D051A1}.Release|Any CPU.Build.0 = Release|Any CPU
+<<<<<<< HEAD
 		{D78867C2-4478-67AC-4064-FD3690BCE8F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D78867C2-4478-67AC-4064-FD3690BCE8F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D78867C2-4478-67AC-4064-FD3690BCE8F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D78867C2-4478-67AC-4064-FD3690BCE8F6}.Release|Any CPU.Build.0 = Release|Any CPU
+=======
+>>>>>>> 534af84b7fc5ad7f2ff98112c32db95d7cd64c22
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
+<<<<<<< HEAD
 													GlobalSection(MonoDevelopProperties) = preSolution
+=======
+																															GlobalSection(MonoDevelopProperties) = preSolution
+>>>>>>> 534af84b7fc5ad7f2ff98112c32db95d7cd64c22
 		StartupItem = Assembly-CSharp.csproj
 		Policies = $0
 		$0.TextStylePolicy = $1

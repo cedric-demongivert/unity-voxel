@@ -12,72 +12,81 @@ namespace org.rnp.voxel.utils
   /// </summary>
   public struct Dimensions3D : IDimensions3D
   {
-    private uint _Width;
-    private uint _Height;
-    private uint _Depth;
+    private int _width;
+    private int _height;
+    private int _depth;
 
     /// <see cref="org.rnp.voxel.utils.IDimensions3D"></see>
-    public uint Width
+    public int Width
     {
-      get
-      {
-        return _Width;
-      }
-      set
-      {
-        _Width = value;
-      }
+      get { return _width; }
+      set { _width = value; }
     }
 
     /// <see cref="org.rnp.voxel.utils.IDimensions3D"></see>
-    public uint Height
+    public int Height
     {
-      get
-      {
-        return _Height;
-      }
-      set
-      {
-        _Height = value;
-      }
+      get { return _height; }
+      set { _height = value; }
     }
 
     /// <see cref="org.rnp.voxel.utils.IDimensions3D"></see>
-    public uint Depth
+    public int Depth
     {
-      get
-      {
-        return _Depth;
-      }
-      set
-      {
-        _Depth = value;
-      }
+      get { return _depth; }
+      set { _depth = value; }
     }
 
     /// <summary>
     ///   Create a custom Dimensions3D struct.
     /// </summary>
-    /// 
     /// <param name="width"></param>
     /// <param name="height"></param>
     /// <param name="depth"></param>
-    public Dimensions3D(uint width, uint height, uint depth)
+    public Dimensions3D(int width, int height, int depth)
     {
-      this.Width = width;
-      this.Height = height;
-      this.Depth = depth;
+      this._width = width;
+      this._height = height;
+      this._depth = depth;
     }
 
     /// <summary>
     ///   Create a copy of an existing IDimensions3D element.
     /// </summary>
-    /// 
     /// <param name="toCopy"></param>
-    public Dimensions3D(IDimensions3D toCopy) {
-      this.Width = toCopy.Width;
-      this.Height = toCopy.Height;
-      this.Depth = toCopy.Depth;
+    public Dimensions3D(IDimensions3D toCopy)
+    {
+      this._width = toCopy.Width;
+      this._height = toCopy.Height;
+      this._depth = toCopy.Depth;
+    }
+
+    /// <see cref="org.rnp.voxel.utils.IDimensions3D"></see>
+    public void Set(int x, int y, int z)
+    {
+      this._width = x;
+      this._height = y;
+      this._depth = z;
+    }
+
+    /// <see cref="org.rnp.voxel.utils.IDimensions3D"></see>
+    public void Set(IDimensions3D other)
+    {
+      this._width = other.Width;
+      this._height = other.Height;
+      this._depth = other.Depth;
+    }
+
+    /// <see cref="org.rnp.voxel.utils.IDimensions3D"></see>
+    public bool IsEmpty()
+    {
+      return this._width == 0 && this._height == 0 && this._depth == 0;
+    }
+
+    /// <see cref="org.rnp.voxel.utils.ICopiable"></see>
+    public IDimensions3D Copy()
+    {
+      return new Dimensions3D(this);
     }
   }
 }

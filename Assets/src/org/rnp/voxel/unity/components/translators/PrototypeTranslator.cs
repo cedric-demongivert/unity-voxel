@@ -4,9 +4,11 @@ using System.Linq;
 using System.Text;
 using org.rnp.voxel.translator;
 using org.rnp.voxel.mesh;
+using org.rnp.voxel.unity.components.meshes;
+using org.rnp.voxel.utils;
 using UnityEngine;
 
-namespace org.rnp.voxel.unity.components
+namespace org.rnp.voxel.unity.components.translators
 {
   /// <author>Cédric DEMONGIVERT [cedric.demongivert@gmail.com]</author>
   /// <summary>
@@ -19,13 +21,13 @@ namespace org.rnp.voxel.unity.components
     ///   Where we need to publish the result of the translation.
     /// </summary>
     [SerializeField]
-    protected MeshFilter _Publisher;
+    protected MeshFilter _publisher;
 
     /// <summary>
     ///   The mesh to translate.
     /// </summary>
     [SerializeField]
-    protected VoxelMesh _VoxelMesh;
+    protected VoxelMesh _voxelMesh;
 
     /// <summary>
     ///   Where we need to publish the result of the translation.
@@ -34,15 +36,15 @@ namespace org.rnp.voxel.unity.components
     {
       get
       {
-        return _Publisher;
+        return _publisher;
       }
       set
       {
-        if (this._Publisher != null)
+        if (this._publisher != null)
         {
-          this._Publisher.sharedMesh = null;
+          this._publisher.sharedMesh = null;
         }
-        this._Publisher = value;
+        this._publisher = value;
         this.Publish();
       }
     }
@@ -54,11 +56,11 @@ namespace org.rnp.voxel.unity.components
     {
       get
       {
-        return this._VoxelMesh;
+        return this._voxelMesh;
       }
       set
       {
-        this._VoxelMesh = value;
+        this._voxelMesh = value;
         this.Translate();
         this.Publish();
       }
@@ -121,7 +123,7 @@ namespace org.rnp.voxel.unity.components
     }
 
     /// <see cref="org.rnp.voxel.translator.ITranslator"/>
-    public void Translate()
+    public virtual void Translate()
     {
       this.Clear();
 
@@ -130,13 +132,24 @@ namespace org.rnp.voxel.unity.components
         return;
       }
 
-      for (int x = 0; x < this.VoxelMesh.Mesh.Width; ++x)
+      IVoxelMesh mesh = this.VoxelMesh.Mesh;
+      this.TranslateMesh(VoxelLocation.Zero, mesh);
+    }
+
+    public void TranslateMesh(IVoxelLocation location, IVoxelMesh mesh)
+    {
+      IVoxelLocation start = mesh.Start;
+      IVoxelLocation end = mesh.End;
+      VoxelLocation finalLocation = new VoxelLocation();
+
+      for (int x = start.X; x < end.X; ++x)
       {
-        for (int y = 0; y < this.VoxelMesh.Mesh.Height; ++y)
+        for (int y = start.Y; y < end.Y; ++y)
         {
-          for (int z = 0; z < this.VoxelMesh.Mesh.Depth; ++z)
+          for (int z = start.Z; z < end.Z; ++z)
           {
-            this.Translate(x, y, z);
+            finalLocation.Set(location).Add(x,y,z);
+            this.Translate(finalLocation, mesh, finalLocation);
           }
         }
       }
@@ -148,53 +161,35 @@ namespace org.rnp.voxel.unity.components
     /// <param name="x"></param>
     /// <param name="y"></param>
     /// <param name="z"></param>
-    protected void Translate(int x, int y, int z)
+    protected void Translate(IVoxelLocation finalLocation, IVoxelMesh mesh, IVoxelLocation voxelLocation)
     {
-      if (this.AsVoxelAt(x, y, z))
+      if (!mesh.IsEmpty(voxelLocation))
       {
-        if (!this.AsVoxelAt(x, y + 1, z))
+        if (mesh.IsEmpty(voxelLocation.X, voxelLocation.Y + 1, voxelLocation.Z))
         {
-          this.TranslateUp(x, y, z);
+          this.TranslateUp(finalLocation, mesh[voxelLocation]);
         }
-        if (!this.AsVoxelAt(x, y - 1, z))
+        if (mesh.IsEmpty(voxelLocation.X, voxelLocation.Y - 1, voxelLocation.Z))
         {
-          this.TranslateDown(x, y, z);
+          this.TranslateDown(finalLocation, mesh[voxelLocation]);
         }
-        if (!this.AsVoxelAt(x - 1, y, z))
+        if (mesh.IsEmpty(voxelLocation.X - 1, voxelLocation.Y, voxelLocation.Z))
         {
-          this.TranslateLeft(x, y, z);
+          this.TranslateLeft(finalLocation, mesh[voxelLocation]);
         }
-        if (!this.AsVoxelAt(x + 1, y, z))
+        if (mesh.IsEmpty(voxelLocation.X + 1, voxelLocation.Y, voxelLocation.Z))
         {
-          this.TranslateRight(x, y, z);
+          this.TranslateRight(finalLocation, mesh[voxelLocation]);
         }
-        if (!this.AsVoxelAt(x, y, z + 1))
+        if (mesh.IsEmpty(voxelLocation.X, voxelLocation.Y, voxelLocation.Z + 1))
         {
-          this.TranslateFront(x, y, z);
+          this.TranslateFront(finalLocation, mesh[voxelLocation]);
         }
-        if (!this.AsVoxelAt(x, y, z - 1))
+        if (mesh.IsEmpty(voxelLocation.X, voxelLocation.Y, voxelLocation.Z - 1))
         {
-          this.TranslateBack(x, y, z);
+          this.TranslateBack(finalLocation, mesh[voxelLocation]);
         }
       }
-    }
-
-    /// <summary>
-    ///   Check if a voxel exist at a specific location.
-    /// </summary>
-    /// <param name="x"></param>
-    /// <param name="y"></param>
-    /// <param name="z"></param>
-    /// <returns></returns>
-    protected bool AsVoxelAt(int x, int y, int z)
-    {
-      return x >= 0
-          && y >= 0
-          && z >= 0
-          && x < this.VoxelMesh.Mesh.Width
-          && y < this.VoxelMesh.Mesh.Height
-          && z < this.VoxelMesh.Mesh.Depth
-          && this.VoxelMesh.Mesh[x, y, z].a == 0;
     }
 
     /// <summary>
@@ -207,12 +202,12 @@ namespace org.rnp.voxel.unity.components
     /// <param name="dy"></param>
     /// <param name="dz"></param>
     /// <returns></returns>
-    protected Vector3 GetVector(int x, int y, int z, int dx, int dy, int dz)
+    protected Vector3 GetVector(IVoxelLocation finalLocation, int dx, int dy, int dz)
     {
       return new Vector3(
-        ((float) (x + dx)) - this.VoxelMesh.Mesh.Width / 2f,
-        ((float) (y + dy)) - this.VoxelMesh.Mesh.Height / 2f,
-        ((float) (z + dz)) - this.VoxelMesh.Mesh.Depth / 2f
+        (float) (finalLocation.X + dx),
+        (float) (finalLocation.Y + dy),
+        (float) (finalLocation.Z + dz)
       );
     }
 
@@ -222,14 +217,14 @@ namespace org.rnp.voxel.unity.components
     /// <param name="x"></param>
     /// <param name="y"></param>
     /// <param name="z"></param>
-    protected void TranslateUp(int x, int y, int z)
+    protected void TranslateUp(IVoxelLocation finalLocation, Color32 color)
     {
       this.TranslateFace(new Vector3[] {
-        this.GetVector(x, y, z, 0, 1, 1),
-        this.GetVector(x, y, z, 1, 1, 1),
-        this.GetVector(x, y, z, 1, 1, 0),
-        this.GetVector(x, y, z, 0, 1, 0)
-      }, this.VoxelMesh.Mesh[x, y, z]);
+        this.GetVector(finalLocation, 0, 1, 1),
+        this.GetVector(finalLocation, 1, 1, 1),
+        this.GetVector(finalLocation, 1, 1, 0),
+        this.GetVector(finalLocation, 0, 1, 0)
+      }, color);
     }
 
     /// <summary>
@@ -238,14 +233,14 @@ namespace org.rnp.voxel.unity.components
     /// <param name="x"></param>
     /// <param name="y"></param>
     /// <param name="z"></param>
-    protected void TranslateDown(int x, int y, int z)
+    protected void TranslateDown(IVoxelLocation finalLocation, Color32 color)
     {
       this.TranslateFace(new Vector3[] {
-        this.GetVector(x, y, z, 0, 0, 0),
-        this.GetVector(x, y, z, 1, 0, 0),
-        this.GetVector(x, y, z, 1, 0, 1),
-        this.GetVector(x, y, z, 0, 0, 1)
-      }, this.VoxelMesh.Mesh[x, y, z]);
+        this.GetVector(finalLocation, 0, 0, 0),
+        this.GetVector(finalLocation, 1, 0, 0),
+        this.GetVector(finalLocation, 1, 0, 1),
+        this.GetVector(finalLocation, 0, 0, 1)
+      }, color);
     }
 
     /// <summary>
@@ -254,14 +249,14 @@ namespace org.rnp.voxel.unity.components
     /// <param name="x"></param>
     /// <param name="y"></param>
     /// <param name="z"></param>
-    protected void TranslateLeft(int x, int y, int z)
+    protected void TranslateLeft(IVoxelLocation finalLocation, Color32 color)
     {
       this.TranslateFace(new Vector3[] {
-        this.GetVector(x, y, z, 0, 0, 1),
-        this.GetVector(x, y, z, 0, 1, 1),
-        this.GetVector(x, y, z, 0, 1, 0),
-        this.GetVector(x, y, z, 0, 0, 0)
-      }, this.VoxelMesh.Mesh[x, y, z]);
+        this.GetVector(finalLocation, 0, 0, 1),
+        this.GetVector(finalLocation, 0, 1, 1),
+        this.GetVector(finalLocation, 0, 1, 0),
+        this.GetVector(finalLocation, 0, 0, 0)
+      }, color);
     }
 
     /// <summary>
@@ -270,14 +265,14 @@ namespace org.rnp.voxel.unity.components
     /// <param name="x"></param>
     /// <param name="y"></param>
     /// <param name="z"></param>
-    protected void TranslateRight(int x, int y, int z)
+    protected void TranslateRight(IVoxelLocation finalLocation, Color32 color)
     {
       this.TranslateFace(new Vector3[] {
-        this.GetVector(x, y, z, 1, 0, 0),
-        this.GetVector(x, y, z, 1, 1, 0),
-        this.GetVector(x, y, z, 1, 1, 1),
-        this.GetVector(x, y, z, 1, 0, 1)
-      }, this.VoxelMesh.Mesh[x, y, z]);
+        this.GetVector(finalLocation, 1, 0, 0),
+        this.GetVector(finalLocation, 1, 1, 0),
+        this.GetVector(finalLocation, 1, 1, 1),
+        this.GetVector(finalLocation, 1, 0, 1)
+      }, color);
     }
 
     /// <summary>
@@ -286,14 +281,14 @@ namespace org.rnp.voxel.unity.components
     /// <param name="x"></param>
     /// <param name="y"></param>
     /// <param name="z"></param>
-    protected void TranslateBack(int x, int y, int z)
+    protected void TranslateBack(IVoxelLocation finalLocation, Color32 color)
     {
       this.TranslateFace(new Vector3[] {
-        this.GetVector(x, y, z, 0, 0, 0),
-        this.GetVector(x, y, z, 0, 1, 0),
-        this.GetVector(x, y, z, 1, 1, 0),
-        this.GetVector(x, y, z, 1, 0, 0)
-      }, this.VoxelMesh.Mesh[x, y, z]);
+        this.GetVector(finalLocation, 0, 0, 0),
+        this.GetVector(finalLocation, 0, 1, 0),
+        this.GetVector(finalLocation, 1, 1, 0),
+        this.GetVector(finalLocation, 1, 0, 0)
+      }, color);
     }
 
     /// <summary>
@@ -302,14 +297,14 @@ namespace org.rnp.voxel.unity.components
     /// <param name="x"></param>
     /// <param name="y"></param>
     /// <param name="z"></param>
-    protected void TranslateFront(int x, int y, int z)
+    protected void TranslateFront(IVoxelLocation finalLocation, Color32 color)
     {
       this.TranslateFace(new Vector3[] {
-        this.GetVector(x, y, z, 1, 0, 1),
-        this.GetVector(x, y, z, 1, 1, 1),
-        this.GetVector(x, y, z, 0, 1, 1),
-        this.GetVector(x, y, z, 0, 0, 1)
-      }, this.VoxelMesh.Mesh[x, y, z]);
+        this.GetVector(finalLocation, 1, 0, 1),
+        this.GetVector(finalLocation, 1, 1, 1),
+        this.GetVector(finalLocation, 0, 1, 1),
+        this.GetVector(finalLocation, 0, 0, 1)
+      }, color);
     }
 
     /// <summary>

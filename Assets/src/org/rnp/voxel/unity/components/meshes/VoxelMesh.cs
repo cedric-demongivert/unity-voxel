@@ -2,7 +2,7 @@
 using System.Collections;
 using org.rnp.voxel.mesh;
 
-namespace org.rnp.voxel.unity.components 
+namespace org.rnp.voxel.unity.components.meshes
 {
   /// <author>Cédric DEMONGIVERT [cedric.demongivert@gmail.com]</author>
   /// <summary>
