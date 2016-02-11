@@ -66,9 +66,14 @@
      <Compile Include="Assets\src\org\rnp\voxel\mesh\octree\OctreeVoxelMesh.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\mesh\octree\OctreeVoxelMeshFormat.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\mesh\octree\ReadonlyOctreeVoxelMesh.cs" />
+     <Compile Include="Assets\src\org\rnp\voxel\mesh\submesh\ISubMesh.cs" />
+     <Compile Include="Assets\src\org\rnp\voxel\mesh\submesh\ProxyMesh.cs" />
+     <Compile Include="Assets\src\org\rnp\voxel\mesh\submesh\ReadOnlySubMesh.cs" />
+     <Compile Include="Assets\src\org\rnp\voxel\mesh\submesh\SubMesh.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\translator\ITranslator.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\unity\components\IColorizable.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\unity\components\Painter.cs" />
+     <Compile Include="Assets\src\org\rnp\voxel\unity\components\colliders\OctreeCollider.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\unity\components\debuggers\MapDebugguer.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\unity\components\debuggers\OctreeDebugguer.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\unity\components\meshes\AssetVoxelMesh.cs" />

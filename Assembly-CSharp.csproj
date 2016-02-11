@@ -67,7 +67,12 @@
     <Compile Include="Assets\src\org\rnp\voxel\mesh\octree\OctreeVoxelMesh.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\mesh\octree\OctreeVoxelMeshFormat.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\mesh\octree\ReadonlyOctreeVoxelMesh.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\mesh\submesh\ISubMesh.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\mesh\submesh\ReadOnlySubMesh.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\mesh\submesh\ProxyMesh.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\mesh\submesh\SubMesh.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\translator\ITranslator.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\unity\components\colliders\OctreeCollider.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\unity\components\IColorizable.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\unity\components\debuggers\MapDebugguer.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\unity\components\debuggers\OctreeDebugguer.cs" />
@@ -101,7 +106,9 @@
       <HintPath>E:/unity/Editor/Data/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
     </Reference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Assets\src\org\rnp\voxel\walker\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
 	   Other similar extension points exist, see Microsoft.Common.targets.
