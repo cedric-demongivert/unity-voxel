@@ -1,4 +1,5 @@
-﻿using org.rnp.voxel.mesh;
+﻿using org.rnp.voxel.mesh.array;
+using org.rnp.voxel.unity.components.meshes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -135,7 +136,7 @@ namespace org.rnp.voxel.unity.components
 
             Color32 empty = new Color32(0, 0, 0, 255);
 
-            VoxelArray parallelepiped = new VoxelArray(width, height, depth);
+            ArrayVoxelMesh parallelepiped = new ArrayVoxelMesh(width, height, depth);
 
             for (int x = 0; x < width; ++x)
             {

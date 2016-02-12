@@ -1,4 +1,5 @@
-﻿using org.rnp.voxel.mesh;
+﻿using org.rnp.voxel.mesh.array;
+using org.rnp.voxel.unity.components.meshes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -89,7 +90,7 @@ namespace org.rnp.voxel.unity.components
             int modify_size = size;
             Color32 empty = new Color32(0, 0, 0, 255);
 
-            VoxelArray pyramid = new VoxelArray(size, size, size);
+            ArrayVoxelMesh pyramid = new ArrayVoxelMesh(size, size, size);
 
             for (int y = 0; y < this.Height; ++y)
             {

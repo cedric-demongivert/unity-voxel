@@ -1,10 +1,2 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
 m_EditorVersion: 5.2.1f1
-=======
-m_EditorVersion: 5.1.2f1
->>>>>>> 534af84b7fc5ad7f2ff98112c32db95d7cd64c22
-=======
-m_EditorVersion: 5.2.1f1
->>>>>>> simpleForm
 m_StandardAssetsVersion: 0
