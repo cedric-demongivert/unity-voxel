@@ -88,6 +88,11 @@
      <Compile Include="Assets\src\org\rnp\voxel\utils\IVoxelLocation.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\utils\VoxelLocation.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\utils\Voxels.cs" />
+     <Compile Include="Assets\src\org\rnp\voxel\walker\IWalkerState.cs" />
+     <Compile Include="Assets\src\org\rnp\voxel\walker\OctreeOutlineWalker.cs" />
+     <Compile Include="Assets\src\org\rnp\voxel\walker\WalkerAsOctreeState.cs" />
+     <Compile Include="Assets\src\org\rnp\voxel\walker\WalkerMapState.cs" />
+     <Compile Include="Assets\src\org\rnp\voxel\walker\WalkerOctreeState.cs" />
      <None Include="Assets\shaders\UnityVC\StandardVC.shader" />
      <None Include="Assets\shaders\UnityVC\StandardSpecularVC.shader" />
      <None Include="Assets\src\org\rnp\Shaders\NewSurfaceShader.shader" />

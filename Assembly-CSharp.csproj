@@ -68,12 +68,13 @@
     <Compile Include="Assets\src\org\rnp\voxel\mesh\octree\OctreeVoxelMeshFormat.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\mesh\octree\ReadonlyOctreeVoxelMesh.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\mesh\submesh\ISubMesh.cs" />
-    <Compile Include="Assets\src\org\rnp\voxel\mesh\submesh\ReadOnlySubMesh.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\mesh\submesh\ProxyMesh.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\mesh\submesh\ReadOnlySubMesh.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\mesh\submesh\SubMesh.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\translator\ITranslator.cs" />
-    <Compile Include="Assets\src\org\rnp\voxel\unity\components\colliders\OctreeCollider.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\unity\components\IColorizable.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\unity\components\Painter.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\unity\components\colliders\OctreeCollider.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\unity\components\debuggers\MapDebugguer.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\unity\components\debuggers\OctreeDebugguer.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\unity\components\meshes\AssetVoxelMesh.cs" />
@@ -82,13 +83,17 @@
     <Compile Include="Assets\src\org\rnp\voxel\unity\components\translators\MapTranslator.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\unity\components\translators\OctreeTranslator.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\unity\components\translators\PrototypeTranslator.cs" />
-    <Compile Include="Assets\src\org\rnp\voxel\unity\components\Painter.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\utils\Dimensions3D.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\utils\ICopiable.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\utils\IDimensions3D.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\utils\IVoxelLocation.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\utils\VoxelLocation.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\utils\Voxels.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\walker\OctreeOutlineWalker.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\walker\IWalkerState.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\walker\WalkerAsOctreeState.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\walker\WalkerOctreeState.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\walker\WalkerMapState.cs" />
     <None Include="Assets\shaders\UnityVC\StandardVC.shader" />
     <None Include="Assets\shaders\UnityVC\StandardSpecularVC.shader" />
     <None Include="Assets\src\org\rnp\Shaders\NewSurfaceShader.shader" />
@@ -105,9 +110,6 @@
     <Reference Include="UnityEditor.iOS.Extensions.Xcode">
       <HintPath>E:/unity/Editor/Data/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
     </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Assets\src\org\rnp\voxel\walker\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
