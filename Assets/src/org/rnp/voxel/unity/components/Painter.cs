@@ -2,6 +2,7 @@
 using System.Collections;
 using org.rnp.voxel.mesh;
 using org.rnp.voxel.unity.components.meshes;
+using org.rnp.voxel.unity.components.translators;
 
 namespace org.rnp.voxel.unity.components
 {
@@ -12,17 +13,9 @@ namespace org.rnp.voxel.unity.components
   [ExecuteInEditMode]
   public sealed class Painter : MonoBehaviour 
   {
-    /// <summary>
-    ///   Mesh to paint.
-    /// </summary>
-    public VoxelMesh Mesh;
+    public PrototypeTranslator ToRefresh;
 
-    private Ray lastRay = new Ray();
-
-    public void OnDrawGizmos()
-    {
-      Gizmos.DrawRay(lastRay.origin, lastRay.direction);
-    }
+    public Color32 Color;
 
     /// <see cref="http://docs.unity3d.com/ScriptReference/MonoBehaviour.html"/>
     public void Awake()
@@ -39,17 +32,17 @@ namespace org.rnp.voxel.unity.components
     {
       if(Input.GetMouseButtonDown(0))
       {
-        /*Debug.Log("WAZAAAA \\(::)/");
         Ray myRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-        this.lastRay = myRay;
-        if(VoxelPhysics.RayCast(myRay, this.Mesh))
+        RaycastVoxelHit hitInfo = null;
+
+        if(VoxelPhysics.Raycast(myRay, out hitInfo))
         {
-          Debug.Log("YOUUUUUUUUPIIIIIII !!!!");
+          hitInfo.HittedMesh.Mesh[hitInfo.HittedInnerVoxel] = this.Color;
+          this.ToRefresh.Translate();
+          this.ToRefresh.Publish();
+
+          hitInfo.HittedCollider.RefreshCollider();
         }
-        else
-        {
-          Debug.Log("Lol...");
-        }*/
       }
     }
   }
