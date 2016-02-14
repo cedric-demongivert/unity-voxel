@@ -18,12 +18,15 @@ namespace org.rnp.voxel.unity.components.colliders
   {
     private OctreeOutlineWalker _walker;
 
-    private IList<BoxCollider> colliders;
+    private IList<BoxCollider> _colliders;
+
+    private IList<BoxCollider> _oldColliders;
 
     public void Awake()
     {
       this._walker = new OctreeOutlineWalker();
-      this.colliders = new List<BoxCollider>();
+      this._colliders = new List<BoxCollider>();
+      this._oldColliders = new List<BoxCollider>();
     }
 
     public void Start()
@@ -38,19 +41,30 @@ namespace org.rnp.voxel.unity.components.colliders
 
     protected void Clean()
     {
-      foreach(BoxCollider collider in this.colliders)
+      foreach (BoxCollider collider in this._oldColliders)
       {
         Destroy(collider);
       }
 
-      this.colliders.Clear();
+      this._oldColliders.Clear();
+    }
+
+    protected void Switch()
+    {
+      IList<BoxCollider> tmp = this._colliders;
+      this._colliders = this._oldColliders;
+      this._oldColliders = tmp;
     }
 
     public override void RefreshCollider()
     {
-      this.Clean();
+      this.Switch();
 
-      if (this._mesh == null) return;
+      if (this._mesh == null)
+      {
+        this.Clean();
+        return;
+      }
 
       this._walker.SetRoot(this._mesh.Mesh);
       IVoxelMesh nextBlock = null;
@@ -59,16 +73,35 @@ namespace org.rnp.voxel.unity.components.colliders
       {
         this.CreateBoxColliderFor(nextBlock);
       }
+
+      this.Clean();
+    }
+
+    protected BoxCollider GetCollider()
+    {
+      if (this._oldColliders.Count > 0)
+      {
+        BoxCollider box = this._oldColliders[0];
+        this._oldColliders.RemoveAt(0);
+        return box;
+      }
+      else
+      {
+        return this.gameObject.AddComponent<BoxCollider>();
+      }
     }
 
     protected void CreateBoxColliderFor(IVoxelMesh mesh)
     {
-      BoxCollider collider = this.gameObject.AddComponent<BoxCollider>();
+      BoxCollider collider = this.GetCollider();
+
       Vector3 start = VoxelLocation.ToVector3(mesh.Start);
       Vector3 end = VoxelLocation.ToVector3(mesh.End);
 
       collider.center = (start + end) / 2;
       collider.size = (end - start);
+
+      this._colliders.Add(collider);
     }
   }
 }

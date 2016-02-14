@@ -70,14 +70,19 @@ namespace org.rnp.voxel.utils
     public VoxelLocation(Vector3 vec)
     {
       this._x = (int) vec.x;
+      if (vec.x <= 0) this._x -= 1;
       this._y = (int) vec.y;
+      if (vec.y <= 0) this._y -= 1;
       this._z = (int) vec.z;
+      if (vec.z <= 0) this._z -= 1;
     }
 
     public VoxelLocation(Vector2 vec)
     {
-      this._x = (int) vec.x;
-      this._y = (int) vec.y;
+      this._x = (int)vec.x;
+      if (vec.x <= 0) this._x -= 1;
+      this._y = (int)vec.y;
+      if (vec.y <= 0) this._y -= 1;
       this._z = 0;
     }
 

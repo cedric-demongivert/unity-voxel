@@ -19,7 +19,9 @@ namespace org.rnp.voxel.unity
 
     private VoxelMesh _hittedMesh;
 
-    private IVoxelLocation _hittedVoxel;
+    private IVoxelLocation _hittedInnerVoxel;
+
+    private IVoxelLocation _hittedOutVoxel;
 
     private VoxelMeshCollider _hittedCollider;
 
@@ -36,13 +38,15 @@ namespace org.rnp.voxel.unity
       GameObject meshObject = mesh.gameObject; // For a later use. See top.
 
       this._hittedMesh = null;
-      this._hittedVoxel = null;
+      this._hittedInnerVoxel = null;
+      this._hittedOutVoxel = null;
 
       if(mesh != null)
       {
         this._hittedMesh = mesh;
         Vector3 localized = meshObject.transform.worldToLocalMatrix.MultiplyPoint3x4(result.point);
-        this._hittedVoxel = new VoxelLocation(localized);
+        this._hittedInnerVoxel = new VoxelLocation(localized - (result.normal / 2));
+        this._hittedOutVoxel = new VoxelLocation(localized + (result.normal / 2));
       }
 
       this._hittedCollider = hittedObject.GetComponent<VoxelMeshCollider>();
@@ -64,11 +68,19 @@ namespace org.rnp.voxel.unity
       }
     }
 
-    public IVoxelLocation HittedVoxel
+    public IVoxelLocation HittedInnerVoxel
     {
       get
       {
-        return this._hittedVoxel;
+        return this._hittedInnerVoxel;
+      }
+    }
+
+    public IVoxelLocation HittedOutVoxel
+    {
+      get
+      {
+        return this._hittedOutVoxel;
       }
     }
 

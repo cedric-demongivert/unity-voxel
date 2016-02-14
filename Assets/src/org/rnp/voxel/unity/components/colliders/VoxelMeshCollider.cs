@@ -9,7 +9,7 @@ namespace org.rnp.voxel.unity.components.colliders
 {
   /// <author>Cédric DEMONGIVERT [cedric.demongivert@gmail.com]</author>
   /// <summary>
-  ///   Standard component for voxel colliders.
+  ///   Standard component for voxel _colliders.
   /// </summary>
   public abstract class VoxelMeshCollider : MonoBehaviour
   {

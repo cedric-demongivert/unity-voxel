@@ -32,25 +32,16 @@ namespace org.rnp.voxel.unity.components
     {
       if(Input.GetMouseButtonDown(0))
       {
-        Debug.Log("WAZAAAA \\(::)/");
         Ray myRay = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastVoxelHit hitInfo = null;
 
         if(VoxelPhysics.Raycast(myRay, out hitInfo))
         {
-          Debug.Log("YOUUUUUUUUPIIIIIII !!!!");
-          Debug.Log(hitInfo.HittedMesh);
-          Debug.Log(hitInfo.HittedVoxel);
-
-          hitInfo.HittedMesh.Mesh[hitInfo.HittedVoxel] = this.Color;
+          hitInfo.HittedMesh.Mesh[hitInfo.HittedInnerVoxel] = this.Color;
           this.ToRefresh.Translate();
           this.ToRefresh.Publish();
 
           hitInfo.HittedCollider.RefreshCollider();
-        }
-        else
-        {
-          Debug.Log("Lol...");
         }
       }
     }
