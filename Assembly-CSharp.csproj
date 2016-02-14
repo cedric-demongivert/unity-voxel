@@ -47,12 +47,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\src\org\rnp\voxel\mesh\absolute\ReadOnlyAbsoluteMesh.cs" />
-    <Compile Include="Assets\src\org\rnp\voxel\mesh\absolute\AbsoluteVoxelMesh.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\mesh\AbstractReadonlyVoxelMesh.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\mesh\AbstractVoxelMesh.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\mesh\IReadonlyVoxelMesh.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\mesh\IVoxelMesh.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\mesh\absolute\AbsoluteVoxelMesh.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\mesh\absolute\IAbsoluteVoxelMesh.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\mesh\absolute\ReadOnlyAbsoluteMesh.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\mesh\array\ArrayVoxelMesh.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\mesh\array\IArrayVoxelMesh.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\mesh\array\ReadonlyArrayVoxelMesh.cs" />
@@ -62,7 +63,6 @@
     <Compile Include="Assets\src\org\rnp\voxel\mesh\builder\OctreeChunckBuilder.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\mesh\builder\OctreeNodeBuilder.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\mesh\exceptions\UnmodifiableVoxelMeshException.cs" />
-    <Compile Include="Assets\src\org\rnp\voxel\mesh\absolute\IAbsoluteVoxelMesh.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\mesh\map\IMapVoxelMesh.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\mesh\map\MapVoxelMesh.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\mesh\map\ReadonlyMapVoxelMesh.cs" />
@@ -74,6 +74,7 @@
     <Compile Include="Assets\src\org\rnp\voxel\mesh\submesh\ReadOnlySubMesh.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\mesh\submesh\SubMesh.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\translator\ITranslator.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\unity\components\colliders\VoxelMeshCollider.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\unity\components\IColorizable.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\unity\components\Painter.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\unity\components\colliders\OctreeCollider.cs" />
@@ -85,6 +86,8 @@
     <Compile Include="Assets\src\org\rnp\voxel\unity\components\translators\MapTranslator.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\unity\components\translators\OctreeTranslator.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\unity\components\translators\PrototypeTranslator.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\unity\RaycastVoxelHit.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\unity\VoxelPhysics.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\utils\Dimensions3D.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\utils\ICopiable.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\utils\IDimensions3D.cs" />

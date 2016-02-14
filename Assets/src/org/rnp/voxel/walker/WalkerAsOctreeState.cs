@@ -140,10 +140,9 @@ namespace org.rnp.voxel.walker
         this.GetStartFor(x,y,z),
         this.GetDimensionsFor(x,y,z)
       );
-
-      this._cursor += 1;
-
-      return mesh;
+      
+      if (mesh.IsEmpty()) return this.Next();
+      else return mesh;
     }
 
     /// <see cref="org.rnp.voxel.walker.IWalkerState"/>

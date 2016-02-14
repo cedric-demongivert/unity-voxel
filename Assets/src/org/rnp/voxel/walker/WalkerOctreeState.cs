@@ -67,7 +67,6 @@ namespace org.rnp.voxel.walker
     public IVoxelMesh Next()
     {
       if (this._cursor < 8) this._cursor += 1;
-
       if (this._cursor > 7) return null;
 
       IVoxelMesh child = this._node.GetChild( 
@@ -76,7 +75,7 @@ namespace org.rnp.voxel.walker
         (this._cursor/4) % 2
       );
 
-      if(child == null) {
+      if(child == null || child.IsEmpty()) {
         return this.Next();
       }
       else {

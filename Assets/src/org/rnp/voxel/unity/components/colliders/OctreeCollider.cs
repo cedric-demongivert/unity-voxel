@@ -14,13 +14,8 @@ namespace org.rnp.voxel.unity.components.colliders
   /// <summary>
   ///   A box collider for voxel mesh.
   /// </summary>
-  public class OctreeCollider : MonoBehaviour
+  public class OctreeCollider : VoxelMeshCollider
   {
-    /// <summary>
-    ///   Mesh used for collider.
-    /// </summary>
-    public VoxelMesh Mesh;
-
     private OctreeOutlineWalker _walker;
 
     private IList<BoxCollider> colliders;
@@ -33,7 +28,7 @@ namespace org.rnp.voxel.unity.components.colliders
 
     public void Start()
     {
-      this.Recalculate();
+      this.RefreshCollider();
     }
 
     public void Update()
@@ -51,10 +46,13 @@ namespace org.rnp.voxel.unity.components.colliders
       this.colliders.Clear();
     }
 
-    public void Recalculate()
+    public override void RefreshCollider()
     {
       this.Clean();
-      this._walker.SetRoot(this.Mesh.Mesh);
+
+      if (this._mesh == null) return;
+
+      this._walker.SetRoot(this._mesh.Mesh);
       IVoxelMesh nextBlock = null;
       
       while((nextBlock = this._walker.Next()) != null)
