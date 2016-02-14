@@ -6,26 +6,31 @@ using org.rnp.voxel.mesh;
 using org.rnp.voxel.utils;
 using UnityEngine;
 
-namespace org.rnp.voxel.mesh.submesh
+namespace org.rnp.voxel.mesh.absolute
 {
   /// <author>Cédric DEMONGIVERT [cedric.demongivert@gmail.com]</author>
   /// <summary>
-  ///   Wrap entirely an existing mesh.
+  ///   A simple implementation.
   /// </summary>
-  public class ProxyMesh : AbstractVoxelMesh, ISubMesh
+  public class AbsoluteVoxelMesh : AbstractVoxelMesh, IAbsoluteVoxelMesh
   {
     /// <summary>
     ///   ReadOnly implementation.
     /// </summary>
-    private ReadOnlySubMesh _readOnly;
+    private ReadOnlyAbsoluteMesh _readOnly;
+    
+    /// <summary>
+    ///   Start point.
+    /// </summary>
+    private IVoxelLocation _start;
 
     /// <summary>
     ///   Parent mesh.
     /// </summary>
     private IVoxelMesh _parentMesh;
     
-    /// <see cref="org.rnp.voxel.mesh.submesh.ISubMesh"></see>
-    public IVoxelMesh ParentMesh
+    /// <see cref="org.rnp.voxel.mesh.absolute.IAbsoluteVoxelMesh"></see>
+    public IVoxelMesh RelativeMesh
     {
       get { return this._parentMesh; }
     }
@@ -51,20 +56,18 @@ namespace org.rnp.voxel.mesh.submesh
     /// <see cref="org.rnp.voxel.mesh.IWritableVoxelMesh"></see>
     public override Color32 this[int x, int y, int z]
     {
-      get { return this._parentMesh[x, y, z]; }
-      set { this._parentMesh[x, y, z] = value; }
-    }
-
-    /// <see cref="org.rnp.voxel.mesh.submesh.ISubMesh"></see>
-    public IVoxelLocation Offset
-    {
-      get { return VoxelLocation.Zero; }
+      get {
+        return this._parentMesh[x - this._start.X, y - this._start.Y, z - this._start.Z];
+      }
+      set {
+        this._parentMesh[x - this._start.X, y - this._start.Y, z - this._start.Z] = value;
+      }
     }
 
     /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"></see>
     public override IVoxelLocation Start
     {
-      get { return VoxelLocation.Zero; }
+      get { return new VoxelLocation(this._start); }
     }
 
     /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"></see>
@@ -72,27 +75,44 @@ namespace org.rnp.voxel.mesh.submesh
     {
       get
       {
-        return this._parentMesh.End;
+        return new VoxelLocation(this.Width, this.Height, this.Depth).Add(this._start);
       }
     }
 
     /// <summary>
-    ///   Wrap an existing mesh.
+    ///   Locate a voxel mesh.
     /// </summary>
-    /// <param name="toWrap"></param>
-    public ProxyMesh(IVoxelMesh toWrap) : base()
+    /// <param name="parent"></param>
+    /// <param name="start"></param>
+    public AbsoluteVoxelMesh(IVoxelMesh parent, IVoxelLocation start) : base()
     {
-      this._parentMesh = toWrap;
+      this._parentMesh = parent;
+      this._start = new VoxelLocation(start);
+    }
+
+    /// <summary>
+    ///   Locate a voxel mesh.
+    /// </summary>
+    /// <param name="parent"></param>
+    /// <param name="x"></param>
+    /// <param name="y"></param>
+    /// <param name="z"></param>
+    public AbsoluteVoxelMesh(IVoxelMesh parent, int x, int y, int z)
+      : base()
+    {
+      this._parentMesh = parent;
+      this._start = new VoxelLocation(x, y, z);
     }
 
     /// <summary>
     ///   Copy an existing voxel mesh.
     /// </summary>
     /// <param name="toCopy"></param>
-    public ProxyMesh(ProxyMesh toCopy)
+    public AbsoluteVoxelMesh(IAbsoluteVoxelMesh toCopy)
       : base()
     {
-      this._parentMesh = toCopy.ParentMesh;
+      this._parentMesh = toCopy.RelativeMesh;
+      this._start = new VoxelLocation(toCopy.Start);
     }
 
     /// <see cref="org.rnp.voxel.mesh.IWritableVoxelMesh"/>
@@ -116,7 +136,7 @@ namespace org.rnp.voxel.mesh.submesh
     /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"/>
     public override IVoxelMesh Copy()
     {
-      return new ProxyMesh(this);
+      return new AbsoluteVoxelMesh(this);
     }
 
     /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"/>
@@ -124,9 +144,8 @@ namespace org.rnp.voxel.mesh.submesh
     {
       if (this._readOnly == null)
       {
-        this._readOnly = new ReadOnlySubMesh(this);
+        this._readOnly = new ReadOnlyAbsoluteMesh(this);
       }
-
       return this._readOnly;
     }
   }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using org.rnp.voxel.mesh;
+using org.rnp.voxel.utils;
 
 namespace org.rnp.voxel.walker
 {
@@ -10,8 +11,14 @@ namespace org.rnp.voxel.walker
   /// <summary>
   ///   An octree walker state.
   /// </summary>
-  public interface IWalkerState
+  public interface IWalkerState : ICopiable<IWalkerState>
   {
+    IVoxelLocation Location
+    {
+      get;
+      set;
+    }
+
     /// <summary>
     ///   Return walked node.
     /// </summary>
@@ -25,5 +32,11 @@ namespace org.rnp.voxel.walker
     /// </summary>
     /// <returns></returns>
     IVoxelMesh Next();
+
+    /// <summary>
+    ///   Return the location of the last returned mesh.
+    /// </summary>
+    /// <returns></returns>
+    IVoxelLocation GetLocation();
   }
 }

@@ -47,6 +47,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\src\org\rnp\voxel\mesh\absolute\ReadOnlyAbsoluteMesh.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\mesh\absolute\AbsoluteVoxelMesh.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\mesh\AbstractReadonlyVoxelMesh.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\mesh\AbstractVoxelMesh.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\mesh\IReadonlyVoxelMesh.cs" />
@@ -60,6 +62,7 @@
     <Compile Include="Assets\src\org\rnp\voxel\mesh\builder\OctreeChunckBuilder.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\mesh\builder\OctreeNodeBuilder.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\mesh\exceptions\UnmodifiableVoxelMeshException.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\mesh\absolute\IAbsoluteVoxelMesh.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\mesh\map\IMapVoxelMesh.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\mesh\map\MapVoxelMesh.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\mesh\map\ReadonlyMapVoxelMesh.cs" />
@@ -68,7 +71,6 @@
     <Compile Include="Assets\src\org\rnp\voxel\mesh\octree\OctreeVoxelMeshFormat.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\mesh\octree\ReadonlyOctreeVoxelMesh.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\mesh\submesh\ISubMesh.cs" />
-    <Compile Include="Assets\src\org\rnp\voxel\mesh\submesh\ProxyMesh.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\mesh\submesh\ReadOnlySubMesh.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\mesh\submesh\SubMesh.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\translator\ITranslator.cs" />
@@ -89,11 +91,11 @@
     <Compile Include="Assets\src\org\rnp\voxel\utils\IVoxelLocation.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\utils\VoxelLocation.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\utils\Voxels.cs" />
-    <Compile Include="Assets\src\org\rnp\voxel\walker\OctreeOutlineWalker.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\walker\IWalkerState.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\walker\OctreeOutlineWalker.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\walker\WalkerAsOctreeState.cs" />
-    <Compile Include="Assets\src\org\rnp\voxel\walker\WalkerOctreeState.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\walker\WalkerMapState.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\walker\WalkerOctreeState.cs" />
     <None Include="Assets\shaders\UnityVC\StandardVC.shader" />
     <None Include="Assets\shaders\UnityVC\StandardSpecularVC.shader" />
     <None Include="Assets\src\org\rnp\Shaders\NewSurfaceShader.shader" />

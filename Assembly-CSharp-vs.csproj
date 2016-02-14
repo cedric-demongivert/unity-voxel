@@ -50,6 +50,9 @@
      <Compile Include="Assets\src\org\rnp\voxel\mesh\AbstractVoxelMesh.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\mesh\IReadonlyVoxelMesh.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\mesh\IVoxelMesh.cs" />
+     <Compile Include="Assets\src\org\rnp\voxel\mesh\absolute\AbsoluteVoxelMesh.cs" />
+     <Compile Include="Assets\src\org\rnp\voxel\mesh\absolute\IAbsoluteVoxelMesh.cs" />
+     <Compile Include="Assets\src\org\rnp\voxel\mesh\absolute\ReadOnlyAbsoluteMesh.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\mesh\array\ArrayVoxelMesh.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\mesh\array\IArrayVoxelMesh.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\mesh\array\ReadonlyArrayVoxelMesh.cs" />
@@ -67,7 +70,6 @@
      <Compile Include="Assets\src\org\rnp\voxel\mesh\octree\OctreeVoxelMeshFormat.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\mesh\octree\ReadonlyOctreeVoxelMesh.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\mesh\submesh\ISubMesh.cs" />
-     <Compile Include="Assets\src\org\rnp\voxel\mesh\submesh\ProxyMesh.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\mesh\submesh\ReadOnlySubMesh.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\mesh\submesh\SubMesh.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\translator\ITranslator.cs" />

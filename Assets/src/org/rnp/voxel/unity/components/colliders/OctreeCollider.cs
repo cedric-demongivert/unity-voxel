@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
+using org.rnp.voxel.unity.components.meshes;
+using org.rnp.voxel.walker;
+using org.rnp.voxel.mesh;
+using org.rnp.voxel.utils;
 
 namespace org.rnp.voxel.unity.components.colliders
 {
@@ -12,6 +16,61 @@ namespace org.rnp.voxel.unity.components.colliders
   /// </summary>
   public class OctreeCollider : MonoBehaviour
   {
+    /// <summary>
+    ///   Mesh used for collider.
+    /// </summary>
+    public VoxelMesh Mesh;
 
+    private OctreeOutlineWalker _walker;
+
+    private IList<BoxCollider> colliders;
+
+    public void Awake()
+    {
+      this._walker = new OctreeOutlineWalker();
+      this.colliders = new List<BoxCollider>();
+    }
+
+    public void Start()
+    {
+      this.Recalculate();
+    }
+
+    public void Update()
+    {
+
+    }
+
+    protected void Clean()
+    {
+      foreach(BoxCollider collider in this.colliders)
+      {
+        Destroy(collider);
+      }
+
+      this.colliders.Clear();
+    }
+
+    public void Recalculate()
+    {
+      this.Clean();
+      this._walker.SetRoot(this.Mesh.Mesh);
+      IVoxelMesh nextBlock = null;
+      
+      while((nextBlock = this._walker.Next()) != null)
+      {
+        this.CreateBoxColliderFor(nextBlock);
+      }
+    }
+
+    protected void CreateBoxColliderFor(IVoxelMesh mesh)
+    {
+      BoxCollider collider = this.gameObject.AddComponent<BoxCollider>();
+      Vector3 start = VoxelLocation.ToVector3(mesh.Start);
+      Vector3 end = VoxelLocation.ToVector3(mesh.End);
+
+      collider.center = (start + end) / 2;
+      collider.size = (end - start);
+    }
   }
 }

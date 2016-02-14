@@ -16,7 +16,16 @@ namespace org.rnp.voxel.walker
   {
     private IOctreeVoxelMesh _node;
 
+    private IVoxelLocation _location;
+
     private int _cursor;
+
+    /// <see cref="org.rnp.voxel.walker.IWalkerState"/>
+    public IVoxelLocation Location
+    {
+      get { return _location; }
+      set { this._location = value; }
+    }
 
     /// <summary>
     ///   Return the octree version of the node.
@@ -39,7 +48,8 @@ namespace org.rnp.voxel.walker
     public WalkerOctreeState(IOctreeVoxelMesh node)
     {
       this._node = node;
-      this._cursor = 0;
+      this._cursor = -1;
+      this._location = VoxelLocation.Zero;
     }
 
     /// <summary>
@@ -50,11 +60,14 @@ namespace org.rnp.voxel.walker
     {
       this._node = toCopy._node;
       this._cursor = toCopy._cursor;
+      this._location = new VoxelLocation(toCopy._location);
     }
 
     /// <see cref="org.rnp.voxel.walker.IWalkerState"/>
     public IVoxelMesh Next()
     {
+      if (this._cursor < 8) this._cursor += 1;
+
       if (this._cursor > 7) return null;
 
       IVoxelMesh child = this._node.GetChild( 
@@ -63,14 +76,37 @@ namespace org.rnp.voxel.walker
         (this._cursor/4) % 2
       );
 
-      this._cursor += 1;
-
       if(child == null) {
         return this.Next();
       }
       else {
         return child;
       }
+    }
+
+    /// <see cref="org.rnp.voxel.walker.IWalkerState"/>
+    public IVoxelLocation GetLocation()
+    {
+      if (this._cursor < 0 || this._cursor > 7)
+      {
+        return null;
+      }
+      else
+      {
+        int x = this._cursor % 2;
+        int y = (this._cursor/2) % 2;
+        int z = (this._cursor / 4) % 2;
+
+        return new VoxelLocation(x,y,z)
+                   .Mul(this._node.Width/2, this._node.Height/2, this._node.Depth/2)
+                   .Add(this._location);
+      }
+    }
+
+    /// <see cref="org.rnp.voxel.utils.ICopiable"/>
+    public IWalkerState Copy()
+    {
+      return new WalkerOctreeState(this);
     }
   }
 }

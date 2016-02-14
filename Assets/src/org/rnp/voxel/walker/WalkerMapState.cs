@@ -18,6 +18,17 @@ namespace org.rnp.voxel.walker
 
     private HashSet<IVoxelLocation> _nodeKeys;
 
+    private IVoxelLocation _location;
+
+    private IVoxelLocation _lastKey;
+
+    /// <see cref="org.rnp.voxel.walker.IWalkerState"/>
+    public IVoxelLocation Location
+    {
+      get { return _location; }
+      set { this._location = value; }
+    }
+
     /// <summary>
     ///   Return the map version of the node.
     /// </summary>
@@ -40,6 +51,8 @@ namespace org.rnp.voxel.walker
     {
       this._node = node;
       this._nodeKeys = this._node.Keys();
+      this._location = VoxelLocation.Zero;
+      this._lastKey = null;
     }
 
     /// <summary>
@@ -50,17 +63,44 @@ namespace org.rnp.voxel.walker
     {
       this._node = toCopy._node;
       this._nodeKeys = new HashSet<IVoxelLocation>(toCopy._nodeKeys);
+      this._location = new VoxelLocation(toCopy._location);
+      this._lastKey = null;
     }
 
     /// <see cref="org.rnp.voxel.walker.IWalkerState"/>
     public IVoxelMesh Next()
     {
-      if (this._nodeKeys.Count <= 0) return null;
+      if (this._nodeKeys.Count <= 0)
+      {
+        this._lastKey = null;
+        return null;
+      }
 
-      IVoxelLocation nextKey = this._nodeKeys.ElementAt(0);
-      this._nodeKeys.Remove(nextKey);
+      this._lastKey = this._nodeKeys.ElementAt(0);
+      this._nodeKeys.Remove(this._lastKey);
 
-      return this._node.GetChild(nextKey.X, nextKey.Y, nextKey.Z);
+      return this._node.GetChild(this._lastKey.X, this._lastKey.Y, this._lastKey.Z);
+    }
+
+    /// <see cref="org.rnp.voxel.walker.IWalkerState"/>
+    public IVoxelLocation GetLocation()
+    {
+      if(this._lastKey == null)
+      {
+        return null;
+      }
+      else 
+      {
+        return new VoxelLocation(this._lastKey)
+                   .Mul(this._node.ChildWidth, this._node.ChildHeight, this._node.ChildDepth)
+                   .Add(this._location);
+      }
+    }
+
+    /// <see cref="org.rnp.voxel.utils.ICopiable"/>
+    public IWalkerState Copy()
+    {
+      return new WalkerMapState(this);
     }
   }
 }
