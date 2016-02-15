@@ -240,8 +240,9 @@ namespace org.rnp.voxel.unity.components.painter
 
     private void CaptureLookedPoint()
     {
-      this._addedLookedPoint.z = -(Input.mousePosition.y - this._lookedPointOriginalMouseLocation.y);
-      this._addedLookedPoint.x = -(Input.mousePosition.x - this._lookedPointOriginalMouseLocation.x);
+      this._addedLookedPoint =
+        (-(Input.mousePosition.y - this._lookedPointOriginalMouseLocation.y)) * this.ControlledCamera.UsedCameraTransform.up
+        + (-(Input.mousePosition.x - this._lookedPointOriginalMouseLocation.x)) * this.ControlledCamera.UsedCameraTransform.right;
     }
 
     /// <summary>
