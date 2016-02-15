@@ -86,6 +86,8 @@
      <Compile Include="Assets\src\org\rnp\voxel\unity\components\meshes\AssetVoxelMesh.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\unity\components\meshes\SphereVoxelMesh.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\unity\components\meshes\VoxelMesh.cs" />
+     <Compile Include="Assets\src\org\rnp\voxel\unity\components\painter\PainterCamera.cs" />
+     <Compile Include="Assets\src\org\rnp\voxel\unity\components\painter\PainterCameraControl.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\unity\components\translators\MapTranslator.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\unity\components\translators\OctreeTranslator.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\unity\components\translators\PrototypeTranslator.cs" />
