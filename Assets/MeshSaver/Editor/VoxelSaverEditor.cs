@@ -34,10 +34,17 @@ public static class VoxelSaverEditor
             bw.Write(vm.Mesh.Width);
             bw.Write(vm.Mesh.Height);
             bw.Write(vm.Mesh.Depth);
-            //bw.Write(vm.Mesh.Start);
-            //bw.Write(vm.Mesh.End);
-                
-            for(int w=0; w< vm.Mesh.Width; w++)
+
+            /*
+            bw.Write(vm.Mesh.Start.X);
+            bw.Write(vm.Mesh.Start.Y);
+            bw.Write(vm.Mesh.Start.Z);
+            bw.Write(vm.Mesh.End.X);
+            bw.Write(vm.Mesh.End.Y);
+            bw.Write(vm.Mesh.End.Z);
+            */
+
+            for (int w=0; w< vm.Mesh.Width; w++)
             {
                 for(int h=0; h<vm.Mesh.Height; h++)
                 {
