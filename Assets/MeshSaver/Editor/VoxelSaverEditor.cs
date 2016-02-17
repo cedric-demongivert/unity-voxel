@@ -29,13 +29,13 @@ public static class VoxelSaverEditor
 
 
         // Create a file to write to.
-        using (FileStream fs = File.Create(path))
+        using (BinaryWriter bw = new BinaryWriter(File.Open(path, FileMode.Create)))
         {
-            fs.WriteByte((byte)vm.Mesh.Width);
-            fs.WriteByte((byte)vm.Mesh.Height);
-            fs.WriteByte((byte)vm.Mesh.Depth);
-            //fs.WriteByte((byte)vm.Mesh.Start);
-            //fs.WriteByte((byte)vm.Mesh.End);
+            bw.Write(vm.Mesh.Width);
+            bw.Write(vm.Mesh.Height);
+            bw.Write(vm.Mesh.Depth);
+            //bw.Write(vm.Mesh.Start);
+            //bw.Write(vm.Mesh.End);
                 
             for(int w=0; w< vm.Mesh.Width; w++)
             {
@@ -43,19 +43,19 @@ public static class VoxelSaverEditor
                 {
                     for(int d=0; d<vm.Mesh.Depth; d++)
                     {
-                        fs.WriteByte((byte)w);
-                        fs.WriteByte((byte)h);
-                        fs.WriteByte((byte)d);
-                        fs.WriteByte((byte)vm.Mesh[w, h, d].r);
-                        fs.WriteByte((byte)vm.Mesh[w, h, d].g);
-                        fs.WriteByte((byte)vm.Mesh[w, h, d].b);
-                        fs.WriteByte((byte)vm.Mesh[w, h, d].a);
+                        bw.Write(w);
+                        bw.Write(h);
+                        bw.Write(d);
+                        bw.Write(vm.Mesh[w, h, d].r);
+                        bw.Write(vm.Mesh[w, h, d].g);
+                        bw.Write(vm.Mesh[w, h, d].b);
+                        bw.Write(vm.Mesh[w, h, d].a);
                             
                     }
                 }
             }
 
-            fs.Close();
+            bw.Close();
         }            
 
 
