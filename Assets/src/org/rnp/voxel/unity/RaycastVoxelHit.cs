@@ -38,8 +38,8 @@ namespace org.rnp.voxel.unity
       GameObject meshObject = mesh.gameObject; // For a later use. See top.
 
       this._hittedMesh = null;
-      this._hittedInnerVoxel.Set(0);
-      this._hittedOutVoxel.Set(0);
+      this._hittedInnerVoxel = null;
+      this._hittedOutVoxel = null;
 
       if(mesh != null)
       {

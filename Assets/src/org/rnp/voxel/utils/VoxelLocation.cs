@@ -14,7 +14,7 @@ namespace org.rnp.voxel.utils
   ///   That object is used in voxel mesh in order to identify a 3D location.
   ///   In place of a common vector object, a voxel location use int coordinates.
   /// 
-  ///   Voxel location can be also used with hashtable (and this it's main purpose).
+  ///   Voxel location can be also used with hashtable (and this is it main purpose).
   /// </summary>
   /// 
   /// <see cref="org.rnp.voxel.utils.VoxelLocation"/>
