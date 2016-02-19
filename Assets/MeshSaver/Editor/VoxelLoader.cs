@@ -13,17 +13,15 @@ using org.rnp.voxel.unity.components.translators;
 public static class VoxelLoader
 {
 
-    [MenuItem("CONTEXT/MapTranslator/Load VoxelMesh...")]
+    [MenuItem("CONTEXT/PrototypeTranslator/Load VoxelMesh...")]
     public static void LoadMeshInPlace(MenuCommand menuCommand)
     {
-        MapTranslator mt = menuCommand.context as MapTranslator;
-
-
-
+        PrototypeTranslator mt = menuCommand.context as PrototypeTranslator;
 
         GameObject go = mt.gameObject;
         VoxelMesh vm2 = go.AddComponent<VoxelMesh>();
         vm2.Mesh= LoadVoxelStruct();
+
         mt.VoxelMesh = vm2;
     }
 
@@ -48,17 +46,18 @@ public static class VoxelLoader
             int depth = br.ReadInt32();
             int pos = sizeof(int)*3;
 
+
             /*
             int x = br.ReadInt32();
             int y = br.ReadInt32();
             int z = br.ReadInt32();
             */
-
+            int cpt = 0;
             while (pos < length)
             {
-                int w = br.ReadInt32();
-                int h = br.ReadInt32();
-                int d = br.ReadInt32();
+                int x = br.ReadInt32();
+                int y = br.ReadInt32();
+                int z = br.ReadInt32();
                 pos += sizeof(int) * 3;
 
                 byte r = br.ReadByte();
@@ -67,12 +66,15 @@ public static class VoxelLoader
                 byte a = br.ReadByte();
                 pos += sizeof(byte) * 4;
 
-
-                mesh[w, h, d] = new Color32(r, g, b, a);
-
-                
+                mesh[x, y, z] = new Color32(r,g,b,a);
+                cpt++;
             }
-
+            /*
+            for (int x = 0; x < width; x++)
+                for (int y = 0; y < height; y++)
+                    for (int z = 0; z < depth; z++)
+                        mesh[x, y, z] = new Color32((byte)Random.Range(0,255), (byte)Random.Range(0, 255), (byte)Random.Range(0, 255), 125);
+*/
             br.Close();
         }
 
