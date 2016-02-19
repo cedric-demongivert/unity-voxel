@@ -43,11 +43,11 @@ namespace org.rnp.voxel.unity.components.translators
       }
     }
 
-    public void TranslateMap(IVoxelLocation start, IMapVoxelMesh map)
+    public void TranslateMap(VoxelLocation start, IMapVoxelMesh map)
     {
 
-      IVoxelLocation chunckStart = new VoxelLocation();
-      foreach (IVoxelLocation chunckLocation in map.Keys())
+      VoxelLocation chunckStart = new VoxelLocation();
+      foreach (VoxelLocation chunckLocation in map.Keys())
       {
         IVoxelMesh chunck = map.GetChild(chunckLocation);
         chunckStart.Set(chunckLocation).Mul(map.ChildWidth, map.ChildHeight, map.ChildDepth);

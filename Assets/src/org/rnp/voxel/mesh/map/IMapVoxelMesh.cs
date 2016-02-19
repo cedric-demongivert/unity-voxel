@@ -18,7 +18,7 @@ namespace org.rnp.voxel.mesh.map
     ///   Get existing childs of the map.
     /// </summary>
     /// <returns></returns>
-    HashSet<IVoxelLocation> Keys();
+    HashSet<VoxelLocation> Keys();
 
     /// <summary>
     ///   Get a specific child of the map.
@@ -34,7 +34,7 @@ namespace org.rnp.voxel.mesh.map
     /// </summary>
     /// <param name="location"></param>
     /// <returns></returns>
-    IReadonlyVoxelMesh GetChild(IVoxelLocation location);
+    IReadonlyVoxelMesh GetChild(VoxelLocation location);
 
     /// <summary>
     ///   Transform an absolute location to a local chunck location.
@@ -43,7 +43,7 @@ namespace org.rnp.voxel.mesh.map
     /// <param name="y"></param>
     /// <param name="z"></param>
     /// <returns></returns>
-    IVoxelLocation ToLocale(int x, int y, int z);
+    VoxelLocation ToLocale(int x, int y, int z);
 
     /// <summary>
     ///   Get child dimensions.

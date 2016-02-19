@@ -16,12 +16,12 @@ namespace org.rnp.voxel.walker
   {
     private IVoxelMesh _node;
 
-    private IVoxelLocation _location;
+    private VoxelLocation _location;
 
     private int _cursor;
 
     /// <see cref="org.rnp.voxel.walker.IWalkerState"/>
-    public IVoxelLocation Location
+    public VoxelLocation Location
     {
       get { return _location; }
       set { this._location = value; }
@@ -103,7 +103,7 @@ namespace org.rnp.voxel.walker
     /// <param name="y"></param>
     /// <param name="z"></param>
     /// <returns></returns>
-    protected IVoxelLocation GetStartFor(int x, int y, int z)
+    protected VoxelLocation GetStartFor(int x, int y, int z)
     {
       VoxelLocation start = new VoxelLocation();
 
@@ -146,7 +146,7 @@ namespace org.rnp.voxel.walker
     }
 
     /// <see cref="org.rnp.voxel.walker.IWalkerState"/>
-    public IVoxelLocation GetLocation()
+    public VoxelLocation GetLocation()
     {
       if (this._cursor < 0 || this._cursor > 7)
       {

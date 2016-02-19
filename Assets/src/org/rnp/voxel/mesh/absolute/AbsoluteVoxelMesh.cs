@@ -22,7 +22,7 @@ namespace org.rnp.voxel.mesh.absolute
     /// <summary>
     ///   Start point.
     /// </summary>
-    private IVoxelLocation _start;
+    private VoxelLocation _start;
 
     /// <summary>
     ///   Parent mesh.
@@ -65,13 +65,13 @@ namespace org.rnp.voxel.mesh.absolute
     }
 
     /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"></see>
-    public override IVoxelLocation Start
+    public override VoxelLocation Start
     {
       get { return new VoxelLocation(this._start); }
     }
 
     /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"></see>
-    public override IVoxelLocation End
+    public override VoxelLocation End
     {
       get
       {
@@ -84,7 +84,7 @@ namespace org.rnp.voxel.mesh.absolute
     /// </summary>
     /// <param name="parent"></param>
     /// <param name="start"></param>
-    public AbsoluteVoxelMesh(IVoxelMesh parent, IVoxelLocation start) : base()
+    public AbsoluteVoxelMesh(IVoxelMesh parent, VoxelLocation start) : base()
     {
       this._parentMesh = parent;
       this._start = new VoxelLocation(start);

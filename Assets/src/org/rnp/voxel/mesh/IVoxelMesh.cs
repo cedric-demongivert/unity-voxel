@@ -38,17 +38,17 @@ namespace org.rnp.voxel.mesh
     /// <summary>
     ///   Get the minimum point of that voxel mesh (inclusive).
     /// </summary>
-    IVoxelLocation Start { get; }
+    VoxelLocation Start { get; }
 
     /// <summary>
     ///   Get the end point of that voxel mesh (exclusive).
     /// </summary>
-    IVoxelLocation End { get; }
+    VoxelLocation End { get; }
 
     /// <summary>
     ///   Get the center of that voxel mesh.
     /// </summary>
-    IVoxelLocation Center { get; }
+    VoxelLocation Center { get; }
 
     /// <summary>
     ///   Get or set a voxel in the mesh.
@@ -68,18 +68,7 @@ namespace org.rnp.voxel.mesh
     /// </summary>
     /// <param name="location"></param>
     /// <returns></returns>
-    Color32 this[IVoxelLocation location]
-    {
-      get;
-      set;
-    }
-
-    /// <summary>
-    ///   Get or set a voxel in the mesh.
-    /// </summary>
-    /// <param name="location"></param>
-    /// <returns></returns>
-    Color32 this[Vector3 location]
+    Color32 this[VoxelLocation location]
     {
       get;
       set;
@@ -123,7 +112,7 @@ namespace org.rnp.voxel.mesh
     /// </summary>
     /// <param name="location"></param>
     /// <returns></returns>
-    bool Contains(IVoxelLocation location);
+    bool Contains(VoxelLocation location);
 
     /// <summary>
     ///   Check if the mesh don't contains gaps.
@@ -158,7 +147,7 @@ namespace org.rnp.voxel.mesh
     /// </summary>
     /// <param name="location"></param>
     /// <returns></returns>
-    bool IsEmpty(IVoxelLocation location);
+    bool IsEmpty(VoxelLocation location);
 
     /// <summary>
     ///   Copy a part of another voxel mesh.
@@ -167,7 +156,7 @@ namespace org.rnp.voxel.mesh
     /// <param name="to"></param>
     /// <param name="where"></param>
     /// <param name="toCopy"></param>
-    void Copy(IVoxelLocation from, IVoxelLocation to, IVoxelLocation where, IVoxelMesh toCopy);
+    void Copy(VoxelLocation from, VoxelLocation to, VoxelLocation where, IVoxelMesh toCopy);
 
     /// <summary>
     ///   Copy a part of another voxel mesh.
@@ -176,6 +165,6 @@ namespace org.rnp.voxel.mesh
     /// <param name="size"></param>
     /// <param name="where"></param>
     /// <param name="toCopy"></param>
-    void Copy(IVoxelLocation start, IDimensions3D size, IVoxelLocation where, IVoxelMesh toCopy);
+    void Copy(VoxelLocation start, IDimensions3D size, VoxelLocation where, IVoxelMesh toCopy);
   }
 }

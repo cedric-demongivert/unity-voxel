@@ -65,7 +65,7 @@ namespace org.rnp.voxel.walker
     ///   Add a mesh as a walker state in the state stack.
     /// </summary>
     /// <param name="mesh"></param>
-    protected void AddState(IVoxelLocation location, IVoxelMesh mesh)
+    protected void AddState(VoxelLocation location, IVoxelMesh mesh)
     {
       if (mesh.IsEmpty()) return;
 

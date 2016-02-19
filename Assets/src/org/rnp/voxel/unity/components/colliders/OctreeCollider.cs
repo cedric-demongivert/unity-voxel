@@ -95,8 +95,8 @@ namespace org.rnp.voxel.unity.components.colliders
     {
       BoxCollider collider = this.GetCollider();
 
-      Vector3 start = VoxelLocation.ToVector3(mesh.Start);
-      Vector3 end = VoxelLocation.ToVector3(mesh.End);
+      Vector3 start = mesh.Start;
+      Vector3 end = mesh.End;
 
       collider.center = (start + end) / 2;
       collider.size = (end - start);

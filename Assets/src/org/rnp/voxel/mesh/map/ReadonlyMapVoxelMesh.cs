@@ -43,7 +43,7 @@ namespace org.rnp.voxel.mesh.map
     }
 
     /// <see cref="org.rnp.voxel.mesh.map.IMapVoxelMesh"/>
-    public HashSet<IVoxelLocation> Keys()
+    public HashSet<VoxelLocation> Keys()
     {
       return this._writableMesh.Keys();
     }
@@ -55,13 +55,13 @@ namespace org.rnp.voxel.mesh.map
     }
 
     /// <see cref="org.rnp.voxel.mesh.map.IMapVoxelMesh"/>
-    public IReadonlyVoxelMesh GetChild(IVoxelLocation location)
+    public IReadonlyVoxelMesh GetChild(VoxelLocation location)
     {
       return this._writableMesh.GetChild(location);
     }
 
     /// <see cref="org.rnp.voxel.mesh.map.IMapVoxelMesh"/>
-    public IVoxelLocation ToLocale(int x, int y, int z)
+    public VoxelLocation ToLocale(int x, int y, int z)
     {
       return this._writableMesh.ToLocale(x, y, z);
     }

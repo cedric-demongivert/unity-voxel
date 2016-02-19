@@ -86,6 +86,7 @@
      <Compile Include="Assets\src\org\rnp\voxel\unity\components\meshes\AssetVoxelMesh.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\unity\components\meshes\SphereVoxelMesh.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\unity\components\meshes\VoxelMesh.cs" />
+     <Compile Include="Assets\src\org\rnp\voxel\unity\components\painter\ColorPicker.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\unity\components\painter\PainterCamera.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\unity\components\painter\PainterCameraControl.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\unity\components\translators\MapTranslator.cs" />
@@ -94,7 +95,6 @@
      <Compile Include="Assets\src\org\rnp\voxel\utils\Dimensions3D.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\utils\ICopiable.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\utils\IDimensions3D.cs" />
-     <Compile Include="Assets\src\org\rnp\voxel\utils\IVoxelLocation.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\utils\VoxelLocation.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\utils\Voxels.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\walker\IWalkerState.cs" />

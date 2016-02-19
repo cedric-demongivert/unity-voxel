@@ -27,7 +27,7 @@ namespace org.rnp.voxel.mesh.submesh
     /// <summary>
     ///   Start point.
     /// </summary>
-    private IVoxelLocation _start;
+    private VoxelLocation _start;
 
     /// <summary>
     ///   Parent mesh.
@@ -84,19 +84,19 @@ namespace org.rnp.voxel.mesh.submesh
     }
 
     /// <see cref="org.rnp.voxel.mesh.submesh.ISubMesh"></see>
-    public IVoxelLocation Offset
+    public VoxelLocation Offset
     {
       get { return new VoxelLocation(this._start); }
     }
 
     /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"></see>
-    public override IVoxelLocation Start
+    public override VoxelLocation Start
     {
       get { return VoxelLocation.Zero; }
     }
 
     /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"></see>
-    public override IVoxelLocation End
+    public override VoxelLocation End
     {
       get
       {
@@ -110,7 +110,7 @@ namespace org.rnp.voxel.mesh.submesh
     /// <param name="parent"></param>
     /// <param name="start"></param>
     /// <param name="dimensions"></param>
-    public SubMesh(IVoxelMesh parent, IVoxelLocation start, IDimensions3D dimensions) : base()
+    public SubMesh(IVoxelMesh parent, VoxelLocation start, IDimensions3D dimensions) : base()
     {
       this._dimensions = dimensions.Copy();
       this._parentMesh = parent;

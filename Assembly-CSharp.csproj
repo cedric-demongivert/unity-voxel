@@ -95,7 +95,6 @@
     <Compile Include="Assets\src\org\rnp\voxel\utils\Dimensions3D.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\utils\ICopiable.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\utils\IDimensions3D.cs" />
-    <Compile Include="Assets\src\org\rnp\voxel\utils\IVoxelLocation.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\utils\VoxelLocation.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\utils\Voxels.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\walker\IWalkerState.cs" />

@@ -14,13 +14,13 @@ namespace org.rnp.voxel.mesh
   public abstract class AbstractVoxelMesh : IVoxelMesh
   {
     /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"></see>
-    public abstract IVoxelLocation Start { get; }
+    public abstract VoxelLocation Start { get; }
 
     /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"></see>
-    public abstract IVoxelLocation End { get; }
+    public abstract VoxelLocation End { get; }
 
     /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"></see>
-    public IVoxelLocation Center {
+    public VoxelLocation Center {
       get
       {
         return new VoxelLocation().Add(this.Start).Add(this.End).Mul(0.5f);
@@ -53,7 +53,7 @@ namespace org.rnp.voxel.mesh
     }
 
     /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"/>
-    public Color32 this[IVoxelLocation location]
+    public Color32 this[VoxelLocation location]
     {
       get 
       {
@@ -66,26 +66,13 @@ namespace org.rnp.voxel.mesh
     }
 
     /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"/>
-    public Color32 this[Vector3 location]
-    {
-      get
-      {
-        return this[(int) location.x, (int) location.y, (int) location.z];
-      }
-      set
-      {
-        this[(int) location.x, (int) location.y, (int) location.z] = value;
-      }
-    }
-
-    /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"/>
     public abstract void Clear();
 
     /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"/>
     public virtual bool Contains(int x, int y, int z)
     {
-      IVoxelLocation start = this.Start;
-      IVoxelLocation end = this.End;
+      VoxelLocation start = this.Start;
+      VoxelLocation end = this.End;
       return x >= start.X && y >= start.Y && z >= start.Z && x < end.X && y < end.Y && z < end.Z;
     }
 
@@ -96,7 +83,7 @@ namespace org.rnp.voxel.mesh
     }
 
     /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"/>
-    public virtual bool Contains(IVoxelLocation location)
+    public virtual bool Contains(VoxelLocation location)
     {
       return this.Contains(location.X, location.Y, location.Z);
     }
@@ -120,13 +107,13 @@ namespace org.rnp.voxel.mesh
     }
 
     /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"/>
-    public virtual bool IsEmpty(IVoxelLocation location)
+    public virtual bool IsEmpty(VoxelLocation location)
     {
       return !this.Contains(location) || this[location].a == 255;
     }
 
     /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"/>
-    public virtual void Copy(IVoxelLocation from, IVoxelLocation to, IVoxelLocation where, IVoxelMesh toCopy)
+    public virtual void Copy(VoxelLocation from, VoxelLocation to, VoxelLocation where, IVoxelMesh toCopy)
     {
       Dimensions3D size = new Dimensions3D(
         to.X - from.X, to.Y - from.Y, to.Z - from.Z
@@ -136,7 +123,7 @@ namespace org.rnp.voxel.mesh
     }
 
     /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"/>
-    public virtual void Copy(IVoxelLocation start, IDimensions3D size, IVoxelLocation where, IVoxelMesh toCopy)
+    public virtual void Copy(VoxelLocation start, IDimensions3D size, VoxelLocation where, IVoxelMesh toCopy)
     {
       for (int x = 0; x < size.Width; ++x)
       {
