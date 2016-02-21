@@ -282,8 +282,7 @@ namespace org.rnp.voxel.utils
     /// <param name="lightness"></param>
     public VoxelColor SetHSL(float hue, float saturation, float lightness)
     {
-      this.SetHSL(hue, saturation, lightness, this._a);
-      return this;
+      return this.SetHSL(hue, saturation, lightness, this._a);
     }
 
     /// <summary>
@@ -297,9 +296,9 @@ namespace org.rnp.voxel.utils
     public VoxelColor SetHSL(float hue, float saturation, float lightness, float alpha)
     {
       float C = lightness * saturation;
-      float T = ((hue % 1f) * 360f) / 60f;
-      float X = C * (1 - Mathf.Abs(T % 2 - 1));
-
+      float T = (hue * 360f) / 60f;
+      float X = C * (1 - Mathf.Abs((T % 2f) - 1f));
+      
       if (T < 1)
       {
         this._r = C;
@@ -337,7 +336,7 @@ namespace org.rnp.voxel.utils
         this._b = X;
       }
 
-      float m = lightness * C;
+      float m = lightness - C;
       this._r += m;
       this._g += m;
       this._b += m;
@@ -762,6 +761,27 @@ namespace org.rnp.voxel.utils
     public VoxelColor Copy()
     {
       return new VoxelColor(this);
+    }
+    #endregion
+
+    #region Object methods
+    public override bool Equals(object obj)
+    {
+      if (obj == null) return false;
+
+      if (base.Equals(obj)) return true;
+
+      if(obj is VoxelColor)
+      {
+        VoxelColor toCmp = (VoxelColor) obj;
+
+        return (int)(toCmp.R * 255f) == (int)(this.R * 255f)
+                && (int)(toCmp.G * 255f) == (int)(this.G * 255f)
+                && (int)(toCmp.B * 255f) == (int)(this.B * 255f)
+                && (int)(toCmp.A * 255f) == (int)(this.A * 255f);
+      }
+      
+      return base.Equals(obj);
     }
     #endregion
 

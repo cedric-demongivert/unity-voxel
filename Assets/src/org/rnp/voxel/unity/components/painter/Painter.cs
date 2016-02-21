@@ -4,7 +4,8 @@ using org.rnp.voxel.mesh;
 using org.rnp.voxel.unity.components.meshes;
 using org.rnp.voxel.unity.components.translators;
 
-namespace org.rnp.voxel.unity.components
+
+namespace org.rnp.voxel.unity.components.painter
 {
   /// <author>Cédric DEMONGIVERT [cedric.demongivert@gmail.com]</author>
   /// <summary>
@@ -15,7 +16,7 @@ namespace org.rnp.voxel.unity.components
   {
     public PrototypeTranslator ToRefresh;
 
-    public Color32 Color;
+    public ColorPicker Picker;
 
     /// <see cref="http://docs.unity3d.com/ScriptReference/MonoBehaviour.html"/>
     public void Awake()
@@ -37,7 +38,7 @@ namespace org.rnp.voxel.unity.components
 
         if(VoxelPhysics.Raycast(myRay, out hitInfo))
         {
-          hitInfo.HittedMesh.Mesh[hitInfo.HittedInnerVoxel] = this.Color;
+          hitInfo.HittedMesh.Mesh[hitInfo.HittedInnerVoxel] = this.Picker.SelectedColor;
           this.ToRefresh.Translate();
           this.ToRefresh.Publish();
 
