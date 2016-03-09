@@ -153,7 +153,7 @@ namespace org.rnp.voxel.utils
     /// </summary>
     public VoxelColor()
     {
-      this.Set(0f, 0f, 0f, 0f);
+      this.Set(0f, 0f, 0f, 1f);
     }
 
     /// <summary>
@@ -164,7 +164,7 @@ namespace org.rnp.voxel.utils
     /// <param name="b"></param>
     public VoxelColor(float r, float g, float b)
     {
-      this.Set(r, g, b, 0f);
+      this.Set(r, g, b, 1f);
     }
 
     /// <summary>

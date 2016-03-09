@@ -93,6 +93,8 @@
      <Compile Include="Assets\src\org\rnp\voxel\unity\components\translators\OctreeTranslator.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\unity\components\translators\PrototypeTranslator.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\unity\gui\GUIColorPicker.cs" />
+     <Compile Include="Assets\src\org\rnp\voxel\unity\gui\LineColorPickerTexture.cs" />
+     <Compile Include="Assets\src\org\rnp\voxel\unity\gui\SquareColorPickerTexture.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\unity\gui\exception\ColorPickerMissConfigurationException.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\utils\Dimensions3D.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\utils\ICopiable.cs" />

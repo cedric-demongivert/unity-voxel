@@ -13,7 +13,7 @@ namespace org.rnp.voxel.unity.components.painter
   /// <summary>
   ///   Gui for selecting colors.
   /// </summary>
-  [ExecuteInEditMode]
+  ///[ExecuteInEditMode]
   public class ColorPicker : MonoBehaviour
   {
     #region Fields
@@ -22,15 +22,12 @@ namespace org.rnp.voxel.unity.components.painter
     /// </summary>
     private VoxelColor _selectedColor = new VoxelColor();
     private VoxelColor _lastColor = new VoxelColor();
+    
+    [SerializeField]
+    private GUIColorPicker.ColorAttr _lockedAttribute = GUIColorPicker.ColorAttr.Red;
 
-    public GUIColorPicker.ColorMode Mode = GUIColorPicker.ColorMode.RGB;
-    private GUIColorPicker.ColorMode _oldMode = GUIColorPicker.ColorMode.RGB;
-
-    public GUIColorPicker.ColorAttr Locked = GUIColorPicker.ColorAttr.Red;
-    private GUIColorPicker.ColorAttr _oldLocked = GUIColorPicker.ColorAttr.Red;
-
-    private Texture2D _colorSquare;
-    private Texture2D _colorLine;
+    private SquareColorPickerTexture _colorSquare;
+    private LineColorPickerTexture _colorLine;
 
     #region GUI Window Configuration
     /// <see cref="http://docs.unity3d.com/ScriptReference/GUI.Window.html"/>
@@ -58,6 +55,22 @@ namespace org.rnp.voxel.unity.components.painter
         this.Layout();
       }
     }
+
+    public GUIColorPicker.ColorAttr LockedAttribute
+    {
+      get
+      {
+        return this._lockedAttribute;
+      }
+      set
+      {
+        if (this._lockedAttribute != value)
+        {
+          this._lockedAttribute = value;
+          this.Refresh();
+        }
+      }
+    }
     #endregion
 
     #region Layout
@@ -70,14 +83,14 @@ namespace org.rnp.voxel.unity.components.painter
     private int _toggleSize;
     #endregion
 
-    #region Strings
-    private String _rStr = null;
-    private String _gStr = null;
-    private String _bStr = null;
-    private String _aStr = null;
-    private String _hStr = null;
-    private String _sStr = null;
-    private String _lStr = null;
+    #region Values
+    private int _red = 0;
+    private int _green = 0;
+    private int _blue = 0;
+    private int _hue = 0;
+    private int _saturation = 0;
+    private int _luminosity = 0;
+    private int _alpha = 0;
     #endregion
     #endregion
 
@@ -90,9 +103,8 @@ namespace org.rnp.voxel.unity.components.painter
       }
       set
       {
-        this._selectedColor = value;
-        this.RefreshTextures();
-        this.ResetFields();
+        this._selectedColor.Set(value);
+        this.Refresh();
       }
     }
     #endregion
@@ -130,8 +142,8 @@ namespace org.rnp.voxel.unity.components.painter
       }
 
       // Selection Area
-      GUI.DrawTexture(this._colorSquareBounds, this._colorSquare);
-      GUI.DrawTexture(this._colorLineBounds, this._colorLine);
+      GUI.DrawTexture(this._colorSquareBounds, this._colorSquare.Texture);
+      GUI.DrawTexture(this._colorLineBounds, this._colorLine.Texture);
 
       // Fields
       GUILayout.BeginArea(this._fieldsBounds);
@@ -139,18 +151,18 @@ namespace org.rnp.voxel.unity.components.painter
 
           // RGB
           GUILayout.BeginHorizontal();
-            this.Locked = GUIColorPicker.LayoutAttrChkbox(this.Locked, GUIColorPicker.ColorAttr.Red);
-            this._selectedColor.R = GUIColorPicker.LayoutColorField(this._rStr, this._selectedColor.R, "R", out this._rStr);
+            this.LockedAttribute = GUIColorPicker.LayoutAttrChkbox(this._lockedAttribute, GUIColorPicker.ColorAttr.Red);
+            this._red = GUIColorPicker.LayoutColorField("R", this._red, 0, 255);
           GUILayout.EndHorizontal();
 
           GUILayout.BeginHorizontal();
-            this.Locked = GUIColorPicker.LayoutAttrChkbox(this.Locked, GUIColorPicker.ColorAttr.Green);
-            this._selectedColor.G = GUIColorPicker.LayoutColorField(this._gStr, this._selectedColor.G, "G", out this._gStr);
+            this.LockedAttribute = GUIColorPicker.LayoutAttrChkbox(this._lockedAttribute, GUIColorPicker.ColorAttr.Green);
+            this._green = GUIColorPicker.LayoutColorField("G", this._green, 0, 255);
           GUILayout.EndHorizontal();
 
           GUILayout.BeginHorizontal();
-            this.Locked = GUIColorPicker.LayoutAttrChkbox(this.Locked, GUIColorPicker.ColorAttr.Blue);
-            this._selectedColor.B = GUIColorPicker.LayoutColorField(this._bStr, this._selectedColor.B, "B", out this._bStr);
+            this.LockedAttribute = GUIColorPicker.LayoutAttrChkbox(this._lockedAttribute, GUIColorPicker.ColorAttr.Blue);
+            this._blue = GUIColorPicker.LayoutColorField("B", this._blue, 0, 255);
           GUILayout.EndHorizontal();
 
           GUILayout.BeginHorizontal();
@@ -159,18 +171,18 @@ namespace org.rnp.voxel.unity.components.painter
 
           // HSL
           GUILayout.BeginHorizontal();
-            this.Locked = GUIColorPicker.LayoutAttrChkbox(this.Locked, GUIColorPicker.ColorAttr.Hue);
-            this._selectedColor.Hue = GUIColorPicker.LayoutColorField(this._hStr, this._selectedColor.Hue, "H", out this._hStr);
+            this.LockedAttribute = GUIColorPicker.LayoutAttrChkbox(this._lockedAttribute, GUIColorPicker.ColorAttr.Hue);
+            this._hue = GUIColorPicker.LayoutColorField("H", this._hue, 0, 360);
           GUILayout.EndHorizontal();
 
           GUILayout.BeginHorizontal();
-            this.Locked = GUIColorPicker.LayoutAttrChkbox(this.Locked, GUIColorPicker.ColorAttr.Saturation);
-            this._selectedColor.Saturation = GUIColorPicker.LayoutColorField(this._sStr, this._selectedColor.Saturation, "S", out this._sStr);
+            this.LockedAttribute = GUIColorPicker.LayoutAttrChkbox(this._lockedAttribute, GUIColorPicker.ColorAttr.Saturation);
+            this._saturation = GUIColorPicker.LayoutColorField("S", this._saturation, 0, 100);
           GUILayout.EndHorizontal();
 
           GUILayout.BeginHorizontal();
-            this.Locked = GUIColorPicker.LayoutAttrChkbox(this.Locked, GUIColorPicker.ColorAttr.Luminosity);
-            this._selectedColor.Luminosity = GUIColorPicker.LayoutColorField(this._lStr, this._selectedColor.Luminosity, "L", out this._lStr);
+            this.LockedAttribute = GUIColorPicker.LayoutAttrChkbox(this._lockedAttribute, GUIColorPicker.ColorAttr.Luminosity);
+            this._luminosity = GUIColorPicker.LayoutColorField("L", this._luminosity, 0, 100);
           GUILayout.EndHorizontal();
 
           GUILayout.BeginHorizontal();
@@ -180,13 +192,14 @@ namespace org.rnp.voxel.unity.components.painter
           // Alpha
           GUILayout.BeginHorizontal();
             GUILayout.Space(this._toggleSize);
-            this._selectedColor.A = GUIColorPicker.LayoutColorField(this._aStr, this._selectedColor.A, "A", out this._aStr);
+            this._alpha = GUIColorPicker.LayoutColorField("A", this._alpha, 0, 255);
           GUILayout.EndHorizontal();
 
           // #
           GUILayout.BeginHorizontal();
           GUILayout.Space(this._toggleSize);
-          this._selectedColor = GUIColorPicker.LayoutHexaField(this._selectedColor, "#");
+          this._lastColor.Set(this._selectedColor);
+          GUIColorPicker.LayoutHexaField(this._selectedColor, "#");
           GUILayout.EndHorizontal();
 
         GUILayout.EndVertical();
@@ -194,10 +207,12 @@ namespace org.rnp.voxel.unity.components.painter
 
       if(!this._selectedColor.Equals(this._lastColor))
       {
-        this.RefreshTextures();
+        this.Refresh();
       }
-
-      this.Mode = GUIColorPicker.GetModeOf(this.Locked);
+      else
+      {
+        this.Commit();
+      }
     }
 
     /// <summary>
@@ -243,54 +258,108 @@ namespace org.rnp.voxel.unity.components.painter
     #endregion
 
     #region Methods
+    /// <summary>
+    ///   Instantiate things.
+    /// </summary>
     public void Awake()
     {
-      this._colorSquare = new Texture2D(255, 255);
-      this._colorLine = new Texture2D(20, 255);
-
-      this.RefreshTextures();
-
-      this._oldMode = this.Mode;
-      this._oldLocked = this.Locked;
+      this._colorSquare = new SquareColorPickerTexture(255, 255);
+      this._colorLine = new LineColorPickerTexture(20, 255);
 
       this.Layout();
+      this.Refresh();
     }
 
-    public void ResetFields()
+    /// <summary>
+    ///   Recompute fields values.
+    /// </summary>
+    private void ResetFields()
     {
-      this._aStr = this._bStr = this._gStr = this._rStr = this._hStr = this._lStr = this._sStr = null;
+      this._alpha = (int)(this._selectedColor.A * 255);
+      this._blue = (int)(this._selectedColor.B * 255);
+      this._green = (int)(this._selectedColor.G * 255);
+      this._red = (int)(this._selectedColor.R * 255);
+      this._luminosity = (int)(this._selectedColor.Luminosity * 100);
+      this._saturation = (int)(this._selectedColor.Saturation * 100);
+      this._hue = (int)(this._selectedColor.Hue * 360);
     }
 
-    public void RefreshTextures()
+    /// <summary>
+    ///   Commit change to the selected color (if has changed)
+    /// </summary>
+    private void Commit()
     {
-      GUIColorPicker.ColorLine(
-        this._colorLine,
-        this._selectedColor,
-        this.Mode, 
-        this.Locked
-      );
+      bool hasChanged = false;
 
-      GUIColorPicker.ColorSquare(
-        this._colorSquare,
-        this._selectedColor,
-        this.Mode,
-        this.Locked
-      );
-
-      this._colorSquare.Apply();
-      this._colorLine.Apply();
-    }
-
-    public void Update()
-    {
-      if (this._oldMode != this.Mode || this._oldLocked != this.Locked)
+      if (this.HasChangedRGB())
       {
-        this.RefreshTextures();
-
-        this._oldMode = this.Mode;
-        this._oldLocked = this.Locked;
+        this._selectedColor.Set(this._red/255f, this._green/255f, this._blue/255f);
+        hasChanged = true;
+      }
+      else if(this.HasChangedHSL())
+      {
+        this._selectedColor.SetHSL(this._hue/360f, this._saturation/100f, this._luminosity/100f);
+        hasChanged = true;
       }
 
+      if(this.HasChangedAlpha())
+      {
+        this._selectedColor.A = this._alpha/255f;
+        hasChanged = true;
+      }
+
+      if(hasChanged) {
+        this.Refresh();
+      }
+    }
+
+    /// <summary>
+    ///   Check if the selected (RGB) color has changed.
+    /// </summary>
+    /// <returns></returns>
+    private bool HasChangedRGB()
+    {
+      return this._blue != (int)(this._selectedColor.B * 255) ||
+             this._green != (int)(this._selectedColor.G * 255) ||
+             this._red != (int)(this._selectedColor.R * 255);
+    }
+
+    /// <summary>
+    ///   Check if the selected (HSL) color has changed.
+    /// </summary>
+    /// <returns></returns>
+    private bool HasChangedHSL()
+    {
+      return this._luminosity != (int)(this._selectedColor.Luminosity * 100) ||
+             this._saturation != (int)(this._selectedColor.Saturation * 100) ||
+             this._hue != (int)(this._selectedColor.Hue * 360);
+    }
+
+    /// <summary>
+    ///   Check if the selected (Alpha) color has changed.
+    /// </summary>
+    /// <returns></returns>
+    private bool HasChangedAlpha()
+    {
+      return this._alpha != (int)(this._selectedColor.A * 255);
+    }
+
+    /// <summary>
+    ///   Refresh gui state.
+    /// </summary>
+    public void Refresh()
+    {
+      this._colorLine.Configure(this._lockedAttribute, this._selectedColor);
+      this._colorSquare.Configure(this._lockedAttribute, this._selectedColor);
+
+      this.ResetFields();
+    }
+
+    /// <summary>
+    ///   Capture clicks.
+    /// </summary>
+    public void Update()
+    {
       if (Input.GetMouseButton(0))
       {
         Vector2 location = new Vector2(
@@ -302,6 +371,10 @@ namespace org.rnp.voxel.unity.components.painter
       }
     }
 
+    /// <summary>
+    ///   On window click
+    /// </summary>
+    /// <param name="location"></param>
     private void WindowHandleClick(Vector2 location)
     {
       if(this._windowBounds.Contains(location))
@@ -314,26 +387,41 @@ namespace org.rnp.voxel.unity.components.painter
       }
     }
 
+    /// <summary>
+    ///   On color line click
+    /// </summary>
+    /// <param name="location"></param>
     private void ColorLineHandleClick(Vector2 location)
     {
       if (this._colorLineBounds.Contains(location))
       {
-        location.y -= this._colorLineBounds.y;
-        Color tmp = this._colorLine.GetPixel(0, this._colorLine.height - (int)location.y);
-        tmp.a = this.SelectedColor.a;
-        this.SelectedColor = tmp;
-      }
+        location.x -= this._colorSquareBounds.x;
+        location.y -= this._colorLineBounds.y; 
+        this._colorSquare.GetColorAt(
+           (int) location.x,
+           this._colorSquare.height - (int)location.y,
+           this._selectedColor
+         );
+        this.Refresh();
+       }
     }
 
+    /// <summary>
+    ///   On square click.
+    /// </summary>
+    /// <param name="location"></param>
     private void ColorSquareHandleClick(Vector2 location)
     {
       if (this._colorSquareBounds.Contains(location))
       {
         location.x -= this._colorSquareBounds.x;
         location.y -= this._colorSquareBounds.y;
-        Color tmp = this._colorSquare.GetPixel((int)location.x, this._colorSquare.height - (int)location.y);
-        tmp.a = this.SelectedColor.a;
-        this.SelectedColor = tmp;
+        this._colorSquare.GetColorAt(
+          (int)location.x,
+          this._colorSquare.height - (int)location.y,
+          this._selectedColor
+        );
+        this.Refresh();
       }
     }
     #endregion
