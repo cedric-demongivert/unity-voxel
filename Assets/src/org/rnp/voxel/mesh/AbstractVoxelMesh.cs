@@ -142,5 +142,20 @@ namespace org.rnp.voxel.mesh
 
     /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"/>
     public abstract IReadonlyVoxelMesh ReadOnly();
+
+    /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"/>
+    public virtual void Fill(VoxelLocation start, IDimensions3D size, Color color)
+    {
+      for (int x = 0; x < size.Width; ++x)
+      {
+        for(int y = 0; y < size.Height; ++y)
+        {
+          for(int z = 0; z < size.Depth; ++z)
+          {
+            this[x + start.X, y + start.Y, z + start.Z] = color;
+          }
+        }
+      }
+    }
   }
 }

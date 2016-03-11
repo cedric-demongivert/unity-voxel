@@ -166,5 +166,13 @@ namespace org.rnp.voxel.mesh
     /// <param name="where"></param>
     /// <param name="toCopy"></param>
     void Copy(VoxelLocation start, IDimensions3D size, VoxelLocation where, IVoxelMesh toCopy);
+
+    /// <summary>
+    ///   Fille a part of the voxel mesh with a color.
+    /// </summary>
+    /// <param name="start"></param>
+    /// <param name="size"></param>
+    /// <param name="color"></param>
+    void Fill(VoxelLocation start, IDimensions3D size, Color color);
   }
 }

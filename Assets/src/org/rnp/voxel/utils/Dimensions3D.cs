@@ -83,6 +83,12 @@ namespace org.rnp.voxel.utils
       return this._width == 0 && this._height == 0 && this._depth == 0;
     }
 
+    /// <see cref="object"/>
+    public override string ToString()
+    {
+      return "Dimensions3D (" + this._width + ", " + this._height + ", " + this._depth + ")";
+    }
+
     /// <see cref="org.rnp.voxel.utils.ICopiable"></see>
     public IDimensions3D Copy()
     {
