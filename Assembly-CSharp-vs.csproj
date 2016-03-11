@@ -83,6 +83,7 @@
      <Compile Include="Assets\src\org\rnp\voxel\unity\components\debuggers\MapDebugguer.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\unity\components\debuggers\OctreeDebugguer.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\unity\components\meshes\AssetVoxelMesh.cs" />
+     <Compile Include="Assets\src\org\rnp\voxel\unity\components\meshes\EmptyVoxelMesh.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\unity\components\meshes\SphereVoxelMesh.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\unity\components\meshes\VoxelMesh.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\unity\components\painter\ColorPicker.cs" />

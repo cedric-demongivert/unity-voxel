@@ -86,7 +86,7 @@ namespace org.rnp.voxel.mesh.octree
     public OctreeVoxelMesh()
       : base()
     {
-      this._childs = null;
+      this._childs = new IVoxelMesh[2, 2, 2];
       this._format = OctreeVoxelMeshFormat.Empty;
       this._builder = new OctreeNodeBuilder();
     }
