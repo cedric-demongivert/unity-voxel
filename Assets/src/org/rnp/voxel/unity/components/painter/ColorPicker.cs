@@ -31,6 +31,8 @@ namespace org.rnp.voxel.unity.components.painter
 
     private ColorPickerView _view;
 
+    private bool _minimized = false;
+
     #region GUI Window Configuration
     /// <see cref="http://docs.unity3d.com/ScriptReference/GUI.Window.html"/>
     public int WindowId = 25;
@@ -73,11 +75,28 @@ namespace org.rnp.voxel.unity.components.painter
         }
       }
     }
+
+    public bool Minimized
+    {
+      get
+      {
+        return this._minimized;
+      }
+      set
+      {
+        if (this._minimized != value)
+        {
+          this._minimized = value;
+          this.Layout();
+        }
+      }
+    }
     #endregion
 
     #region Layout
     private Rect _colorLineBounds = new Rect();
     private Rect _colorSquareBounds = new Rect();
+    private Rect _minimizeToggleBounds = new Rect();
     private Rect _windowBounds = new Rect();
     private Rect _fieldsBounds = new Rect();
     private Rect _titleBounds = new Rect();
@@ -136,6 +155,10 @@ namespace org.rnp.voxel.unity.components.painter
       {
         GUI.Label(this._draggableArea, this.WindowName, this._skin.FindStyle("Window Title"));
       }
+
+      this.Minimized = GUI.Toggle(this._minimizeToggleBounds, this._minimized, GUIContent.none);
+
+      if (this._minimized) return;
 
       // Selection Area
       GUI.DrawTexture(this._colorSquareBounds, this._colorSquare.Texture);
@@ -262,6 +285,10 @@ namespace org.rnp.voxel.unity.components.painter
         this._toggleSize = 20;
         return;
       }
+      else
+      {
+        this._toggleSize = skin.toggle.border.left + skin.toggle.margin.left + skin.toggle.padding.left;
+      }
 
       RectOffset windowPadding = skin.window.padding;
       RectOffset windowBorder = skin.window.border;
@@ -281,14 +308,26 @@ namespace org.rnp.voxel.unity.components.painter
       this._fieldsBounds.width = 200;
       this._fieldsBounds.height = this._colorSquare.height;
 
-      this._windowBounds.width = this._fieldsBounds.xMax + windowPadding.right + windowBorder.right;
-      this._windowBounds.height = this._fieldsBounds.yMax + windowPadding.bottom + windowBorder.bottom;
+      if (this._minimized)
+      {
+        this._windowBounds.width = this._fieldsBounds.xMax + windowPadding.right + windowBorder.right;
+        this._windowBounds.height = windowBorder.top + windowPadding.bottom + windowBorder.bottom;
+      }
+      else
+      {
+        this._windowBounds.width = this._fieldsBounds.xMax + windowPadding.right + windowBorder.right;
+        this._windowBounds.height = this._fieldsBounds.yMax + windowPadding.bottom + windowBorder.bottom;
+      }
 
-      this._draggableArea.x = this._draggableArea.y = 0;
-      this._draggableArea.width = this._windowBounds.width;
+      this._draggableArea.x = windowBorder.top;
+      this._draggableArea.y = 0;
+      this._draggableArea.width = this._windowBounds.width - windowBorder.top;
       this._draggableArea.height = windowBorder.top;
 
-      this._toggleSize = skin.toggle.border.left + skin.toggle.margin.left + skin.toggle.padding.left;
+      this._minimizeToggleBounds.x = 0;
+      this._minimizeToggleBounds.y = 0;
+      this._minimizeToggleBounds.width = windowBorder.top;
+      this._minimizeToggleBounds.height = windowBorder.top;
     }
     #endregion
 
