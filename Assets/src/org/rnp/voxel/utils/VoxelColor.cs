@@ -76,6 +76,8 @@ namespace org.rnp.voxel.utils
       set { this._a = value; }
     }
 
+    private float _lastHue = 0;
+
     /// <summary>
     ///   Hue value between 0f and 1f.
     /// </summary>
@@ -88,18 +90,18 @@ namespace org.rnp.voxel.utils
         float min = Mathf.Min(Mathf.Min(this._r, this._g), this._b);
         float c = max - min;
 
-        if (c <= 0) return 0f;
+        if (c <= 0) return _lastHue;
 
         if(this._r >= this._b && this._r >= this._g)
         {
-          return (((((this._g - this._b) / c) + 6) % 6) * 60f)/360f;
+          return _lastHue = (((((this._g - this._b) / c) + 6) % 6) * 60f) / 360f;
         }
         else if(this._g >= this._b)
         {
-          return ((((this._b - this._r) / c) + 2)* 60f)/360f;
+          return _lastHue = ((((this._b - this._r) / c) + 2) * 60f) / 360f;
         }
         else {
-          return ((((this._r - this._g) / c) + 4) * 60f)/360f;
+          return _lastHue = ((((this._r - this._g) / c) + 4) * 60f) / 360f;
         }
       }
       set
@@ -255,7 +257,7 @@ namespace org.rnp.voxel.utils
     {
       this._r = r;
       this._g = g;
-      this._b = g;
+      this._b = b;
       this._a = a;
       return this;
     }
@@ -270,7 +272,7 @@ namespace org.rnp.voxel.utils
     {
       this._r = r;
       this._g = g;
-      this._b = g;
+      this._b = b;
       return this;
     }
 

@@ -19,63 +19,21 @@ namespace org.rnp.voxel.unity.gui
     {
       Hue, Saturation, Luminosity, Red, Green, Blue
     }
-
-    /// <summary>
-    ///   A field that allow you to enter a color attribute value between 0 and 255.
-    /// </summary>
-    /// <param name="value"></param>
-    /// <param name="label"></param>
-    /// <returns></returns>
-    public static VoxelColor LayoutHexaField(VoxelColor value, String label)
-    {
-      Color parsed;
-      VoxelColor result = value;
-      string str = ((Color)value).ToHexStringRGBA();
-      string modified = str;
-
-      GUILayout.BeginHorizontal();
-
-      GUILayout.Label(label);
-      modified = GUILayout.TextField(str, GUILayout.Width(125));
-
-      if (!modified.Equals(str) && Color.TryParseHexString(modified, out parsed))
-      {
-        result = parsed;
-      }
-
-      GUILayout.EndHorizontal();
-
-      return result;
-    }
     
     /// <summary>
-    ///   A field that allow you to enter a color attribute value between min and max.
+    ///   A field that allow you to enter a color attribute.
     /// </summary>
     /// <param name="label"></param>
     /// <param name="value"></param>
-    /// <param name="min"></param>
-    /// <param name="max"></param>
     /// <returns></returns>
-    public static int LayoutColorField(String label, int value, int min, int max)
+    public static String LayoutColorField(String label, String value)
     {
-      int result = 0;
-            
       GUILayout.BeginHorizontal();
         
         GUILayout.Label(label);
-        String toParse = GUILayout.TextField(value.ToString(), GUILayout.Width(125));
+        String result = GUILayout.TextField(value, GUILayout.Width(125));
 
       GUILayout.EndHorizontal();
-
-      if (int.TryParse(toParse, out result))
-      {
-        if (result > max) result = max;
-        if (result < min) result = min;
-      }
-      else
-      {
-        result = 0;
-      }
 
       return result;
     }
@@ -95,6 +53,37 @@ namespace org.rnp.voxel.unity.gui
       else
       {
         return selected;
+      }
+    }
+
+    /// <summary>
+    ///   Convert a color object into an Hex string.
+    /// </summary>
+    /// <param name="color"></param>
+    /// <returns></returns>
+    public static String ToHex(VoxelColor color)
+    {
+      return ((Color)color).ToHexStringRGBA();
+    }
+
+    /// <summary>
+    ///   Convert a hex string to a color.
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="result"></param>
+    /// <returns></returns>
+    public static bool FromHex(String value, VoxelColor result)
+    {
+      Color parsed;
+
+      if (Color.TryParseHexString(value, out parsed))
+      {
+        result.Set(parsed);
+        return true;
+      }
+      else
+      {
+        return false;
       }
     }
   }

@@ -21,13 +21,14 @@ namespace org.rnp.voxel.unity.components.painter
     ///   User selected color.
     /// </summary>
     private VoxelColor _selectedColor = new VoxelColor();
-    private VoxelColor _lastColor = new VoxelColor();
     
     [SerializeField]
     private GUIColorPicker.ColorAttr _lockedAttribute = GUIColorPicker.ColorAttr.Red;
 
     private SquareColorPickerTexture _colorSquare;
     private LineColorPickerTexture _colorLine;
+
+    private ColorPickerView _view;
 
     #region GUI Window Configuration
     /// <see cref="http://docs.unity3d.com/ScriptReference/GUI.Window.html"/>
@@ -67,7 +68,7 @@ namespace org.rnp.voxel.unity.components.painter
         if (this._lockedAttribute != value)
         {
           this._lockedAttribute = value;
-          this.Refresh();
+          this.RefreshPickers();
         }
       }
     }
@@ -83,15 +84,6 @@ namespace org.rnp.voxel.unity.components.painter
     private int _toggleSize;
     #endregion
 
-    #region Values
-    private int _red = 0;
-    private int _green = 0;
-    private int _blue = 0;
-    private int _hue = 0;
-    private int _saturation = 0;
-    private int _luminosity = 0;
-    private int _alpha = 0;
-    #endregion
     #endregion
 
     #region Getters & Setters
@@ -104,7 +96,8 @@ namespace org.rnp.voxel.unity.components.painter
       set
       {
         this._selectedColor.Set(value);
-        this.Refresh();
+        this.RefreshPickers();
+        this._view.PullModel(value);
       }
     }
     #endregion
@@ -127,7 +120,6 @@ namespace org.rnp.voxel.unity.components.painter
     protected void ColorPickerWindow(int windowId)
     {
       this.WindowId = windowId;
-      this._lastColor.Set(this._selectedColor);
 
       GUI.DragWindow(this._draggableArea);
 
@@ -152,17 +144,17 @@ namespace org.rnp.voxel.unity.components.painter
           // RGB
           GUILayout.BeginHorizontal();
             this.LockedAttribute = GUIColorPicker.LayoutAttrChkbox(this._lockedAttribute, GUIColorPicker.ColorAttr.Red);
-            this._red = GUIColorPicker.LayoutColorField("R", this._red, 0, 255);
+            this._view.Red = GUIColorPicker.LayoutColorField("R", this._view.Red);
           GUILayout.EndHorizontal();
 
           GUILayout.BeginHorizontal();
             this.LockedAttribute = GUIColorPicker.LayoutAttrChkbox(this._lockedAttribute, GUIColorPicker.ColorAttr.Green);
-            this._green = GUIColorPicker.LayoutColorField("G", this._green, 0, 255);
+            this._view.Green = GUIColorPicker.LayoutColorField("G", this._view.Green);
           GUILayout.EndHorizontal();
 
           GUILayout.BeginHorizontal();
             this.LockedAttribute = GUIColorPicker.LayoutAttrChkbox(this._lockedAttribute, GUIColorPicker.ColorAttr.Blue);
-            this._blue = GUIColorPicker.LayoutColorField("B", this._blue, 0, 255);
+            this._view.Blue = GUIColorPicker.LayoutColorField("B", this._view.Blue);
           GUILayout.EndHorizontal();
 
           GUILayout.BeginHorizontal();
@@ -172,17 +164,17 @@ namespace org.rnp.voxel.unity.components.painter
           // HSL
           GUILayout.BeginHorizontal();
             this.LockedAttribute = GUIColorPicker.LayoutAttrChkbox(this._lockedAttribute, GUIColorPicker.ColorAttr.Hue);
-            this._hue = GUIColorPicker.LayoutColorField("H", this._hue, 0, 360);
+            this._view.Hue = GUIColorPicker.LayoutColorField("H", this._view.Hue);
           GUILayout.EndHorizontal();
 
           GUILayout.BeginHorizontal();
             this.LockedAttribute = GUIColorPicker.LayoutAttrChkbox(this._lockedAttribute, GUIColorPicker.ColorAttr.Saturation);
-            this._saturation = GUIColorPicker.LayoutColorField("S", this._saturation, 0, 100);
+            this._view.Saturation = GUIColorPicker.LayoutColorField("S", this._view.Saturation);
           GUILayout.EndHorizontal();
 
           GUILayout.BeginHorizontal();
             this.LockedAttribute = GUIColorPicker.LayoutAttrChkbox(this._lockedAttribute, GUIColorPicker.ColorAttr.Luminosity);
-            this._luminosity = GUIColorPicker.LayoutColorField("L", this._luminosity, 0, 100);
+            this._view.Luminosity = GUIColorPicker.LayoutColorField("L", this._view.Luminosity);
           GUILayout.EndHorizontal();
 
           GUILayout.BeginHorizontal();
@@ -192,26 +184,22 @@ namespace org.rnp.voxel.unity.components.painter
           // Alpha
           GUILayout.BeginHorizontal();
             GUILayout.Space(this._toggleSize);
-            this._alpha = GUIColorPicker.LayoutColorField("A", this._alpha, 0, 255);
+            this._view.Alpha = GUIColorPicker.LayoutColorField("A", this._view.Alpha);
           GUILayout.EndHorizontal();
 
           // #
           GUILayout.BeginHorizontal();
-          GUILayout.Space(this._toggleSize);
-          this._lastColor.Set(this._selectedColor);
-          GUIColorPicker.LayoutHexaField(this._selectedColor, "#");
+            GUILayout.Space(this._toggleSize);
+            this._view.Hex = GUIColorPicker.LayoutColorField("#", this._view.Hex);
           GUILayout.EndHorizontal();
 
         GUILayout.EndVertical();
       GUILayout.EndArea();
 
-      if(!this._selectedColor.Equals(this._lastColor))
+      if(this._view.IsDirty)
       {
-        this.Refresh();
-      }
-      else
-      {
-        this.Commit();
+        this._view.CommitView(this._selectedColor);
+        this.RefreshPickers();
       }
     }
 
@@ -265,94 +253,20 @@ namespace org.rnp.voxel.unity.components.painter
     {
       this._colorSquare = new SquareColorPickerTexture(255, 255);
       this._colorLine = new LineColorPickerTexture(20, 255);
+      this._view = new ColorPickerView();
 
       this.Layout();
-      this.Refresh();
-    }
-
-    /// <summary>
-    ///   Recompute fields values.
-    /// </summary>
-    private void ResetFields()
-    {
-      this._alpha = (int)(this._selectedColor.A * 255);
-      this._blue = (int)(this._selectedColor.B * 255);
-      this._green = (int)(this._selectedColor.G * 255);
-      this._red = (int)(this._selectedColor.R * 255);
-      this._luminosity = (int)(this._selectedColor.Luminosity * 100);
-      this._saturation = (int)(this._selectedColor.Saturation * 100);
-      this._hue = (int)(this._selectedColor.Hue * 360);
-    }
-
-    /// <summary>
-    ///   Commit change to the selected color (if has changed)
-    /// </summary>
-    private void Commit()
-    {
-      bool hasChanged = false;
-
-      if (this.HasChangedRGB())
-      {
-        this._selectedColor.Set(this._red/255f, this._green/255f, this._blue/255f);
-        hasChanged = true;
-      }
-      else if(this.HasChangedHSL())
-      {
-        this._selectedColor.SetHSL(this._hue/360f, this._saturation/100f, this._luminosity/100f);
-        hasChanged = true;
-      }
-
-      if(this.HasChangedAlpha())
-      {
-        this._selectedColor.A = this._alpha/255f;
-        hasChanged = true;
-      }
-
-      if(hasChanged) {
-        this.Refresh();
-      }
-    }
-
-    /// <summary>
-    ///   Check if the selected (RGB) color has changed.
-    /// </summary>
-    /// <returns></returns>
-    private bool HasChangedRGB()
-    {
-      return this._blue != (int)(this._selectedColor.B * 255) ||
-             this._green != (int)(this._selectedColor.G * 255) ||
-             this._red != (int)(this._selectedColor.R * 255);
-    }
-
-    /// <summary>
-    ///   Check if the selected (HSL) color has changed.
-    /// </summary>
-    /// <returns></returns>
-    private bool HasChangedHSL()
-    {
-      return this._luminosity != (int)(this._selectedColor.Luminosity * 100) ||
-             this._saturation != (int)(this._selectedColor.Saturation * 100) ||
-             this._hue != (int)(this._selectedColor.Hue * 360);
-    }
-
-    /// <summary>
-    ///   Check if the selected (Alpha) color has changed.
-    /// </summary>
-    /// <returns></returns>
-    private bool HasChangedAlpha()
-    {
-      return this._alpha != (int)(this._selectedColor.A * 255);
+      this.RefreshPickers();
+      this._view.PullModel(this._selectedColor);
     }
 
     /// <summary>
     ///   Refresh gui state.
     /// </summary>
-    public void Refresh()
+    private void RefreshPickers()
     {
       this._colorLine.Configure(this._lockedAttribute, this._selectedColor);
       this._colorSquare.Configure(this._lockedAttribute, this._selectedColor);
-
-      this.ResetFields();
     }
 
     /// <summary>
@@ -396,13 +310,15 @@ namespace org.rnp.voxel.unity.components.painter
       if (this._colorLineBounds.Contains(location))
       {
         location.x -= this._colorSquareBounds.x;
-        location.y -= this._colorLineBounds.y; 
-        this._colorSquare.GetColorAt(
+        location.y -= this._colorLineBounds.y;
+
+        this._colorLine.GetColorAt(
            (int) location.x,
            this._colorSquare.height - (int)location.y,
            this._selectedColor
          );
-        this.Refresh();
+        this.RefreshPickers();
+        this._view.PullModel(this._selectedColor);
        }
     }
 
@@ -421,7 +337,8 @@ namespace org.rnp.voxel.unity.components.painter
           this._colorSquare.height - (int)location.y,
           this._selectedColor
         );
-        this.Refresh();
+        this.RefreshPickers();
+        this._view.PullModel(this._selectedColor);
       }
     }
     #endregion
