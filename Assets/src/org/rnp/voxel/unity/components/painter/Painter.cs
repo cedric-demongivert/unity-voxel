@@ -4,6 +4,7 @@ using org.rnp.voxel.mesh;
 using org.rnp.voxel.unity.components.meshes;
 using org.rnp.voxel.unity.components.translators;
 using org.rnp.voxel.unity.components.colliders;
+using org.rnp.voxel.utils;
 
 
 namespace org.rnp.voxel.unity.components.painter
@@ -34,38 +35,60 @@ namespace org.rnp.voxel.unity.components.painter
     /// <see cref="http://docs.unity3d.com/ScriptReference/MonoBehaviour.html"/>
     public void Update() 
     {
-      if(Input.GetMouseButtonDown(0))
+      if (!Input.GetKey(KeyCode.LeftAlt) && !Input.GetKey(KeyCode.RightAlt))
       {
-        Ray myRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastVoxelHit hitInfo = null;
-        // bug
-        Color pickedColor = this.Picker.SelectedColor;
-
-        if ((int) (pickedColor.a * 255f) >= 254f)
+        if (Input.GetMouseButtonDown(1))
         {
-          pickedColor.a = 0;
-        }
-        else
-        {
-          pickedColor.a = 255;
-        }
-
-        if(VoxelPhysics.Raycast(myRay, out hitInfo))
-        {
-          if (hitInfo.IsVoxelMesh)
+          Ray myRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+          RaycastVoxelHit hitInfo = null;
+          
+          if (VoxelPhysics.Raycast(myRay, out hitInfo))
           {
-            this.PaintedMesh.Mesh[hitInfo.HittedOutVoxel] = pickedColor;
+            if (hitInfo.IsVoxelMesh)
+            {
+              this.PaintedMesh.Mesh[hitInfo.HittedInnerVoxel] = Voxels.Empty;
+
+              this.PaintedTranslator.Translate();
+              this.PaintedTranslator.Publish();
+
+              this.PaintedCollider.RefreshCollider();
+            }
+          }
+        }
+
+        if (Input.GetMouseButtonDown(0))
+        {
+          Ray myRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+          RaycastVoxelHit hitInfo = null;
+          // bug
+          Color pickedColor = this.Picker.SelectedColor;
+
+          if ((int)(pickedColor.a * 255f) >= 254f)
+          {
+            pickedColor.a = 0;
           }
           else
           {
-            this.PaintedMesh.Mesh[hitInfo.HitResult.point] = pickedColor;
+            pickedColor.a = 255;
           }
 
-          
-          this.PaintedTranslator.Translate();
-          this.PaintedTranslator.Publish();
+          if (VoxelPhysics.Raycast(myRay, out hitInfo))
+          {
+            if (hitInfo.IsVoxelMesh)
+            {
+              this.PaintedMesh.Mesh[hitInfo.HittedOutVoxel] = pickedColor;
+            }
+            else
+            {
+              this.PaintedMesh.Mesh[hitInfo.HitResult.point] = pickedColor;
+            }
 
-          this.PaintedCollider.RefreshCollider();
+
+            this.PaintedTranslator.Translate();
+            this.PaintedTranslator.Publish();
+
+            this.PaintedCollider.RefreshCollider();
+          }
         }
       }
     }

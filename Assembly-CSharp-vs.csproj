@@ -113,6 +113,7 @@
      <None Include="Assets\shaders\UnityVC\StandardSpecularVC.shader" />
      <None Include="Assets\src\org\rnp\Shaders\NewSurfaceShader.shader" />
      <None Include="Assets\shaders\UnityVC\UnityVC.cginc" />
+     <None Include="Assets\shaders\GridShader.shader" />
  <Reference Include="UnityEngine.UI">
  <HintPath>E:/unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
