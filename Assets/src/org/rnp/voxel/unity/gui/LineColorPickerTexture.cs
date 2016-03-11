@@ -164,6 +164,65 @@ namespace org.rnp.voxel.unity.gui
     }
 
     /// <summary>
+    ///   Return the selected pixel.
+    /// </summary>
+    /// <returns></returns>
+    public int GetSelectedPixel()
+    {
+      switch (this._lockedAttr)
+      {
+        case GUIColorPicker.ColorAttr.Red:
+        case GUIColorPicker.ColorAttr.Green:
+        case GUIColorPicker.ColorAttr.Blue:
+          return this.GetSelectedPixelRGB();
+        case GUIColorPicker.ColorAttr.Hue:
+        case GUIColorPicker.ColorAttr.Saturation:
+        case GUIColorPicker.ColorAttr.Luminosity:
+          return this.GetSelectedPixelHSL();
+        default:
+          throw new ColorPickerMissConfigurationException("Unhandled locked attribute : " + this._lockedAttr);
+      }
+    }
+
+    /// <summary>
+    ///   Get selected pixel in RGB mode.
+    /// </summary>
+    /// <returns></returns>
+    private int GetSelectedPixelRGB()
+    {
+      switch (this._lockedAttr)
+      {
+        case GUIColorPicker.ColorAttr.Red:
+          return this.height - (int)(this._selectedColor.R * this.height);
+        case GUIColorPicker.ColorAttr.Green:
+          return this.height - (int)(this._selectedColor.G * this.height);
+        case GUIColorPicker.ColorAttr.Blue:
+          return this.height - (int)(this._selectedColor.B * this.height);
+        default:
+          throw new ColorPickerMissConfigurationException("Invalid locked value for RGB mode : " + this._lockedAttr);
+      }
+    }
+
+    /// <summary>
+    ///   Get selected pixel in HSL mode.
+    /// </summary>
+    /// <returns></returns>
+    private int GetSelectedPixelHSL()
+    {
+      switch (this._lockedAttr)
+      {
+        case GUIColorPicker.ColorAttr.Hue:
+          return this.height - (int)(this._selectedColor.Hue * this.height);
+        case GUIColorPicker.ColorAttr.Saturation:
+          return this.height - (int)(this._selectedColor.Saturation * this.height);
+        case GUIColorPicker.ColorAttr.Luminosity:
+          return this.height - (int)(this._selectedColor.Luminosity * this.height);
+        default:
+          throw new ColorPickerMissConfigurationException("Invalid locked value for HSL mode : " + this._lockedAttr);
+      }
+    }
+
+    /// <summary>
     ///   Get a color from a line texture.
     /// </summary>
     /// <param name="x">Coord of the color between 0 and width (exclusive)</param>

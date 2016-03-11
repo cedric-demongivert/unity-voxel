@@ -82,6 +82,84 @@ namespace org.rnp.voxel.unity.gui
       }
     }
 
+
+    /// <summary>
+    ///   Return the selected pixel.
+    /// </summary>
+    /// <returns></returns>
+    public Vector2 GetSelectedPixel()
+    {
+      switch (this._lockedAttr)
+      {
+        case GUIColorPicker.ColorAttr.Red:
+        case GUIColorPicker.ColorAttr.Green:
+        case GUIColorPicker.ColorAttr.Blue:
+          return this.GetSelectedPixelRGB();
+        case GUIColorPicker.ColorAttr.Hue:
+        case GUIColorPicker.ColorAttr.Saturation:
+        case GUIColorPicker.ColorAttr.Luminosity:
+          return this.GetSelectedPixelHSL();
+        default:
+          throw new ColorPickerMissConfigurationException("Unhandled locked attribute : " + this._lockedAttr);
+      }
+    }
+
+    /// <summary>
+    ///   Get selected pixel in RGB mode.
+    /// </summary>
+    /// <returns></returns>
+    private Vector2 GetSelectedPixelRGB()
+    {
+      switch (this._lockedAttr)
+      {
+        case GUIColorPicker.ColorAttr.Red:
+          return new Vector2(
+            (int)(this._selectedColor.G * this.width),
+            this.height - (int)(this._selectedColor.B * this.height)
+          );
+        case GUIColorPicker.ColorAttr.Green:
+          return new Vector2(
+            (int)(this._selectedColor.R * this.width),
+            this.height - (int)(this._selectedColor.B * this.height)
+          );
+        case GUIColorPicker.ColorAttr.Blue:
+          return new Vector2(
+            (int)(this._selectedColor.R * this.width),
+            this.height - (int)(this._selectedColor.G * this.height)
+          );
+        default:
+          throw new ColorPickerMissConfigurationException("Invalid locked value for RGB mode : " + this._lockedAttr);
+      }
+    }
+
+    /// <summary>
+    ///   Get selected pixel in HSL mode.
+    /// </summary>
+    /// <returns></returns>
+    private Vector2 GetSelectedPixelHSL()
+    {
+      switch (this._lockedAttr)
+      {
+        case GUIColorPicker.ColorAttr.Hue:
+          return new Vector2(
+            (int)(this._selectedColor.Saturation * this.width),
+            this.height - (int)(this._selectedColor.Luminosity * this.height)
+          );
+        case GUIColorPicker.ColorAttr.Saturation:
+          return new Vector2(
+            (int)(this._selectedColor.Hue * this.width),
+            this.height - (int)(this._selectedColor.Luminosity * this.height)
+          );
+        case GUIColorPicker.ColorAttr.Luminosity:
+          return new Vector2(
+            (int)(this._selectedColor.Hue * this.width),
+            this.height - (int)(this._selectedColor.Saturation * this.height)
+          );
+        default:
+          throw new ColorPickerMissConfigurationException("Invalid locked value for HSL mode : " + this._lockedAttr);
+      }
+    }
+
     /// <summary>
     ///   Create a new square color texture.
     /// </summary>

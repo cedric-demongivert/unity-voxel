@@ -27,6 +27,7 @@ namespace org.rnp.voxel.unity.components.painter
 
     private SquareColorPickerTexture _colorSquare;
     private LineColorPickerTexture _colorLine;
+    private Texture2D _pickedTexture;
 
     private ColorPickerView _view;
 
@@ -81,6 +82,9 @@ namespace org.rnp.voxel.unity.components.painter
     private Rect _fieldsBounds = new Rect();
     private Rect _titleBounds = new Rect();
     private Rect _draggableArea = new Rect();
+    private Rect _leftCursor = new Rect();
+    private Rect _rightCursor = new Rect();
+    private Rect _pickCursor = new Rect();
     private int _toggleSize;
     #endregion
 
@@ -137,6 +141,43 @@ namespace org.rnp.voxel.unity.components.painter
       GUI.DrawTexture(this._colorSquareBounds, this._colorSquare.Texture);
       GUI.DrawTexture(this._colorLineBounds, this._colorLine.Texture);
 
+      GUIStyle pickCursor = this._skin.FindStyle("Pick Cursor");
+      if (pickCursor != null)
+      {
+        Vector2 pickedPixel = this._colorSquare.GetSelectedPixel();
+        this._pickCursor.Set(
+          this._colorSquareBounds.left - pickCursor.fixedWidth / 2 + pickedPixel.x,
+          this._colorSquareBounds.top + pickedPixel.y - pickCursor.fixedHeight / 2,
+          pickCursor.fixedWidth,
+          pickCursor.fixedHeight
+        );
+        GUI.Label(this._pickCursor, "", pickCursor);
+      }
+
+      GUIStyle leftCursor = this._skin.FindStyle("Cursor Left");
+      if (leftCursor != null)
+      {
+        this._leftCursor.Set(
+          this._colorLineBounds.left - leftCursor.fixedWidth,
+          this._colorLineBounds.top + this._colorLine.GetSelectedPixel() - leftCursor.fixedHeight / 2,
+          leftCursor.fixedWidth,
+          leftCursor.fixedHeight
+        );
+        GUI.Label(this._leftCursor, "", leftCursor);
+      }
+
+      GUIStyle rightCursor = this._skin.FindStyle("Cursor Right");
+      if (rightCursor != null)
+      {
+        this._rightCursor.Set(
+          this._colorLineBounds.right,
+          this._colorLineBounds.top + this._colorLine.GetSelectedPixel() - rightCursor.fixedHeight / 2,
+          rightCursor.fixedWidth,
+          rightCursor.fixedHeight
+        );
+        GUI.Label(this._rightCursor, "", rightCursor);
+      }
+
       // Fields
       GUILayout.BeginArea(this._fieldsBounds);
         GUILayout.BeginVertical();
@@ -158,7 +199,7 @@ namespace org.rnp.voxel.unity.components.painter
           GUILayout.EndHorizontal();
 
           GUILayout.BeginHorizontal();
-            GUILayout.Label("", GUILayout.Height(10));
+            GUILayout.Label("", GUILayout.Height(5));
           GUILayout.EndHorizontal();
 
           // HSL
@@ -178,7 +219,7 @@ namespace org.rnp.voxel.unity.components.painter
           GUILayout.EndHorizontal();
 
           GUILayout.BeginHorizontal();
-            GUILayout.Label("", GUILayout.Height(10));
+            GUILayout.Label("", GUILayout.Height(5));
           GUILayout.EndHorizontal();
 
           // Alpha
@@ -191,6 +232,12 @@ namespace org.rnp.voxel.unity.components.painter
           GUILayout.BeginHorizontal();
             GUILayout.Space(this._toggleSize);
             this._view.Hex = GUIColorPicker.LayoutColorField("#", this._view.Hex);
+          GUILayout.EndHorizontal();
+
+          // Picked color
+          GUILayout.BeginHorizontal();
+          GUILayout.Space(this._toggleSize);
+          GUILayout.Label(this._pickedTexture);
           GUILayout.EndHorizontal();
 
         GUILayout.EndVertical();
@@ -253,6 +300,7 @@ namespace org.rnp.voxel.unity.components.painter
     {
       this._colorSquare = new SquareColorPickerTexture(255, 255);
       this._colorLine = new LineColorPickerTexture(20, 255);
+      this._pickedTexture = new Texture2D(180, 20);
       this._view = new ColorPickerView();
 
       this.Layout();
@@ -267,6 +315,16 @@ namespace org.rnp.voxel.unity.components.painter
     {
       this._colorLine.Configure(this._lockedAttribute, this._selectedColor);
       this._colorSquare.Configure(this._lockedAttribute, this._selectedColor);
+
+      for (int i = 0; i < this._pickedTexture.width; ++i)
+      {
+        for(int j = 0; j < this._pickedTexture.height; ++j)
+        {
+          this._pickedTexture.SetPixel(i, j, this._selectedColor);
+        }
+      }
+
+      this._pickedTexture.Apply();
     }
 
     /// <summary>
