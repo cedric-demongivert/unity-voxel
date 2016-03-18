@@ -41,7 +41,7 @@ namespace org.rnp.voxel.utils
     ///   Set all values of the object.
     /// </summary>
     /// <param name="other"></param>
-    void Set(IDimensions3D other);
+    IDimensions3D Set(IDimensions3D other);
 
     /// <summary>
     ///   Set all values of the object.
@@ -49,7 +49,37 @@ namespace org.rnp.voxel.utils
     /// <param name="width"></param>
     /// <param name="height"></param>
     /// <param name="depth"></param>
-    void Set(int width, int height, int depth);
+    IDimensions3D Set(int width, int height, int depth);
+
+    /// <summary>
+    ///   Add a vector3
+    /// </summary>
+    /// <param name="toAdd"></param>
+    IDimensions3D Add(Vector3 toAdd);
+
+    /// <summary>
+    ///   Add another dimension 3D
+    /// </summary>
+    /// <param name="other"></param>
+    IDimensions3D Add(IDimensions3D other);
+
+    /// <summary>
+    ///   Subtract a vector3
+    /// </summary>
+    /// <param name="toSub"></param>
+    IDimensions3D Sub(Vector3 toSub);
+
+    /// <summary>
+    ///   Subtract another dimension 3D
+    /// </summary>
+    /// <param name="other"></param>
+    IDimensions3D Sub(IDimensions3D other);
+
+    /// <summary>
+    ///   Return true if any dimension is null.
+    /// </summary>
+    /// <returns></returns>
+    bool HasNull();
 
     /// <summary>
     ///   Return true if the dimensions is null (0,0,0)

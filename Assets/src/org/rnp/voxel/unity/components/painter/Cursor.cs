@@ -24,6 +24,8 @@ namespace org.rnp.voxel.unity.components.painter
     public ColorPicker ColorPicker;
     public MeshRenderer CursorRenderer;
 
+    public Camera View;
+
     public VoxelLocation Location
     {
       get
@@ -62,6 +64,159 @@ namespace org.rnp.voxel.unity.components.painter
       this.RefreshCursor();
     }
 
+    public void Forward()
+    {
+      Vector3 right = Voxels.KeepMax(this.View.transform.right);
+      Vector3 up = Voxels.KeepMax(this.View.transform.up);
+      this._location += Vector3.Cross(right, up);
+    }
+
+    public void Backward()
+    {
+      Vector3 right = Voxels.KeepMax(this.View.transform.right);
+      Vector3 up = Voxels.KeepMax(this.View.transform.up);
+      this._location -= Vector3.Cross(right, up);
+    }
+
+    public void Left()
+    {
+      this._location -= Voxels.KeepMax(this.View.transform.right);
+    }
+
+    public void Right()
+    {
+      this._location += Voxels.KeepMax(this.View.transform.right);
+    }
+
+    public void Top()
+    {
+      this._location += Voxels.KeepMax(this.View.transform.up);
+    }
+
+    public void Bottom()
+    {
+      this._location -= Voxels.KeepMax(this.View.transform.up);
+    }
+
+    public void ExtendForward()
+    {
+      Vector3 right = Voxels.KeepMax(this.View.transform.right);
+      Vector3 up = Voxels.KeepMax(this.View.transform.up);
+      Vector3 extension = Vector3.Cross(right, up);
+      this.Extend(extension);
+    }
+
+    public void ExtendBackward()
+    {
+      Vector3 right = Voxels.KeepMax(this.View.transform.right);
+      Vector3 up = Voxels.KeepMax(this.View.transform.up);
+      Vector3 extension = -Vector3.Cross(right, up);
+      this.Extend(extension);
+    }
+
+    public void ExtendLeft()
+    {
+      Vector3 extension = Voxels.KeepMax(-this.View.transform.right);
+      this.Extend(extension);
+    }
+
+    public void ExtendRight()
+    {
+      Vector3 extension = Voxels.KeepMax(this.View.transform.right);
+      this.Extend(extension);
+    }
+
+    public void ExtendTop()
+    {
+      Vector3 extension = Voxels.KeepMax(this.View.transform.up);
+      this.Extend(extension);
+    }
+
+    public void ExtendBottom()
+    {
+      Vector3 extension = Voxels.KeepMax(-this.View.transform.up);
+      this.Extend(extension);
+    }
+
+    private void Extend(Vector3 extension)
+    {
+      if (Voxels.HasNegative(extension))
+      {
+        this._dimensions.Sub(extension);
+        this._location += extension;
+      }
+      else
+      {
+        this._dimensions.Add(extension);
+      }
+    }
+
+    public void ReduceForward()
+    {
+      Vector3 right = Voxels.KeepMax(this.View.transform.right);
+      Vector3 up = Voxels.KeepMax(this.View.transform.up);
+      Vector3 reduction = -Vector3.Cross(right, up);
+      this.Reduce(reduction);
+    }
+
+    public void ReduceBackward()
+    {
+      Vector3 right = Voxels.KeepMax(this.View.transform.right);
+      Vector3 up = Voxels.KeepMax(this.View.transform.up);
+      Vector3 reduction = Vector3.Cross(right, up);
+      this.Reduce(reduction);
+    }
+
+    public void ReduceLeft()
+    {
+      Vector3 reduction = Voxels.KeepMax(this.View.transform.right);
+      this.Reduce(reduction);
+    }
+
+    public void ReduceRight()
+    {
+      Vector3 reduction = -Voxels.KeepMax(this.View.transform.right);
+      this.Reduce(reduction);
+    }
+
+    public void ReduceTop()
+    {
+      Vector3 reduction = -Voxels.KeepMax(this.View.transform.up);
+      this.Reduce(reduction);
+    }
+
+    public void ReduceBottom()
+    {
+      Vector3 reduction = Voxels.KeepMax(this.View.transform.up);
+      this.Reduce(reduction);
+    }
+
+    private void Reduce(Vector3 reduction)
+    {
+      if (Voxels.HasPositive(reduction))
+      {
+        this._dimensions.Sub(reduction);
+
+        if (this._dimensions.HasNull())
+        {
+          this._dimensions.Add(reduction);
+        }
+        else
+        {
+          this._location += reduction;
+        }
+      }
+      else
+      {
+        this._dimensions.Add(reduction);
+
+        if (this._dimensions.HasNull())
+        {
+          this._dimensions.Sub(reduction);
+        }
+      }
+    }
+
     /// <summary>
     ///   Check for inputs.
     /// </summary>
@@ -70,37 +225,34 @@ namespace org.rnp.voxel.unity.components.painter
       // Scaling Down
       if (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl))
       {
-        if (Input.GetKeyDown(KeyCode.DownArrow) && this._dimensions.Depth > 1)
+        if (Input.GetKeyDown(KeyCode.DownArrow))
         {
-          this._dimensions.Depth -= 1;
-          this._location.Z += 1;
+          this.ReduceTop();
         }
 
-        if (Input.GetKeyDown(KeyCode.UpArrow) && this._dimensions.Depth > 1)
+        if (Input.GetKeyDown(KeyCode.UpArrow))
         {
-          this._dimensions.Depth -= 1;
+          this.ReduceBottom();
         }
 
-        if (Input.GetKeyDown(KeyCode.LeftArrow) && this._dimensions.Width > 1)
+        if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
-          this._dimensions.Width -= 1;
-          this._location.X += 1;
+          this.ReduceRight();
         }
 
-        if (Input.GetKeyDown(KeyCode.RightArrow) && this._dimensions.Width > 1)
+        if (Input.GetKeyDown(KeyCode.RightArrow))
         {
-          this._dimensions.Width -= 1;
+          this.ReduceLeft();
         }
 
-        if (Input.GetKeyDown(KeyCode.PageDown) && this._dimensions.Height > 1)
+        if (Input.GetKeyDown(KeyCode.PageDown))
         {
-          this._dimensions.Height -= 1;
+          this.ReduceForward();
         }
 
-        if (Input.GetKeyDown(KeyCode.PageUp) && this._dimensions.Height > 1)
+        if (Input.GetKeyDown(KeyCode.PageUp))
         {
-          this._dimensions.Height -= 1;
-          this._location.Y += 1;
+          this.ReduceBackward();
         }
       }
       // Scaling Up
@@ -108,35 +260,32 @@ namespace org.rnp.voxel.unity.components.painter
       {
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
-          this._dimensions.Depth += 1;
-          this._location.Z -= 1;
+          this.ExtendTop();
         }
 
         if (Input.GetKeyDown(KeyCode.DownArrow))
         {
-          this._dimensions.Depth += 1;
+          this.ExtendBottom();
         }
 
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
-          this._dimensions.Width += 1;
-          this._location.X -= 1;
+          this.ExtendRight();
         }
 
         if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
-          this._dimensions.Width += 1;
+          this.ExtendLeft();
         }
 
         if (Input.GetKeyDown(KeyCode.PageUp))
         {
-          this._dimensions.Height += 1;
+          this.ExtendForward();
         }
 
         if (Input.GetKeyDown(KeyCode.PageDown))
         {
-          this._dimensions.Height += 1;
-          this._location.Y -= 1;
+          this.ExtendBackward();
         }
       }
       else
@@ -144,32 +293,32 @@ namespace org.rnp.voxel.unity.components.painter
         // Standard displacement
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
-          this._location.Z -= 1;
+          this.Top();
         }
 
         if (Input.GetKeyDown(KeyCode.DownArrow))
         {
-          this._location.Z += 1;
+          this.Bottom();
         }
 
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
-          this._location.X -= 1;
+          this.Right();
         }
 
         if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
-          this._location.X += 1;
+          this.Left();
         }
 
         if (Input.GetKeyDown(KeyCode.PageUp))
         {
-          this._location.Y += 1;
+          this.Forward();
         }
 
         if (Input.GetKeyDown(KeyCode.PageDown))
         {
-          this._location.Y -= 1;
+          this.Backward();
         }
       }
     }
