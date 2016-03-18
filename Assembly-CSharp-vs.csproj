@@ -86,6 +86,7 @@
      <Compile Include="Assets\src\org\rnp\voxel\unity\components\meshes\EmptyVoxelMesh.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\unity\components\meshes\SphereVoxelMesh.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\unity\components\meshes\VoxelMesh.cs" />
+     <Compile Include="Assets\src\org\rnp\voxel\unity\components\painter\CameraBookmarks.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\unity\components\painter\ColorPicker.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\unity\components\painter\Cursor.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\unity\components\painter\Painter.cs" />

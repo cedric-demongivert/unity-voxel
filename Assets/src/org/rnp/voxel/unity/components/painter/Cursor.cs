@@ -329,15 +329,15 @@ namespace org.rnp.voxel.unity.components.painter
     private void RefreshCursor()
     {
       this._objectTransform.position = new Vector3(
-         this._location.X,
-         this._location.Y,
-         this._location.Z
+         this._location.X - 0.01f,
+         this._location.Y - 0.01f,
+         this._location.Z - 0.01f
       );
       
       this._objectTransform.localScale = new Vector3(
-         this._dimensions.Width,
-         this._dimensions.Height,
-         this._dimensions.Depth
+         this._dimensions.Width + 0.02f,
+         this._dimensions.Height + 0.02f,
+         this._dimensions.Depth + 0.02f
       );
 
       if (this.ColorPicker != null && this.CursorRenderer != null)
