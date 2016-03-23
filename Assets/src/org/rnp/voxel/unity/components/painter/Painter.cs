@@ -23,6 +23,11 @@ namespace org.rnp.voxel.unity.components.painter
     public ColorPicker Picker;
     public Cursor cursor;
 
+    public void DitPlopl()
+    {
+      Debug.Log("plopl !");
+    }
+
     /// <see cref="http://docs.unity3d.com/ScriptReference/MonoBehaviour.html"/>
     public void Awake()
     {

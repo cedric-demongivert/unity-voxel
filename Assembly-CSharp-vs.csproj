@@ -46,6 +46,15 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\src\org\rnp\gui\menubar\ActionItem.cs" />
+     <Compile Include="Assets\src\org\rnp\gui\menubar\ActionItemEditor.cs" />
+     <Compile Include="Assets\src\org\rnp\gui\menubar\MenuBar.cs" />
+     <Compile Include="Assets\src\org\rnp\gui\menubar\MenuBarEditor.cs" />
+     <Compile Include="Assets\src\org\rnp\gui\menubar\MenuItem.cs" />
+     <Compile Include="Assets\src\org\rnp\gui\menubar\MenuItemEditor.cs" />
+     <Compile Include="Assets\src\org\rnp\gui\menubar\ParentMenuItem.cs" />
+     <Compile Include="Assets\src\org\rnp\gui\menubar\SubMenuEditor.cs" />
+     <Compile Include="Assets\src\org\rnp\gui\menubar\SubMenuItem.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\mesh\AbstractReadonlyVoxelMesh.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\mesh\AbstractVoxelMesh.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\mesh\IReadonlyVoxelMesh.cs" />
@@ -87,6 +96,7 @@
      <Compile Include="Assets\src\org\rnp\voxel\unity\components\meshes\SphereVoxelMesh.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\unity\components\meshes\VoxelMesh.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\unity\components\painter\CameraBookmarks.cs" />
+     <Compile Include="Assets\src\org\rnp\voxel\unity\components\painter\ColorPalette.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\unity\components\painter\ColorPicker.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\unity\components\painter\Cursor.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\unity\components\painter\Painter.cs" />

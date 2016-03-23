@@ -16,8 +16,8 @@ namespace org.rnp.voxel.unity.components.painter
   [ExecuteInEditMode]
   public class Cursor : MonoBehaviour
   {
-    private VoxelLocation _location;
-    private Dimensions3D _dimensions;
+    private VoxelLocation _location = new VoxelLocation();
+    private Dimensions3D _dimensions = new Dimensions3D();
 
     private Transform _objectTransform;
 
