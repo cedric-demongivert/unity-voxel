@@ -49,25 +49,7 @@ namespace org.rnp.voxel.mesh.map
     ///   Get child dimensions.
     /// </summary>
     /// <returns></returns>
-    int ChildWidth
-    {
-      get;
-    }
-
-    /// <summary>
-    ///   Get child dimensions.
-    /// </summary>
-    /// <returns></returns>
-    int ChildHeight
-    {
-      get;
-    }
-
-    /// <summary>
-    ///   Get child dimensions.
-    /// </summary>
-    /// <returns></returns>
-    int ChildDepth
+    Dimensions3D ChildDimensions
     {
       get;
     }

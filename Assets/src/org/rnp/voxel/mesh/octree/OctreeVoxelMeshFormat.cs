@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
+using org.rnp.voxel.utils;
 
 namespace org.rnp.voxel.mesh.octree
 {
@@ -66,6 +67,16 @@ namespace org.rnp.voxel.mesh.octree
     /// <summary>
     ///   Get a octree format for a specific size.
     /// </summary>
+    /// <param name="dimensions"></param>
+    /// <returns></returns>
+    public static OctreeVoxelMeshFormat GetFormat(Dimensions3D dimensions)
+    {
+      return OctreeVoxelMeshFormat.GetFormat(dimensions.Width, dimensions.Height, dimensions.Depth);
+    }
+
+    /// <summary>
+    ///   Get a octree format for a specific size.
+    /// </summary>
     /// <param name="width"></param>
     /// <param name="height"></param>
     /// <param name="depth"></param>
@@ -89,17 +100,7 @@ namespace org.rnp.voxel.mesh.octree
     /// <summary>
     ///   Node width.
     /// </summary>
-    public readonly int Width;
-
-    /// <summary>
-    ///   Node height.
-    /// </summary>
-    public readonly int Height;
-
-    /// <summary>
-    ///   Node depth.
-    /// </summary>
-    public readonly int Depth;
+    public readonly Dimensions3D Dimensions;
 
     /// <summary>
     ///   Node order of two.
@@ -131,7 +132,7 @@ namespace org.rnp.voxel.mesh.octree
     /// </summary>
     public OctreeVoxelMeshFormat()
     {
-      this.Width = this.Height = this.Depth = 0;
+      this.Dimensions = Dimensions3D.Empty;
       this.Order = 0;
     }
 
@@ -141,7 +142,8 @@ namespace org.rnp.voxel.mesh.octree
     /// <param name="order">The octree size will be 2^order</param>
     public OctreeVoxelMeshFormat(int order)
     {
-      this.Width = this.Height = this.Depth = 1 << order;
+      int size = 1 << order;
+      this.Dimensions = new Dimensions3D(size, size, size);
       this.Order = order;
     }
   }

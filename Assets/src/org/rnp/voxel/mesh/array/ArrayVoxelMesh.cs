@@ -12,76 +12,33 @@ namespace org.rnp.voxel.mesh.array
   /// <summary>
   ///   A voxel mesh implementation that store data in a buffer.
   /// </summary>
-  public sealed class ArrayVoxelMesh : AbstractVoxelMesh, IArrayVoxelMesh
+  public sealed class ArrayVoxelMesh : AbstractVoxelMesh
   {
     /// <summary>
     ///   Voxel dimension of the mesh.
     /// </summary>
     private Dimensions3D _dimensions;
-
-    /// <summary>
-    ///   ReadOnly implementation.
-    /// </summary>
-    private ReadonlyArrayVoxelMesh _readOnly;
-
+    
     /// <summary>
     ///   Mesh data.
     /// </summary>
-    private readonly Color32[, ,] _datas;
-
-    /// <summary>
-    ///   Empty voxels count.
-    /// </summary>
-    private int emptyVoxels;
-
-    /// <see cref="org.rnp.voxel.utils.IDimensions3D"></see>
-    public override int Width
+    private Color32[, ,] _datas;
+    
+    /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"></see>
+    public override Dimensions3D Dimensions
     {
-      get { return this._dimensions.Width; }
-    }
-
-    /// <see cref="org.rnp.voxel.utils.IDimensions3D"></see>
-    public override int Height
-    {
-      get { return this._dimensions.Height; }
-    }
-
-    /// <see cref="org.rnp.voxel.utils.IDimensions3D"></see>
-    public override int Depth
-    {
-      get { return this._dimensions.Depth; }
-    } 
-
-    /// <see cref="org.rnp.voxel.mesh.IWritableVoxelMesh"></see>
-    public override Color32 this[int x, int y, int z]
-    {
-      get { return this._datas[x, y, z]; }
-      set {
-        bool wasEmpty = this._datas[x, y, z].a == 255;
-        bool isEmpty = value.a == 255;
-
-        this._datas[x, y, z] = value;
-
-        if (wasEmpty != isEmpty)
-        {
-          if (isEmpty) this.emptyVoxels += 1;
-          else this.emptyVoxels -= 1;
-        }
+      get
+      {
+        return this._dimensions;
       }
     }
 
     /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"></see>
     public override VoxelLocation Start
     {
-      get { return VoxelLocation.Zero; }
-    }
-
-    /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"></see>
-    public override VoxelLocation End
-    {
-      get
+      get 
       {
-        return new VoxelLocation(this.Width, this.Height, this.Depth);
+        return VoxelLocation.Zero;
       }
     }
 
@@ -92,7 +49,6 @@ namespace org.rnp.voxel.mesh.array
     {
       this._dimensions = new Dimensions3D();
       this._datas = new Color32[0, 0, 0];
-      this.emptyVoxels = 0;
     }
 
     /// <summary>
@@ -107,22 +63,20 @@ namespace org.rnp.voxel.mesh.array
       this._dimensions = new Dimensions3D(width, height, depth);
       this._datas = new Color32[width, height, depth];
       this.Clear();
-      this.emptyVoxels = width * height * depth;
     }
 
     /// Create a custom voxel mesh.
     /// 
     /// <param name="dimensions"></param>
-    public ArrayVoxelMesh(IDimensions3D dimensions) : base()
+    public ArrayVoxelMesh(Dimensions3D dimensions) : base()
     {
       this._dimensions = new Dimensions3D(dimensions);
       this._datas = new Color32[
-        this.Width, 
-        this.Height, 
-        this.Depth
+        dimensions.Width,
+        dimensions.Height,
+        dimensions.Depth
       ];
       this.Clear();
-      this.emptyVoxels = this.Width * this.Height * this.Depth;
     }
 
     /// <summary>
@@ -131,41 +85,96 @@ namespace org.rnp.voxel.mesh.array
     /// <param name="toCopy"></param>
     public ArrayVoxelMesh(IVoxelMesh toCopy) : base()
     {
-      this._dimensions = new Dimensions3D(toCopy.Width, toCopy.Height, toCopy.Depth);
+      this._dimensions = new Dimensions3D(toCopy.Dimensions);
       this._datas = new Color32[
-        this.Width,
-        this.Height,
-        this.Depth
+        this._dimensions.Width,
+        this._dimensions.Height,
+        this._dimensions.Depth
       ];
-      this.emptyVoxels = this.Width * this.Height * this.Depth;
-      this.Copy(toCopy.Start, toCopy.End, VoxelLocation.Zero, toCopy);
+      VoxelMeshes.Copy(toCopy, this);
     }
 
-    /// <see cref="org.rnp.voxel.mesh.IWritableVoxelMesh"/>
+    /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"/>
+    public override void Set(VoxelLocation location, Color32 value)
+    {
+      this._datas[location.X, location.Y, location.Z] = value;
+      this.Touch();
+    }
+
+    /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"/>
+    public override void Set(int x, int y, int z, Color32 value)
+    {
+      this._datas[x, y, z] = value;
+      this.Touch();
+    }
+
+    /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"/>
+    public override Color32 Get(VoxelLocation location)
+    {
+      return this._datas[location.X, location.Y, location.Z];
+    }
+
+    /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"/>
+    public override Color32 Get(int x, int y, int z)
+    {
+      return this._datas[x, y, z];
+    }
+
+    /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"/>
     public override void Clear()
     {
-      for (int x = 0; x < this.Width; ++x)
+      for (int x = 0; x < this._dimensions.Width; ++x)
       {
-        for (int y = 0; y < this.Height; ++y)
+        for (int y = 0; y < this._dimensions.Height; ++y)
         {
-          for (int z = 0; z < this.Depth; ++z)
+          for (int z = 0; z < this._dimensions.Depth; ++z)
           {
             this._datas[x, y, z] = Voxels.Empty;
           }
         }
       }
+
+      this.Touch();
     }
 
     /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"/>
     public override bool IsFull()
     {
-      return this.emptyVoxels == 0;
+      for (int x = 0; x < this._dimensions.Width; ++x)
+      {
+        for (int y = 0; y < this._dimensions.Height; ++y)
+        {
+          for (int z = 0; z < this._dimensions.Depth; ++z)
+          {
+            if (Voxels.IsEmpty(this._datas[x, y, z]))
+            {
+              return false;
+            }
+          }
+        }
+      }
+
+      return true;
     }
 
     /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"/>
     public override bool IsEmpty()
     {
-      return this.emptyVoxels == this.Width * this.Height * this.Depth;
+      for (int x = 0; x < this._dimensions.Width; ++x)
+      {
+        for (int y = 0; y < this._dimensions.Height; ++y)
+        {
+          for (int z = 0; z < this._dimensions.Depth; ++z)
+          {
+            if (!Voxels.IsEmpty(this._datas[x, y, z]))
+            {
+              return false;
+            }
+          }
+        }
+      }
+
+      return true;
     }
 
     /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"/>
@@ -177,11 +186,7 @@ namespace org.rnp.voxel.mesh.array
     /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"/>
     public override IReadonlyVoxelMesh ReadOnly()
     {
-      if (this._readOnly == null)
-      {
-        this._readOnly = new ReadonlyArrayVoxelMesh(this);
-      }
-      return this._readOnly;
+      return new ReadonlyVoxelMesh(this);
     }
   }
 }

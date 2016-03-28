@@ -168,7 +168,7 @@ namespace org.rnp.gui.menubar
     {
       if (this._guiIcon != null)
       {
-        this._guiIcon.gameObject.active = (this.Icon != null);
+        this._guiIcon.gameObject.SetActive(this.Icon != null);
       }
     }
 

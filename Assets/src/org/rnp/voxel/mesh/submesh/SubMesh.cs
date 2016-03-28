@@ -12,96 +12,65 @@ namespace org.rnp.voxel.mesh.submesh
   /// <summary>
   ///   A simple implementation.
   /// </summary>
-  public class SubMesh : AbstractVoxelMesh, ISubMesh
+  public class SubMesh : AbstractVoxelMesh
   {
-    /// <summary>
-    ///   ReadOnly implementation.
-    /// </summary>
-    private ReadOnlySubMesh _readOnly;
-
     /// <summary>
     ///   Voxel dimension of the mesh.
     /// </summary>
-    private IDimensions3D _dimensions;
+    private Dimensions3D _dimensions;
 
     /// <summary>
-    ///   Start point.
+    ///   Offset from parent starting point.
     /// </summary>
-    private VoxelLocation _start;
+    private VoxelLocation _offset;
 
     /// <summary>
     ///   Parent mesh.
     /// </summary>
     private IVoxelMesh _parentMesh;
-    
-    /// <see cref="org.rnp.voxel.mesh.submesh.ISubMesh"></see>
-    public IVoxelMesh ParentMesh
-    {
-      get { return this._parentMesh; }
-    }
 
-    /// <see cref="org.rnp.voxel.utils.IDimensions3D"></see>
-    public override int Width
+    /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"></see>
+    public override long LastUpdateTime
     {
-      get { return this._dimensions.Width; }
-    }
-
-    /// <see cref="org.rnp.voxel.utils.IDimensions3D"></see>
-    public override int Height
-    {
-      get { return this._dimensions.Height; }
-    }
-
-    /// <see cref="org.rnp.voxel.utils.IDimensions3D"></see>
-    public override int Depth
-    {
-      get { return this._dimensions.Depth; }
-    } 
-
-    /// <see cref="org.rnp.voxel.mesh.IWritableVoxelMesh"></see>
-    public override Color32 this[int x, int y, int z]
-    {
-      get { 
-        if(this.Contains(x,y,z))
+      get
+      {
+        if (base.LastUpdateTime > this._parentMesh.LastUpdateTime)
         {
-          return this._parentMesh[this._start.X + x, this._start.Y + y, this._start.Z + z];
+          return base.LastUpdateTime;
         }
         else
         {
-          throw new IndexOutOfRangeException();
-        }
-      }
-      set {
-        if (this.Contains(x, y, z))
-        {
-          this._parentMesh[this._start.X + x, this._start.Y + y, this._start.Z + z] = value;
-        }
-        else
-        {
-          throw new IndexOutOfRangeException();
+          return this._parentMesh.LastUpdateTime;
         }
       }
     }
 
-    /// <see cref="org.rnp.voxel.mesh.submesh.ISubMesh"></see>
-    public VoxelLocation Offset
+    /// <see cref="org.rnp.voxel.utils.IDimensions3D"></see>
+    public override Dimensions3D Dimensions
     {
-      get { return new VoxelLocation(this._start); }
+      get
+      {
+        return this._dimensions;
+      }
     }
 
     /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"></see>
     public override VoxelLocation Start
     {
-      get { return VoxelLocation.Zero; }
-    }
-
-    /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"></see>
-    public override VoxelLocation End
-    {
       get
       {
-        return new VoxelLocation(this.Width, this.Height, this.Depth);
+        return VoxelLocation.Zero;
       }
+    }
+
+    public VoxelLocation Offset
+    {
+      get { return this._offset; }
+    }
+
+    public IVoxelMesh ParentMesh
+    {
+      get { return this._parentMesh; }
     }
 
     /// <summary>
@@ -110,47 +79,83 @@ namespace org.rnp.voxel.mesh.submesh
     /// <param name="parent"></param>
     /// <param name="start"></param>
     /// <param name="dimensions"></param>
-    public SubMesh(IVoxelMesh parent, VoxelLocation start, IDimensions3D dimensions) : base()
+    public SubMesh(IVoxelMesh parent, VoxelLocation start, Dimensions3D dimensions) : base()
     {
-      this._dimensions = dimensions.Copy();
+      this._dimensions = dimensions;
       this._parentMesh = parent;
-      this._start = new VoxelLocation(start);
+      this._offset = start;
     }
 
     /// <summary>
-    ///   Create a custom voxel mesh.
+    ///   Create a mesh that is a part of another mesh.
     /// </summary>
-    /// 
-    /// <param name="width"></param>
-    /// <param name="height"></param>
-    /// <param name="depth"></param>
-    public SubMesh(IVoxelMesh parent, IDimensions3D dimensions) : base()
+    /// <param name="parent"></param>
+    /// <param name="dimensions"></param>
+    public SubMesh(IVoxelMesh parent, Dimensions3D dimensions) : base()
     {
-      this._dimensions = dimensions.Copy();
+      this._dimensions = dimensions;
       this._parentMesh = parent;
-      this._start = VoxelLocation.Zero;
+      this._offset = parent.Start;
     }
 
     /// <summary>
     ///   Copy an existing voxel mesh.
     /// </summary>
     /// <param name="toCopy"></param>
-    public SubMesh(ISubMesh toCopy)
+    public SubMesh(SubMesh toCopy)
       : base()
     {
-      this._dimensions = new Dimensions3D(toCopy.Width, toCopy.Height, toCopy.Depth);
+      this._dimensions = toCopy.Dimensions;
       this._parentMesh = toCopy.ParentMesh;
-      this._start = new VoxelLocation(toCopy.Offset);
+      this._offset = toCopy.Offset;
     }
 
-    /// <see cref="org.rnp.voxel.mesh.IWritableVoxelMesh"/>
+    /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"/>
+    public override void Set(int x, int y, int z, Color32 value)
+    {
+      this.Set(new VoxelLocation(x, y, z), value);
+    }
+
+    /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"/>
+    public override void Set(VoxelLocation location, Color32 value)
+    {
+      if (this.Contains(location))
+      {
+        this._parentMesh.Set(location.Add(this._offset), value);
+      }
+      else
+      {
+        throw new IndexOutOfRangeException();
+      }
+    }
+
+    /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"/>
+    public override Color32 Get(int x, int y, int z)
+    {
+      return this.Get(new VoxelLocation(x, y, z));
+    }
+
+    /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"/>
+    public override Color32 Get(VoxelLocation location)
+    {
+      if (this.Contains(location))
+      {
+        return this._parentMesh.Get(location.Add(this._offset));
+      }
+      else
+      {
+        throw new IndexOutOfRangeException();
+      }
+    }
+
+    /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"/>
     public override void Clear()
     {
-      for (int x = 0; x < this.Width; ++x)
+      for (int x = 0; x < this.Dimensions.Width; ++x)
       {
-        for (int y = 0; y < this.Height; ++y)
+        for (int y = 0; y < this.Dimensions.Height; ++y)
         {
-          for (int z = 0; z < this.Depth; ++z)
+          for (int z = 0; z < this.Dimensions.Depth; ++z)
           {
             this[x, y, z] = Voxels.Empty;
           }
@@ -161,11 +166,11 @@ namespace org.rnp.voxel.mesh.submesh
     /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"/>
     public override bool IsFull()
     {
-      for (int x = 0; x < this.Width; ++x)
+      for (int x = 0; x < this.Dimensions.Width; ++x)
       {
-        for (int y = 0; y < this.Height; ++y)
+        for (int y = 0; y < this.Dimensions.Height; ++y)
         {
-          for (int z = 0; z < this.Depth; ++z)
+          for (int z = 0; z < this.Dimensions.Depth; ++z)
           {
             if (this.IsEmpty(x, y, z))
             {
@@ -180,11 +185,11 @@ namespace org.rnp.voxel.mesh.submesh
     /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"/>
     public override bool IsEmpty()
     {
-      for (int x = 0; x < this.Width; ++x)
+      for (int x = 0; x < this.Dimensions.Width; ++x)
       {
-        for (int y = 0; y < this.Height; ++y)
+        for (int y = 0; y < this.Dimensions.Height; ++y)
         {
-          for (int z = 0; z < this.Depth; ++z)
+          for (int z = 0; z < this.Dimensions.Depth; ++z)
           {
             if (!this.IsEmpty(x, y, z))
             {
@@ -205,11 +210,7 @@ namespace org.rnp.voxel.mesh.submesh
     /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"/>
     public override IReadonlyVoxelMesh ReadOnly()
     {
-      if (this._readOnly == null)
-      {
-        this._readOnly = new ReadOnlySubMesh(this);
-      }
-      return this._readOnly;
+      return new ReadonlyVoxelMesh(this);
     }
   }
 }

@@ -44,11 +44,11 @@ namespace org.rnp.gui.menubar
       get
       {
 
-        return this.ItemsContainer.active;
+        return this.ItemsContainer.activeSelf;
       }
       set
       {
-        this.ItemsContainer.active = value;
+        this.ItemsContainer.SetActive(value);
       }
     }
     #endregion
@@ -171,7 +171,7 @@ namespace org.rnp.gui.menubar
     {
       if (this._guiIcon != null)
       {
-        this._guiIcon.gameObject.active = (this.Icon != null);
+        this._guiIcon.gameObject.SetActive(this.Icon != null);
       }
     }
 

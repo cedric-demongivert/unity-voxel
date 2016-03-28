@@ -12,25 +12,17 @@ namespace org.rnp.voxel.mesh
   public interface IVoxelMesh
   {
     /// <summary>
-    ///   Get voxel mesh width.
+    ///   Return the last mesh update time in milliseconds.
     /// </summary>
-    int Width
+    long LastUpdateTime
     {
       get;
     }
 
     /// <summary>
-    ///   Get voxel mesh height.
+    ///   Dimensions of the voxel mesh.
     /// </summary>
-    int Height
-    {
-      get;
-    }
-
-    /// <summary>
-    ///   Get voxel mesh depth.
-    /// </summary>
-    int Depth
+    Dimensions3D Dimensions
     {
       get;
     }
@@ -38,18 +30,10 @@ namespace org.rnp.voxel.mesh
     /// <summary>
     ///   Get the minimum point of that voxel mesh (inclusive).
     /// </summary>
-    VoxelLocation Start { get; }
-
-    /// <summary>
-    ///   Get the end point of that voxel mesh (exclusive).
-    /// </summary>
-    VoxelLocation End { get; }
-
-    /// <summary>
-    ///   Get the center of that voxel mesh.
-    /// </summary>
-    VoxelLocation Center { get; }
-
+    VoxelLocation Start { 
+      get;
+    }
+    
     /// <summary>
     ///   Get or set a voxel in the mesh.
     /// </summary>
@@ -148,31 +132,42 @@ namespace org.rnp.voxel.mesh
     /// <param name="location"></param>
     /// <returns></returns>
     bool IsEmpty(VoxelLocation location);
+    
+    /// <summary>
+    ///   Set a voxel of the mesh.
+    /// </summary>
+    /// <param name="x"></param>
+    /// <param name="y"></param>
+    /// <param name="z"></param>
+    /// <param name="value"></param>
+    void Set(int x, int y, int z, Color32 value);
 
     /// <summary>
-    ///   Copy a part of another voxel mesh.
+    ///   Set a voxel of the mesh.
     /// </summary>
-    /// <param name="from"></param>
-    /// <param name="to"></param>
-    /// <param name="where"></param>
-    /// <param name="toCopy"></param>
-    void Copy(VoxelLocation from, VoxelLocation to, VoxelLocation where, IVoxelMesh toCopy);
+    /// <param name="location"></param>
+    /// <param name="value"></param>
+    void Set(VoxelLocation location, Color32 value);
 
     /// <summary>
-    ///   Copy a part of another voxel mesh.
+    ///   Get a voxel of the mesh.
     /// </summary>
-    /// <param name="start"></param>
-    /// <param name="size"></param>
-    /// <param name="where"></param>
-    /// <param name="toCopy"></param>
-    void Copy(VoxelLocation start, IDimensions3D size, VoxelLocation where, IVoxelMesh toCopy);
+    /// <param name="x"></param>
+    /// <param name="y"></param>
+    /// <param name="z"></param>
+    /// <returns></returns>
+    Color32 Get(int x, int y, int z);
 
     /// <summary>
-    ///   Fille a part of the voxel mesh with a color.
+    ///   Get a voxel of the mesh.
     /// </summary>
-    /// <param name="start"></param>
-    /// <param name="size"></param>
-    /// <param name="color"></param>
-    void Fill(VoxelLocation start, IDimensions3D size, Color color);
+    /// <param name="location"></param>
+    /// <returns></returns>
+    Color32 Get(VoxelLocation location);
+
+    /// <summary>
+    ///   Notify a mesh update.
+    /// </summary>
+    void Touch();
   }
 }

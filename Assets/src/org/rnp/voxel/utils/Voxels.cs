@@ -11,6 +11,26 @@ namespace org.rnp.voxel.utils
     public static readonly Color32 Empty = new Color32(0,0,0,255);
 
     /// <summary>
+    ///   Check if a voxel is empty.
+    /// </summary>
+    /// <param name="Voxel"></param>
+    /// <returns></returns>
+    public static bool IsEmpty(Color32 voxel)
+    {
+      return voxel.a == 255;
+    }
+
+    /// <summary>
+    ///   Check if a voxel is not empty.
+    /// </summary>
+    /// <param name="Voxel"></param>
+    /// <returns></returns>
+    public static bool IsNotEmpty(Color32 voxel)
+    {
+      return !Voxels.IsEmpty(voxel);
+    }
+
+    /// <summary>
     ///   Transform a vector in a voxel direction vector.
     ///   
     ///   For each value of the vector, if a value is negative this method

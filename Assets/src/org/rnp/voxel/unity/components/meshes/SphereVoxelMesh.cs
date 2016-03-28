@@ -6,6 +6,8 @@ using System.Text;
 using org.rnp.voxel.mesh.map;
 using UnityEngine;
 using org.rnp.voxel.utils;
+using org.rnp.voxel.mesh.array;
+using org.rnp.voxel.mesh.octree;
 
 namespace org.rnp.voxel.unity.components.meshes
 {
@@ -88,6 +90,12 @@ namespace org.rnp.voxel.unity.components.meshes
     {
       int size = this.Radius * 2;
 
+      this.Generate();
+    }
+
+    private void Generate()
+    {
+      int size = this.Radius * 2;
       IVoxelMesh sphere = new MapVoxelMesh();
 
       for (int x = 0; x < size; ++x)
@@ -114,7 +122,7 @@ namespace org.rnp.voxel.unity.components.meshes
           }
         }
       }
-
+      
       this.Mesh = sphere;
     }
   }

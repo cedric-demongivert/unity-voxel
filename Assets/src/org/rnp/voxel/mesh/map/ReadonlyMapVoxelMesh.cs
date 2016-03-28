@@ -12,23 +12,25 @@ namespace org.rnp.voxel.mesh.map
   /// <summary>
   ///   A infinite voxel mesh based on a map, not writable.
   /// </summary>
-  public sealed class ReadonlyMapVoxelMesh : AbstractReadonlyVoxelMesh<IMapVoxelMesh>, IMapVoxelMesh
+  public sealed class ReadonlyMapVoxelMesh : ReadonlyVoxelMesh, IMapVoxelMesh
   {
+    private IMapVoxelMesh _writableMesh;
+
     /// <summary>
     ///   Wrap in a readonly implementation, a writable voxel map implementation.
     /// </summary>
     /// <param name="writableMap"></param>
     public ReadonlyMapVoxelMesh(IMapVoxelMesh writableMap) 
       : base(writableMap)
-    { }
+    {
+      this._writableMesh = writableMap;
+    }
 
-    /// <summary>
-    ///   Copy an existing readonly implementation.
-    /// </summary>
-    /// <param name="toCopy"></param>
     public ReadonlyMapVoxelMesh(ReadonlyMapVoxelMesh toCopy)
-      : base((AbstractReadonlyVoxelMesh<IMapVoxelMesh>) toCopy)
-    { }
+      : base(toCopy)
+    {
+      this._writableMesh = toCopy._writableMesh;
+    }
 
     /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"/>
     public override IVoxelMesh Copy()
@@ -67,21 +69,9 @@ namespace org.rnp.voxel.mesh.map
     }
 
     /// <see cref="org.rnp.voxel.mesh.map.IMapVoxelMesh"/>
-    public int ChildWidth
+    public Dimensions3D ChildDimensions
     {
-      get { return this._writableMesh.ChildWidth; }
-    }
-
-    /// <see cref="org.rnp.voxel.mesh.map.IMapVoxelMesh"/>
-    public int ChildHeight
-    {
-      get { return this._writableMesh.ChildHeight; }
-    }
-
-    /// <see cref="org.rnp.voxel.mesh.map.IMapVoxelMesh"/>
-    public int ChildDepth
-    {
-      get { return this._writableMesh.ChildDepth; }
+      get { return this._writableMesh.ChildDimensions; }
     }
   }
 }

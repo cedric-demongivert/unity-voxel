@@ -13,43 +13,43 @@ namespace org.rnp.voxel.mesh
   /// </summary>
   public abstract class AbstractVoxelMesh : IVoxelMesh
   {
-    /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"></see>
-    public abstract VoxelLocation Start { get; }
+    /// <summary>
+    ///   Last update operation time in milliseconds.
+    /// </summary>
+    private long _lastUpdateTime;
 
     /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"></see>
-    public abstract VoxelLocation End { get; }
-
-    /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"></see>
-    public VoxelLocation Center {
+    public virtual long LastUpdateTime
+    {
       get
       {
-        return new VoxelLocation().Add(this.Start).Add(this.End).Mul(0.5f);
-      } 
+        return this._lastUpdateTime;
+      }
     }
 
-    /// <see cref="org.rnp.voxel.utils.IDimensions3D"></see>
-    public abstract int Width
+    /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"></see>
+    public abstract Dimensions3D Dimensions
     {
       get;
     }
 
-    /// <see cref="org.rnp.voxel.utils.IDimensions3D"></see>
-    public abstract int Height
-    {
-      get;
-    }
-
-    /// <see cref="org.rnp.voxel.utils.IDimensions3D"></see>
-    public abstract int Depth
+    /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"></see>
+    public abstract VoxelLocation Start
     {
       get;
     }
 
     /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"/>
-    public abstract Color32 this[int x, int y, int z]
+    public Color32 this[int x, int y, int z]
     {
-      get;
-      set;
+      get
+      {
+        return this.Get(x, y, z);
+      }
+      set
+      {
+        this.Set(x, y, z, value);
+      }
     }
 
     /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"/>
@@ -57,12 +57,26 @@ namespace org.rnp.voxel.mesh
     {
       get 
       {
-        return this[location.X, location.Y, location.Z];
+        return this.Get(location);
       }
       set 
       {
-        this[location.X, location.Y, location.Z] = value;
+        this.Set(location, value);
       }
+    }
+
+    /// <summary>
+    ///   Basic constructor.
+    /// </summary>
+    public AbstractVoxelMesh()
+    {
+      this._lastUpdateTime = 0;
+    }
+
+    /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"/>
+    public void Touch()
+    {
+      this._lastUpdateTime = (long)(Time.time*1000);
     }
 
     /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"/>
@@ -72,20 +86,25 @@ namespace org.rnp.voxel.mesh
     public virtual bool Contains(int x, int y, int z)
     {
       VoxelLocation start = this.Start;
-      VoxelLocation end = this.End;
-      return x >= start.X && y >= start.Y && z >= start.Z && x < end.X && y < end.Y && z < end.Z;
-    }
-
-    /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"/>
-    public virtual bool Contains(Vector3 location)
-    {
-      return this.Contains((int)location.x, (int)location.y, (int)location.z);
+      Dimensions3D dimensions = this.Dimensions;
+      return    x >= start.X 
+             && y >= start.Y 
+             && z >= start.Z 
+             && x < start.X + dimensions.Width
+             && y < start.Y + dimensions.Height
+             && z < start.Z + dimensions.Depth;
     }
 
     /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"/>
     public virtual bool Contains(VoxelLocation location)
     {
       return this.Contains(location.X, location.Y, location.Z);
+    }
+
+    /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"/>
+    public virtual bool Contains(Vector3 location)
+    {
+      return this.Contains(new VoxelLocation(location));
     }
 
     /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"/>
@@ -97,65 +116,37 @@ namespace org.rnp.voxel.mesh
     /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"/>
     public virtual bool IsEmpty(int x, int y, int z)
     {
-      return !this.Contains(x,y,z) || this[x, y, z].a == 255;
+      return !this.Contains(x,y,z) || Voxels.IsEmpty(this[x, y, z]);
     }
 
     /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"/>
     public virtual bool IsEmpty(Vector3 location)
     {
-      return !this.Contains(location) || this[location].a == 255;
+      return !this.Contains(location) || Voxels.IsEmpty(this[location]);
     }
 
     /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"/>
     public virtual bool IsEmpty(VoxelLocation location)
     {
-      return !this.Contains(location) || this[location].a == 255;
+      return !this.Contains(location) || Voxels.IsEmpty(this[location]);
     }
 
     /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"/>
-    public virtual void Copy(VoxelLocation from, VoxelLocation to, VoxelLocation where, IVoxelMesh toCopy)
-    {
-      Dimensions3D size = new Dimensions3D(
-        to.X - from.X, to.Y - from.Y, to.Z - from.Z
-      );
-
-      this.Copy(from, size, where, toCopy);
-    }
+    public abstract void Set(int x, int y, int z, Color32 value);
 
     /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"/>
-    public virtual void Copy(VoxelLocation start, IDimensions3D size, VoxelLocation where, IVoxelMesh toCopy)
-    {
-      for (int x = 0; x < size.Width; ++x)
-      {
-        for (int y = 0; y < size.Height; ++y)
-        {
-          for (int z = 0; z < size.Depth; ++z)
-          {
-            this[where.X + x, where.Y + y, where.Z + z] = toCopy[start.X + x, start.Y + y, start.Z + z];
-          }
-        }
-      }
-    }
+    public abstract void Set(VoxelLocation location, Color32 value);
+
+    /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"/>
+    public abstract Color32 Get(int x, int y, int z);
+
+    /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"/>
+    public abstract Color32 Get(VoxelLocation location);
 
     /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"/>
     public abstract IVoxelMesh Copy();
 
     /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"/>
     public abstract IReadonlyVoxelMesh ReadOnly();
-
-    /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"/>
-    public virtual void Fill(VoxelLocation start, IDimensions3D size, Color color)
-    {
-      for (int x = 0; x < size.Width; ++x)
-      {
-        for(int y = 0; y < size.Height; ++y)
-        {
-          for(int z = 0; z < size.Depth; ++z)
-          {
-            this[x + start.X, y + start.Y, z + start.Z] = color;
-          }
-        }
-      }
-    }
   }
 }

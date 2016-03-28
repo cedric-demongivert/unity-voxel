@@ -767,6 +767,11 @@ namespace org.rnp.voxel.utils
     #endregion
 
     #region Object methods
+    public override int GetHashCode()
+    {
+      return (((int)(this.R * 255f) * 31 + (int)(this.G * 255f)) * 31 + (int)(this.B * 255f)) * 31 + (int)(this.A * 255f);
+    }
+
     public override bool Equals(object obj)
     {
       if (obj == null) return false;

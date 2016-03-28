@@ -5,7 +5,6 @@ using System.Runtime.ConstrainedExecution;
 using System.Text;
 using org.rnp.voxel.mesh;
 using org.rnp.voxel.utils;
-using org.rnp.voxel.mesh.builder;
 using UnityEngine;
 
 namespace org.rnp.voxel.mesh.octree
@@ -22,17 +21,17 @@ namespace org.rnp.voxel.mesh.octree
     /// <summary>
     ///   Octree childs.
     /// </summary>
-    private readonly IVoxelMesh[, ,] _childs;
+    private IVoxelMesh[, ,] _childs;
 
     /// <summary>
     ///   Format of the octree. Store valid octree dimensions.
     /// </summary>
-    private readonly OctreeVoxelMeshFormat _format;
-
+    private OctreeVoxelMeshFormat _format;
+    
     /// <summary>
-    ///   Readonly implementation.
+    ///   Start location of that octree.
     /// </summary>
-    private ReadonlyOctreeVoxelMesh _readOnly;
+    private VoxelLocation _start;
 
     /// <summary>
     ///   A builder that create octree nodes.
@@ -40,43 +39,26 @@ namespace org.rnp.voxel.mesh.octree
     private readonly IOctreeNodeBuilder _builder;
 
     /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"></see>
-    public override int Width
+    public override Dimensions3D Dimensions
     {
-      get { return _format.Width; }
+      get {
+        return this._format.Dimensions;
+      }
     }
 
-    /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"></see>
-    public override int Height
-    {
-      get { return _format.Height; }
-    }
-
-    /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"></see>
-    public override int Depth
-    {
-      get { return _format.Depth; }
-    }
-
-    /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"></see>
-    public override Color32 this[int x, int y, int z]
-    {
-      get { return this.Get(x, y, z); }
-      set { this.Set(x, y, z, value); }
-    }
-
-    /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"></see>
-    public override VoxelLocation Start { get { return VoxelLocation.Zero; } }
-
-    /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"></see>
-    public override VoxelLocation End
+    /// <see cref="org.rnp.voxel.mesh.octree.IOctreeVoxelMesh"></see>
+    public Dimensions3D ChildDimensions
     {
       get
       {
-        return new VoxelLocation(
-           this.Width,
-           this.Height,
-           this.Depth
-        );
+        return this._format.ChildFormat.Dimensions;
+      }
+    }
+    
+    /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"></see>
+    public override VoxelLocation Start { 
+      get {
+        return VoxelLocation.Zero; 
       }
     }
 
@@ -124,10 +106,10 @@ namespace org.rnp.voxel.mesh.octree
       : base()
     {
       this._childs = new IVoxelMesh[2, 2, 2];
-      this._format = OctreeVoxelMeshFormat.GetFormat(toCopy.Width, toCopy.Height, toCopy.Depth);
+      this._format = OctreeVoxelMeshFormat.GetFormat(toCopy.Dimensions);
       this._builder = new OctreeNodeBuilder();
 
-      this.Copy(toCopy.Start, toCopy.End, VoxelLocation.Zero, toCopy);
+      VoxelMeshes.Copy(toCopy, this);
     }
 
     /// <summary>
@@ -140,106 +122,132 @@ namespace org.rnp.voxel.mesh.octree
       this._childs = new IVoxelMesh[2, 2, 2];
       this._format = toCopy._format;
       this._builder = (IOctreeNodeBuilder) toCopy._builder.Copy();
-
-      this.Copy(toCopy.Start, toCopy.End, VoxelLocation.Zero, toCopy);
+      
+      VoxelMeshes.Copy(toCopy, this);
     }
 
-    /// <see cref="org.rnp.voxel.mesh.octree.IOctreeVoxelMesh"/>
+    /// <see cref="org.rnp.voxel.mesh.octree.IOctreeVoxelMesh"></see>
+    public VoxelLocation ToChildCoordinates(VoxelLocation location)
+    {
+      return location.Div(this._format.ChildFormat.Dimensions);
+    }
+
+    /// <see cref="org.rnp.voxel.mesh.octree.IOctreeVoxelMesh"></see>
+    public VoxelLocation ToLocaleCoordinates(VoxelLocation location)
+    {
+      return location.Mod(this._format.ChildFormat.Dimensions);
+    }
+
+    /// <see cref="org.rnp.voxel.mesh.octree.IOctreeVoxelMesh"></see>
     public IReadonlyVoxelMesh GetChild(int x, int y, int z)
     {
-      if (this._childs[x, y, z] == null)
+      if (this._childs[x, y, z] != null)
       {
-        return null;
+        return this._childs[x, y, z].ReadOnly();
       }
       else
       {
-        return this._childs[x, y, z].ReadOnly();
+        return null;
       }
     }
 
     /// <summary>
-    ///   Get a voxel from the octree.
+    ///   Same as GetChildAt but return an updatable instance.
     /// </summary>
     /// <param name="x"></param>
     /// <param name="y"></param>
     /// <param name="z"></param>
     /// <returns></returns>
-    public Color32 Get(int x, int y, int z)
+    private IVoxelMesh GetChildAt(VoxelLocation location)
     {
-      int lx = x / this._format.ChildFormat.Width;
-      int ly = y / this._format.ChildFormat.Height;
-      int lz = z / this._format.ChildFormat.Depth;
-      IVoxelMesh child = this.GetChild(lx, ly, lz);
+      VoxelLocation childLocation = this.ToChildCoordinates(location);
+      return this._childs[childLocation.X, childLocation.Y, childLocation.Z];
+    }
 
+    /// <summary>
+    ///   Create a subnode (if not exist) and return it.
+    /// </summary>
+    /// <param name="x"></param>
+    /// <param name="y"></param>
+    /// <param name="z"></param>
+    /// <returns></returns>
+    private IVoxelMesh CreateChildAt(VoxelLocation location)
+    {
+      VoxelLocation childLocation = this.ToChildCoordinates(location);
+
+      if (this._childs[childLocation.X, childLocation.Y, childLocation.Z] == null)
+      {
+        this._builder.Format = this._format.ChildFormat;
+        this._childs[childLocation.X, childLocation.Y, childLocation.Z] = this._builder.Build();
+      }
+
+      return this._childs[childLocation.X, childLocation.Y, childLocation.Z];
+    }
+
+    /// <summary>
+    ///   Destroy a child node if exist.
+    /// </summary>
+    /// <param name="x"></param>
+    /// <param name="y"></param>
+    /// <param name="z"></param>
+    private void DestroyChildAt(VoxelLocation location)
+    {
+      VoxelLocation childLocation = this.ToChildCoordinates(location);
+
+      this._childs[childLocation.X, childLocation.Y, childLocation.Z] = null;
+    }
+
+    /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"></see>
+    public override Color32 Get(int x, int y, int z)
+    {
+      return this.Get(new VoxelLocation(x, y, z));
+    }
+
+    /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"></see>
+    public override Color32 Get(VoxelLocation location) {
+      IVoxelMesh child = this.GetChildAt(location);
       if (child != null)
       {
-        return child[
-          x - lx * this._format.ChildFormat.Width,
-          y - ly * this._format.ChildFormat.Height,
-          z - lz * this._format.ChildFormat.Depth
-        ];
+        return child[this.ToLocaleCoordinates(location)];
       }
       else
       {
         return Voxels.Empty;
       }
     }
-
-    /// <summary>
-    ///   Return an octree node at a specified location.
-    /// </summary>
-    /// <param name="x"></param>
-    /// <param name="y"></param>
-    /// <param name="z"></param>
-    /// <returns></returns>
-    private IVoxelMesh GetChildOrCreate(int x, int y, int z)
+    
+    /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"></see>
+    public override void Set(int x, int y, int z, Color32 color)
     {
-      if (this._childs[x, y, z] == null)
-      {
-        this._builder.Format = this._format.ChildFormat;
-        this._childs[x, y, z] = this._builder.Build();
-      }
-
-      return this._childs[x, y, z];
+      this.Set(new VoxelLocation(x, y, z), color);
     }
 
-    /// <summary>
-    ///   Set a voxel in the octree.
-    /// </summary>
-    /// <param name="x"></param>
-    /// <param name="y"></param>
-    /// <param name="z"></param>
-    /// <param name="color"></param>
-    public void Set(int x, int y, int z, Color32 color)
+    /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"></see>
+    public override void Set(VoxelLocation location, Color32 color)
     {
-      int lx = (int)(x / this._format.ChildFormat.Width);
-      int ly = (int)(y / this._format.ChildFormat.Height);
-      int lz = (int)(z / this._format.ChildFormat.Depth);
+      VoxelLocation localeCoordinates = this.ToLocaleCoordinates(location);
 
-      if (color.a == 0)
+      if (Voxels.IsNotEmpty(color))
       {
-        this.GetChildOrCreate(lx, ly, lz)[
-          x - lx * this._format.ChildFormat.Width,
-          y - ly * this._format.ChildFormat.Height,
-          z - lz * this._format.ChildFormat.Depth
-        ] = color;
+        this.CreateChildAt(location)[localeCoordinates] = color;
+        this.Touch();
       }
-      else if (this._childs[lx, ly, lz] != null)
+      else
       {
-        this._childs[lx, ly, lz][
-          x - lx * this._format.ChildFormat.Width,
-          y - ly * this._format.ChildFormat.Height,
-          z - lz * this._format.ChildFormat.Depth
-        ] = color;
-
-        if (this._childs[lx, ly, lz].IsEmpty())
+        IVoxelMesh child = this.GetChildAt(location);
+        if (child != null)
         {
-          this._childs[lx, ly, lz] = null;
+          child[localeCoordinates] = color;
+          if (child.IsEmpty())
+          {
+            this.DestroyChildAt(location);
+          }
+          this.Touch();
         }
       }
     }
 
-    /// <see cref="org.rnp.voxel.mesh.IWritableVoxelMesh"></see>
+    /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"></see>
     public override void Clear()
     {
       for (int i = 0; i < 2; ++i)
@@ -293,7 +301,7 @@ namespace org.rnp.voxel.mesh.octree
 
       return true;
     }
-
+    
     /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"></see>
     public override IVoxelMesh Copy()
     {
@@ -303,12 +311,7 @@ namespace org.rnp.voxel.mesh.octree
     /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"></see>
     public override IReadonlyVoxelMesh ReadOnly()
     {
-      if (this._readOnly == null)
-      {
-        this._readOnly = new ReadonlyOctreeVoxelMesh(this);
-      }
-
-      return this._readOnly;
+      return new ReadonlyOctreeVoxelMesh(this);
     }
   }
 }
