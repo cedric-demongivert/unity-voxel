@@ -63,7 +63,7 @@ namespace org.rnp.voxel.unity.gui
     /// <returns></returns>
     public static String ToHex(VoxelColor color)
     {
-      return ((Color)color).ToHexStringRGBA();
+      return ColorUtility.ToHtmlStringRGBA(color);
     }
 
     /// <summary>
@@ -76,7 +76,7 @@ namespace org.rnp.voxel.unity.gui
     {
       Color parsed;
 
-      if (Color.TryParseHexString(value, out parsed))
+      if (ColorUtility.TryParseHtmlString(value, out parsed))
       {
         result.Set(parsed);
         return true;
