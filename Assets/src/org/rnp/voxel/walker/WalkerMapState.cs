@@ -16,14 +16,14 @@ namespace org.rnp.voxel.walker
   {
     private IMapVoxelMesh _node;
 
-    private HashSet<IVoxelLocation> _nodeKeys;
+    private HashSet<VoxelLocation> _nodeKeys;
 
-    private IVoxelLocation _location;
+    private VoxelLocation _location;
 
-    private IVoxelLocation _lastKey;
+    private VoxelLocation _lastKey;
 
     /// <see cref="org.rnp.voxel.walker.IWalkerState"/>
-    public IVoxelLocation Location
+    public VoxelLocation Location
     {
       get { return _location; }
       set { this._location = value; }
@@ -62,7 +62,7 @@ namespace org.rnp.voxel.walker
     public WalkerMapState(WalkerMapState toCopy)
     {
       this._node = toCopy._node;
-      this._nodeKeys = new HashSet<IVoxelLocation>(toCopy._nodeKeys);
+      this._nodeKeys = new HashSet<VoxelLocation>(toCopy._nodeKeys);
       this._location = new VoxelLocation(toCopy._location);
       this._lastKey = null;
     }
@@ -83,7 +83,7 @@ namespace org.rnp.voxel.walker
     }
 
     /// <see cref="org.rnp.voxel.walker.IWalkerState"/>
-    public IVoxelLocation GetLocation()
+    public VoxelLocation GetLocation()
     {
       if(this._lastKey == null)
       {

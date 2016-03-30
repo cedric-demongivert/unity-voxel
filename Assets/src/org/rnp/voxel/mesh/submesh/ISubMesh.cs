@@ -23,7 +23,7 @@ namespace org.rnp.voxel.mesh.submesh
     /// <summary>
     ///   The offset of the submesh.
     /// </summary>
-    IVoxelLocation Offset
+    VoxelLocation Offset
     {
       get;
     }

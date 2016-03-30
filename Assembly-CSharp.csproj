@@ -46,6 +46,15 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\src\org\rnp\gui\menubar\ActionItem.cs" />
+     <Compile Include="Assets\src\org\rnp\gui\menubar\ActionItemEditor.cs" />
+     <Compile Include="Assets\src\org\rnp\gui\menubar\MenuBar.cs" />
+     <Compile Include="Assets\src\org\rnp\gui\menubar\MenuBarEditor.cs" />
+     <Compile Include="Assets\src\org\rnp\gui\menubar\MenuItem.cs" />
+     <Compile Include="Assets\src\org\rnp\gui\menubar\MenuItemEditor.cs" />
+     <Compile Include="Assets\src\org\rnp\gui\menubar\ParentMenuItem.cs" />
+     <Compile Include="Assets\src\org\rnp\gui\menubar\SubMenuEditor.cs" />
+     <Compile Include="Assets\src\org\rnp\gui\menubar\SubMenuItem.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\mesh\AbstractReadonlyVoxelMesh.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\mesh\AbstractVoxelMesh.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\mesh\IReadonlyVoxelMesh.cs" />
@@ -76,7 +85,6 @@
      <Compile Include="Assets\src\org\rnp\voxel\unity\RaycastVoxelHit.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\unity\VoxelPhysics.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\unity\components\IColorizable.cs" />
-     <Compile Include="Assets\src\org\rnp\voxel\unity\components\Painter.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\unity\components\ParallelepipedVoxelMesh.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\unity\components\PyramidVoxelMesh.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\unity\components\colliders\OctreeCollider.cs" />
@@ -84,15 +92,28 @@
      <Compile Include="Assets\src\org\rnp\voxel\unity\components\debuggers\MapDebugguer.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\unity\components\debuggers\OctreeDebugguer.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\unity\components\meshes\AssetVoxelMesh.cs" />
+     <Compile Include="Assets\src\org\rnp\voxel\unity\components\meshes\EmptyVoxelMesh.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\unity\components\meshes\SphereVoxelMesh.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\unity\components\meshes\VoxelMesh.cs" />
+     <Compile Include="Assets\src\org\rnp\voxel\unity\components\painter\CameraBookmarks.cs" />
+     <Compile Include="Assets\src\org\rnp\voxel\unity\components\painter\ColorPalette.cs" />
+     <Compile Include="Assets\src\org\rnp\voxel\unity\components\painter\ColorPicker.cs" />
+     <Compile Include="Assets\src\org\rnp\voxel\unity\components\painter\Cursor.cs" />
+     <Compile Include="Assets\src\org\rnp\voxel\unity\components\painter\Painter.cs" />
+     <Compile Include="Assets\src\org\rnp\voxel\unity\components\painter\PainterCamera.cs" />
+     <Compile Include="Assets\src\org\rnp\voxel\unity\components\painter\PainterCameraControl.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\unity\components\translators\MapTranslator.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\unity\components\translators\OctreeTranslator.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\unity\components\translators\PrototypeTranslator.cs" />
+     <Compile Include="Assets\src\org\rnp\voxel\unity\gui\ColorPickerView.cs" />
+     <Compile Include="Assets\src\org\rnp\voxel\unity\gui\GUIColorPicker.cs" />
+     <Compile Include="Assets\src\org\rnp\voxel\unity\gui\LineColorPickerTexture.cs" />
+     <Compile Include="Assets\src\org\rnp\voxel\unity\gui\SquareColorPickerTexture.cs" />
+     <Compile Include="Assets\src\org\rnp\voxel\unity\gui\exception\ColorPickerMissConfigurationException.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\utils\Dimensions3D.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\utils\ICopiable.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\utils\IDimensions3D.cs" />
-     <Compile Include="Assets\src\org\rnp\voxel\utils\IVoxelLocation.cs" />
+     <Compile Include="Assets\src\org\rnp\voxel\utils\VoxelColor.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\utils\VoxelLocation.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\utils\Voxels.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\walker\IWalkerState.cs" />
@@ -104,6 +125,7 @@
      <None Include="Assets\shaders\UnityVC\StandardSpecularVC.shader" />
      <None Include="Assets\src\org\rnp\Shaders\NewSurfaceShader.shader" />
      <None Include="Assets\shaders\UnityVC\UnityVC.cginc" />
+     <None Include="Assets\shaders\GridShader.shader" />
  <Reference Include="UnityEngine.UI">
  <HintPath>E:/unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>

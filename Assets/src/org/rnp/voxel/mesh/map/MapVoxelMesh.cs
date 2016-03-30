@@ -16,11 +16,11 @@ namespace org.rnp.voxel.mesh.map
   /// </summary>
   public sealed class MapVoxelMesh : AbstractVoxelMesh, IMapVoxelMesh
   {
-    private Dictionary<IVoxelLocation, IVoxelMesh> _chunks;
+    private Dictionary<VoxelLocation, IVoxelMesh> _chunks;
     private IChunckBuilder _chunkBuilder;
 
-    private IVoxelLocation _min;
-    private IVoxelLocation _max;
+    private VoxelLocation _min;
+    private VoxelLocation _max;
 
     private ReadonlyMapVoxelMesh _readOnly = null;
 
@@ -43,13 +43,13 @@ namespace org.rnp.voxel.mesh.map
     }
 
     /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"/>
-    public override IVoxelLocation Start
+    public override VoxelLocation Start
     {
       get { return new VoxelLocation(this._min); }
     }
 
     /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"/>
-    public override IVoxelLocation End
+    public override VoxelLocation End
     {
       get { return new VoxelLocation(this._max); }
     }
@@ -90,7 +90,7 @@ namespace org.rnp.voxel.mesh.map
     /// </summary>
     public MapVoxelMesh()
     {
-      this._chunks = new Dictionary<IVoxelLocation, IVoxelMesh>();
+      this._chunks = new Dictionary<VoxelLocation, IVoxelMesh>();
       this._chunkBuilder = new OctreeChunckBuilder();
       this._max = new VoxelLocation();
       this._min = new VoxelLocation();
@@ -102,7 +102,7 @@ namespace org.rnp.voxel.mesh.map
     /// <param name="builder"></param>
     public MapVoxelMesh(IChunckBuilder builder)
     {
-      this._chunks = new Dictionary<IVoxelLocation, IVoxelMesh>();
+      this._chunks = new Dictionary<VoxelLocation, IVoxelMesh>();
       this._chunkBuilder = builder;
       this._max = new VoxelLocation();
       this._min = new VoxelLocation();
@@ -114,7 +114,7 @@ namespace org.rnp.voxel.mesh.map
     /// <param name="toCopy"></param>
     public MapVoxelMesh(MapVoxelMesh toCopy)
     {
-      this._chunks = new Dictionary<IVoxelLocation, IVoxelMesh>();
+      this._chunks = new Dictionary<VoxelLocation, IVoxelMesh>();
       this._chunkBuilder = (IChunckBuilder)toCopy._chunkBuilder.Copy();
       this._max = new VoxelLocation(toCopy._max);
       this._min = new VoxelLocation(toCopy._min);
@@ -128,7 +128,7 @@ namespace org.rnp.voxel.mesh.map
     /// <param name="toCopy"></param>
     public MapVoxelMesh(IVoxelMesh toCopy)
     {
-      this._chunks = new Dictionary<IVoxelLocation, IVoxelMesh>();
+      this._chunks = new Dictionary<VoxelLocation, IVoxelMesh>();
       this._chunkBuilder = new OctreeChunckBuilder();
 
       this.Copy(toCopy.Start, toCopy.End, toCopy.Start, toCopy);
@@ -142,7 +142,7 @@ namespace org.rnp.voxel.mesh.map
     /// <param name="builder"></param>
     public MapVoxelMesh(IVoxelMesh toCopy, IChunckBuilder builder)
     {
-      this._chunks = new Dictionary<IVoxelLocation, IVoxelMesh>();
+      this._chunks = new Dictionary<VoxelLocation, IVoxelMesh>();
       this._chunkBuilder = builder;
 
       this.Copy(toCopy.Start, toCopy.End, toCopy.Start, toCopy);
@@ -157,7 +157,7 @@ namespace org.rnp.voxel.mesh.map
       this._min.Set(0,0,0);
       this._max.Set(0,0,0);
 
-      foreach(IVoxelLocation location in this._chunks.Keys) {
+      foreach(VoxelLocation location in this._chunks.Keys) {
         if (location.X < this._min.X) this._min.X = location.X;
         if (location.Y < this._min.Y) this._min.Y = location.Y;
         if (location.Z < this._min.Z) this._min.Z = location.Z;
@@ -172,9 +172,9 @@ namespace org.rnp.voxel.mesh.map
     }
 
     /// <see cref="org.rnp.voxel.mesh.map.IMapVoxelMesh"/>
-    public HashSet<IVoxelLocation> Keys()
+    public HashSet<VoxelLocation> Keys()
     {
-      return new HashSet<IVoxelLocation>(this._chunks.Keys);
+      return new HashSet<VoxelLocation>(this._chunks.Keys);
     }
 
     /// <summary>
@@ -184,7 +184,7 @@ namespace org.rnp.voxel.mesh.map
     /// <param name="y"></param>
     /// <param name="z"></param>
     /// <returns></returns>
-    public IVoxelLocation ToChunckLocation(int x, int y, int z)
+    public VoxelLocation ToChunckLocation(int x, int y, int z)
     {
       if (x < 0) x -= this.ChildWidth;
       if (y < 0) y -= this.ChildHeight;
@@ -202,7 +202,7 @@ namespace org.rnp.voxel.mesh.map
     /// <returns></returns>
     private IVoxelMesh GetChunckAt(int x, int y, int z)
     {
-      IVoxelLocation chunckLocation = this.ToChunckLocation(x, y, z);
+      VoxelLocation chunckLocation = this.ToChunckLocation(x, y, z);
 
       if (this._chunks.ContainsKey(chunckLocation))
       {
@@ -223,7 +223,7 @@ namespace org.rnp.voxel.mesh.map
     /// <returns></returns>
     private void DeleteChunckAt(int x, int y, int z)
     {
-      IVoxelLocation chunckLocation = this.ToChunckLocation(x, y, z);
+      VoxelLocation chunckLocation = this.ToChunckLocation(x, y, z);
 
       this._chunks.Remove(chunckLocation);
 
@@ -244,7 +244,7 @@ namespace org.rnp.voxel.mesh.map
     /// </summary>
     /// <param name="chunckLocation"></param>
     /// <returns></returns>
-    private IVoxelMesh CreateChunck(IVoxelLocation chunckLocation)
+    private IVoxelMesh CreateChunck(VoxelLocation chunckLocation)
     {
       IVoxelMesh chunck = this._chunkBuilder.Build();
       this._chunks[chunckLocation] = chunck;
@@ -274,7 +274,7 @@ namespace org.rnp.voxel.mesh.map
     /// <returns></returns>
     private IVoxelMesh GetChunckAtOrCreate(int x, int y, int z)
     {
-      IVoxelLocation chunckLocation = this.ToChunckLocation(x, y, z);
+      VoxelLocation chunckLocation = this.ToChunckLocation(x, y, z);
 
       if (this._chunks.ContainsKey(chunckLocation))
       {
@@ -293,7 +293,7 @@ namespace org.rnp.voxel.mesh.map
     }
 
     /// <see cref="org.rnp.voxel.mesh.map.IMapVoxelMesh"/>
-    public IReadonlyVoxelMesh GetChild(IVoxelLocation location)
+    public IReadonlyVoxelMesh GetChild(VoxelLocation location)
     {
       if (this._chunks.ContainsKey(location))
       {
@@ -306,7 +306,7 @@ namespace org.rnp.voxel.mesh.map
     }
 
     /// <see cref="org.rnp.voxel.mesh.map.IMapVoxelMesh"/>
-    public IVoxelLocation ToLocale(int x, int y, int z)
+    public VoxelLocation ToLocale(int x, int y, int z)
     {
       VoxelLocation location = new VoxelLocation(
         x % this.ChildWidth, y % this.ChildHeight, z % this.ChildDepth

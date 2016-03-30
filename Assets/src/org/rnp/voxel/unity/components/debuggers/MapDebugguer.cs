@@ -35,12 +35,12 @@ namespace org.rnp.voxel.unity.components.debuggers
       }
     }
 
-    public void DebugMap(IVoxelLocation start, IMapVoxelMesh map, int startDeep, int endDeep)
+    public void DebugMap(VoxelLocation start, IMapVoxelMesh map, int startDeep, int endDeep)
     {
       this.DebugLeaf(start, map, startDeep, endDeep);
 
-      IVoxelLocation chunckStart = new VoxelLocation();
-      foreach (IVoxelLocation chunckLocation in map.Keys())
+      VoxelLocation chunckStart = new VoxelLocation();
+      foreach (VoxelLocation chunckLocation in map.Keys())
       {
         IVoxelMesh chunck = map.GetChild(chunckLocation);
         chunckStart.Set(chunckLocation).Mul(map.ChildWidth, map.ChildHeight, map.ChildDepth);

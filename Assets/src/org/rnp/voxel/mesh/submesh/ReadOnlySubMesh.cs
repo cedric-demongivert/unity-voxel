@@ -21,7 +21,7 @@ namespace org.rnp.voxel.mesh.submesh
     }
 
     /// <see cref="org.rnp.voxel.mesh.submesh.ISubMesh"></see>
-    public IVoxelLocation Offset
+    public VoxelLocation Offset
     {
       get { return this._writableMesh.Offset; }
     }

@@ -19,11 +19,21 @@ namespace org.rnp.voxel.unity
 
     private VoxelMesh _hittedMesh;
 
-    private IVoxelLocation _hittedInnerVoxel;
+    private VoxelLocation _hittedInnerVoxel;
 
-    private IVoxelLocation _hittedOutVoxel;
+    private VoxelLocation _hittedOutVoxel;
 
     private VoxelMeshCollider _hittedCollider;
+
+    private bool _isVoxelMesh;
+
+    public bool IsVoxelMesh
+    {
+      get
+      {
+        return this._isVoxelMesh;
+      }
+    }
 
     public RaycastVoxelHit(RaycastHit result)
     {
@@ -35,8 +45,8 @@ namespace org.rnp.voxel.unity
     {
       GameObject hittedObject = result.collider.gameObject;
       VoxelMesh mesh = hittedObject.GetComponent<VoxelMesh>(); // maybe use an interface and search the collider ?
-      GameObject meshObject = mesh.gameObject; // For a later use. See top.
 
+      this._isVoxelMesh = mesh != null;
       this._hittedMesh = null;
       this._hittedInnerVoxel = null;
       this._hittedOutVoxel = null;
@@ -44,7 +54,7 @@ namespace org.rnp.voxel.unity
       if(mesh != null)
       {
         this._hittedMesh = mesh;
-        Vector3 localized = meshObject.transform.worldToLocalMatrix.MultiplyPoint3x4(result.point);
+        Vector3 localized = hittedObject.transform.worldToLocalMatrix.MultiplyPoint3x4(result.point);
         this._hittedInnerVoxel = new VoxelLocation(localized - (result.normal / 2));
         this._hittedOutVoxel = new VoxelLocation(localized + (result.normal / 2));
       }
@@ -68,7 +78,7 @@ namespace org.rnp.voxel.unity
       }
     }
 
-    public IVoxelLocation HittedInnerVoxel
+    public VoxelLocation HittedInnerVoxel
     {
       get
       {
@@ -76,7 +86,7 @@ namespace org.rnp.voxel.unity
       }
     }
 
-    public IVoxelLocation HittedOutVoxel
+    public VoxelLocation HittedOutVoxel
     {
       get
       {

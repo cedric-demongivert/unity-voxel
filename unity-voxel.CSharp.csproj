@@ -13,13 +13,11 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile>
-    </CompilerResponseFile>
+    <CompilerResponseFile></CompilerResponseFile>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows:5</UnityBuildTarget>
     <UnityVersion>5.3.2f1</UnityVersion>
-    <RootNamespace>
-    </RootNamespace>
+    <RootNamespace></RootNamespace>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -64,27 +62,88 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\src\org\rnp\voxel\mesh\AbstractWritableVoxelMesh.cs" />
+    <Compile Include="Assets\src\org\rnp\gui\menubar\ActionItem.cs" />
+    <Compile Include="Assets\src\org\rnp\gui\menubar\ActionItemEditor.cs" />
+    <Compile Include="Assets\src\org\rnp\gui\menubar\MenuBar.cs" />
+    <Compile Include="Assets\src\org\rnp\gui\menubar\MenuBarEditor.cs" />
+    <Compile Include="Assets\src\org\rnp\gui\menubar\MenuItem.cs" />
+    <Compile Include="Assets\src\org\rnp\gui\menubar\MenuItemEditor.cs" />
+    <Compile Include="Assets\src\org\rnp\gui\menubar\ParentMenuItem.cs" />
+    <Compile Include="Assets\src\org\rnp\gui\menubar\SubMenuEditor.cs" />
+    <Compile Include="Assets\src\org\rnp\gui\menubar\SubMenuItem.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\mesh\AbstractReadonlyVoxelMesh.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\mesh\AbstractVoxelMesh.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\mesh\IReadonlyVoxelMesh.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\mesh\IVoxelMesh.cs" />
-    <Compile Include="Assets\src\org\rnp\voxel\mesh\IWritableVoxelMesh.cs" />
-    <Compile Include="Assets\src\org\rnp\voxel\mesh\octree\VoxelOctreeFormat.cs" />
-    <Compile Include="Assets\src\org\rnp\voxel\mesh\VoxelArray.cs" />
-    <Compile Include="Assets\src\org\rnp\voxel\mesh\octree\BaseVoxelOctreeNodeBuilder.cs" />
-    <Compile Include="Assets\src\org\rnp\voxel\mesh\octree\IVoxelOctreeNodeBuilder.cs" />
-    <Compile Include="Assets\src\org\rnp\voxel\mesh\octree\VoxelOctree.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\mesh\absolute\AbsoluteVoxelMesh.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\mesh\absolute\IAbsoluteVoxelMesh.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\mesh\absolute\ReadOnlyAbsoluteMesh.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\mesh\array\ArrayVoxelMesh.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\mesh\array\IArrayVoxelMesh.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\mesh\array\ReadonlyArrayVoxelMesh.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\mesh\builder\IChunckBuilder.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\mesh\builder\IOctreeNodeBuilder.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\mesh\builder\IVoxelMeshBuilder.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\mesh\builder\OctreeChunckBuilder.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\mesh\builder\OctreeNodeBuilder.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\mesh\exceptions\UnmodifiableVoxelMeshException.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\mesh\map\IMapVoxelMesh.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\mesh\map\MapVoxelMesh.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\mesh\map\ReadonlyMapVoxelMesh.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\mesh\octree\IOctreeVoxelMesh.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\mesh\octree\OctreeVoxelMesh.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\mesh\octree\OctreeVoxelMeshFormat.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\mesh\octree\ReadonlyOctreeVoxelMesh.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\mesh\submesh\ISubMesh.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\mesh\submesh\ReadOnlySubMesh.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\mesh\submesh\SubMesh.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\translator\ITranslator.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\unity\RaycastVoxelHit.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\unity\VoxelPhysics.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\unity\components\IColorizable.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\unity\components\ParallelepipedVoxelMesh.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\unity\components\PyramidVoxelMesh.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\unity\components\colliders\OctreeCollider.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\unity\components\colliders\VoxelMeshCollider.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\unity\components\debuggers\MapDebugguer.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\unity\components\debuggers\OctreeDebugguer.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\unity\components\meshes\AssetVoxelMesh.cs" />
-    <Compile Include="Assets\src\org\rnp\voxel\unity\components\translators\OctreeTranslator.cs" />
-    <Compile Include="Assets\src\org\rnp\voxel\unity\components\translators\PrototypeTranslator.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\unity\components\meshes\EmptyVoxelMesh.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\unity\components\meshes\SphereVoxelMesh.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\unity\components\meshes\VoxelMesh.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\unity\components\painter\CameraBookmarks.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\unity\components\painter\ColorPalette.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\unity\components\painter\ColorPicker.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\unity\components\painter\Cursor.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\unity\components\painter\Painter.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\unity\components\painter\PainterCamera.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\unity\components\painter\PainterCameraControl.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\unity\components\translators\MapTranslator.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\unity\components\translators\OctreeTranslator.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\unity\components\translators\PrototypeTranslator.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\unity\gui\ColorPickerView.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\unity\gui\GUIColorPicker.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\unity\gui\LineColorPickerTexture.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\unity\gui\SquareColorPickerTexture.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\unity\gui\exception\ColorPickerMissConfigurationException.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\utils\Dimensions3D.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\utils\ICopiable.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\utils\IDimensions3D.cs" />
-    <Compile Include="Assets\src\org\rnp\voxel\utils\IVoxelLocation.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\utils\VoxelColor.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\utils\VoxelLocation.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\utils\Voxels.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\walker\IWalkerState.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\walker\OctreeOutlineWalker.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\walker\WalkerAsOctreeState.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\walker\WalkerMapState.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\walker\WalkerOctreeState.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Assets\shaders\GridShader.shader" />
+    <None Include="Assets\shaders\UnityVC\StandardSpecularVC.shader" />
+    <None Include="Assets\shaders\UnityVC\StandardVC.shader" />
+    <None Include="Assets\shaders\UnityVC\UnityVC.cginc" />
+    <None Include="Assets\src\org\rnp\Shaders\NewSurfaceShader.shader" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>

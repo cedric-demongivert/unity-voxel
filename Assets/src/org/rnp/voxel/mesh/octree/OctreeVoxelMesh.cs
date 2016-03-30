@@ -65,10 +65,10 @@ namespace org.rnp.voxel.mesh.octree
     }
 
     /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"></see>
-    public override IVoxelLocation Start { get { return VoxelLocation.Zero; } }
+    public override VoxelLocation Start { get { return VoxelLocation.Zero; } }
 
     /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"></see>
-    public override IVoxelLocation End
+    public override VoxelLocation End
     {
       get
       {
@@ -86,7 +86,7 @@ namespace org.rnp.voxel.mesh.octree
     public OctreeVoxelMesh()
       : base()
     {
-      this._childs = null;
+      this._childs = new IVoxelMesh[2, 2, 2];
       this._format = OctreeVoxelMeshFormat.Empty;
       this._builder = new OctreeNodeBuilder();
     }

@@ -13,7 +13,7 @@ namespace org.rnp.voxel.walker
   /// </summary>
   public interface IWalkerState : ICopiable<IWalkerState>
   {
-    IVoxelLocation Location
+    VoxelLocation Location
     {
       get;
       set;
@@ -37,6 +37,6 @@ namespace org.rnp.voxel.walker
     ///   Return the location of the last returned mesh.
     /// </summary>
     /// <returns></returns>
-    IVoxelLocation GetLocation();
+    VoxelLocation GetLocation();
   }
 }

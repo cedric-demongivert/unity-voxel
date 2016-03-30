@@ -43,7 +43,7 @@ namespace org.rnp.voxel.unity.components.translators
     /// </summary>
     /// <param name="root"></param>
     /// <param name="octree"></param>
-    public void TranslateTree(IVoxelLocation root, IOctreeVoxelMesh octree)
+    public void TranslateTree(VoxelLocation root, IOctreeVoxelMesh octree)
     {
       VoxelLocation nextRoot = new VoxelLocation();
       for (int x = 0; x < 2; ++x)
@@ -80,10 +80,10 @@ namespace org.rnp.voxel.unity.components.translators
     /// </summary>
     /// <param name="root"></param>
     /// <param name="mesh"></param>
-    public void TranslateLeaf(IVoxelLocation root, IVoxelMesh mesh)
+    public void TranslateLeaf(VoxelLocation root, IVoxelMesh mesh)
     {
-      IVoxelLocation start = mesh.Start;
-      IVoxelLocation end = mesh.End;
+      VoxelLocation start = mesh.Start;
+      VoxelLocation end = mesh.End;
       VoxelLocation finalLocation = new VoxelLocation();
       
       for (int x = start.X; x < end.X; ++x)

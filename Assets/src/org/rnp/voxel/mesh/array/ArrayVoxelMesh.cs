@@ -71,13 +71,13 @@ namespace org.rnp.voxel.mesh.array
     }
 
     /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"></see>
-    public override IVoxelLocation Start
+    public override VoxelLocation Start
     {
       get { return VoxelLocation.Zero; }
     }
 
     /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"></see>
-    public override IVoxelLocation End
+    public override VoxelLocation End
     {
       get
       {

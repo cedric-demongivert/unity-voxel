@@ -46,13 +46,13 @@ namespace org.rnp.voxel.mesh
     }
 
     /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"></see>
-    public override IVoxelLocation Start
+    public override VoxelLocation Start
     {
       get { return this._writableMesh.Start; }
     }
 
     /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"></see>
-    public override IVoxelLocation End
+    public override VoxelLocation End
     {
       get { return this._writableMesh.End; }
     }
@@ -94,13 +94,13 @@ namespace org.rnp.voxel.mesh
     }
 
     /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"/>
-    public override void Copy(IVoxelLocation from, IVoxelLocation to, IVoxelLocation where, IVoxelMesh toCopy)
+    public override void Copy(VoxelLocation from, VoxelLocation to, VoxelLocation where, IVoxelMesh toCopy)
     {
       throw new UnmodifiableVoxelMeshException(this);
     }
 
     /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"/>
-    public override void Copy(IVoxelLocation start, IDimensions3D size, IVoxelLocation where, IVoxelMesh toCopy)
+    public override void Copy(VoxelLocation start, IDimensions3D size, VoxelLocation where, IVoxelMesh toCopy)
     {
       throw new UnmodifiableVoxelMeshException(this);
     }

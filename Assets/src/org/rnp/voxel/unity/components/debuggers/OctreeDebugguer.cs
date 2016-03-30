@@ -54,7 +54,7 @@ namespace org.rnp.voxel.unity.components.debuggers
     /// </summary>
     /// <param name="root"></param>
     /// <param name="octree"></param>
-    public void DebugTree(IVoxelLocation root, IOctreeVoxelMesh octree, int minDeep, int maxDeep)
+    public void DebugTree(VoxelLocation root, IOctreeVoxelMesh octree, int minDeep, int maxDeep)
     {
       if (maxDeep <= 0) return;
 
@@ -96,7 +96,7 @@ namespace org.rnp.voxel.unity.components.debuggers
     /// </summary>
     /// <param name="root"></param>
     /// <param name="mesh"></param>
-    public void DebugLeaf(IVoxelLocation root, IVoxelMesh mesh, int minDeep, int maxDeep)
+    public void DebugLeaf(VoxelLocation root, IVoxelMesh mesh, int minDeep, int maxDeep)
     {
       if (maxDeep <= 0) return;
 
@@ -111,7 +111,7 @@ namespace org.rnp.voxel.unity.components.debuggers
     /// </summary>
     /// <param name="root"></param>
     /// <param name="dimensions"></param>
-    private void DrawCube(IVoxelLocation root, IVoxelMesh dimensions)
+    private void DrawCube(VoxelLocation root, IVoxelMesh dimensions)
     {
       Vector3 toMid = new Vector3(
         dimensions.Width / 2f,
@@ -120,7 +120,7 @@ namespace org.rnp.voxel.unity.components.debuggers
       );
 
       Gizmos.DrawWireCube(
-        VoxelLocation.ToVector3(root) + toMid,
+        root + toMid,
         new Vector3(
           dimensions.Width,
           dimensions.Height,
