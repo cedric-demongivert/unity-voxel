@@ -13,35 +13,31 @@ namespace org.rnp.voxel.mesh
   /// <summary>
   ///   A read-only voxel mesh.
   /// </summary>
-  public class ReadonlyVoxelMesh : AbstractVoxelMesh, IReadonlyVoxelMesh
+  public class ReadonlyVoxelMesh : VoxelMesh
   {
     /// <summary>
     ///   Wrapped voxel mesh.
     /// </summary>
-    private IVoxelMesh _writableMesh;
+    [SerializeField]
+    private VoxelMesh _writableMesh;
 
-    /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"></see>
+    /// <see cref="org.rnp.voxel.mesh.VoxelMesh"></see>
     public override Dimensions3D Dimensions
     {
-      get
-      {
-        return this._writableMesh.Dimensions;
-      }
+      get { return this._writableMesh.Dimensions; }
     }
 
-    /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"></see>
+    /// <see cref="org.rnp.voxel.mesh.VoxelMesh"></see>
     public override VoxelLocation Start
     {
-      get { 
-        return this._writableMesh.Start;
-      }
+      get { return this._writableMesh.Start; }
     }
     
     /// <summary>
     ///   Wrap a writable voxel mesh in a readonly implementation.
     /// </summary>
     /// <param name="writableMesh"></param>
-    public ReadonlyVoxelMesh(IVoxelMesh writableMesh)
+    public ReadonlyVoxelMesh(VoxelMesh writableMesh)
     {
       this._writableMesh = writableMesh;
     }
@@ -55,58 +51,46 @@ namespace org.rnp.voxel.mesh
       this._writableMesh = toCopy._writableMesh;
     }
 
-    /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"/>
+    /// <see cref="org.rnp.voxel.mesh.VoxelMesh"/>
     public override Color32 Get(int x, int y, int z)
     {
       return this._writableMesh.Get(x, y, z);
     }
 
-    /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"/>
+    /// <see cref="org.rnp.voxel.mesh.VoxelMesh"/>
     public override Color32 Get(VoxelLocation location)
     {
       return this._writableMesh.Get(location);
     }
 
-    /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"/>
+    /// <see cref="org.rnp.voxel.mesh.VoxelMesh"/>
     public override void Set(int x, int y, int z, Color32 value)
     {
       throw new UnmodifiableVoxelMeshException(this);
     }
 
-    /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"/>
+    /// <see cref="org.rnp.voxel.mesh.VoxelMesh"/>
     public override void Set(VoxelLocation location, Color32 value)
     {
       throw new UnmodifiableVoxelMeshException(this);
     }
 
-    /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"/>
+    /// <see cref="org.rnp.voxel.mesh.VoxelMesh"/>
     public override void Clear()
     {
       throw new UnmodifiableVoxelMeshException(this);
     }
 
-    /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"/>
-    public override IVoxelMesh Copy()
+    /// <see cref="org.rnp.voxel.mesh.VoxelMesh"/>
+    public override VoxelMesh Copy()
     {
       return new ReadonlyVoxelMesh(this);
     }
 
-    /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"/>
-    public override IReadonlyVoxelMesh ReadOnly()
+    /// <see cref="org.rnp.voxel.mesh.VoxelMesh"/>
+    public override ReadonlyVoxelMesh Readonly()
     {
       return this;
-    }
-
-    /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"/>
-    public override bool IsFull()
-    {
-      return this._writableMesh.IsFull();
-    }
-
-    /// <see cref="org.rnp.voxel.mesh.IVoxelMesh"/>
-    public override bool IsEmpty()
-    {
-      return this._writableMesh.IsEmpty();
     }
   }
 }

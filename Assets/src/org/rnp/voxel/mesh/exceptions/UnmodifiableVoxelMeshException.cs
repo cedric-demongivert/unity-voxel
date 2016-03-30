@@ -15,14 +15,14 @@ namespace org.rnp.voxel.mesh.exceptions
     /// <summary>
     ///   The unmodifiable mesh.
     /// </summary>
-    public readonly IVoxelMesh UnmodifiableMesh;
+    public readonly VoxelMesh UnmodifiableMesh;
 
     /// <summary>
     ///   Create a new UnmodifiableVoxelMesh exception.
     /// </summary>
     /// <param name="UnmodifiableMesh"></param>
-    public UnmodifiableVoxelMeshException(IVoxelMesh UnmodifiableMesh)
-      : base("Trying to modify a ReadOnly voxel mesh.") 
+    public UnmodifiableVoxelMeshException(VoxelMesh UnmodifiableMesh)
+      : base("Trying to modify a voxel mesh in a Readonly state.") 
     {
       this.UnmodifiableMesh = UnmodifiableMesh;
     }
