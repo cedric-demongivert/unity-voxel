@@ -51,6 +51,12 @@ namespace org.rnp.voxel.mesh
         return VoxelLocation.Zero;
       }
     }
+    
+    /// <see cref="org.rnp.voxel.mesh.VoxelMesh"></see>
+    public override bool IsReadonly
+    {
+      get { return false; }
+    }
 
     /// <summary>
     ///   Create an empty voxel mesh.
@@ -135,7 +141,7 @@ namespace org.rnp.voxel.mesh
     }
 
     /// <see cref="org.rnp.voxel.mesh.VoxelMesh"/>
-    public override ReadonlyVoxelMesh Readonly()
+    public override VoxelMesh Readonly()
     {
       return new ReadonlyVoxelMesh(this);
     }

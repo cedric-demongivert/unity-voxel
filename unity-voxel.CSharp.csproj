@@ -13,11 +13,13 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile></CompilerResponseFile>
+    <CompilerResponseFile>
+    </CompilerResponseFile>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows:5</UnityBuildTarget>
     <UnityVersion>5.3.2f1</UnityVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -62,8 +64,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\src\org\rnp\commit\ICommitListener.cs" />
-    <Compile Include="Assets\src\org\rnp\commit\ICommitable.cs" />
     <Compile Include="Assets\src\org\rnp\gui\menubar\ActionItem.cs" />
     <Compile Include="Assets\src\org\rnp\gui\menubar\ActionItemEditor.cs" />
     <Compile Include="Assets\src\org\rnp\gui\menubar\MenuBar.cs" />
@@ -74,11 +74,12 @@
     <Compile Include="Assets\src\org\rnp\gui\menubar\SubMenuEditor.cs" />
     <Compile Include="Assets\src\org\rnp\gui\menubar\SubMenuItem.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\MapVoxelMesh.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\mesh\ChunckVoxelMesh.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\ReadonlyMapVoxelMesh.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\mesh\ArrayVoxelMesh.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\mesh\MapVoxelMesh.cs" />
-    <Compile Include="Assets\src\org\rnp\voxel\mesh\ReadonlyMapVoxelMesh.cs" />
-    <Compile Include="Assets\src\org\rnp\voxel\mesh\ReadonlyVoxelMesh.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\mesh\readonly\ReadonlyMapVoxelMesh.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\mesh\readonly\ReadonlyVoxelMesh.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\mesh\SubMesh.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\mesh\VoxelMesh.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\mesh\VoxelMeshes.cs" />

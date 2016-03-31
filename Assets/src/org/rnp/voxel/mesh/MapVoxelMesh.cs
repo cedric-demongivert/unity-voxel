@@ -13,7 +13,7 @@ namespace org.rnp.voxel.mesh
   /// <summary>
   ///   A infinite mesh based on a map.
   /// </summary>
-  public sealed class MapVoxelMesh : VoxelMesh
+  public sealed class MapVoxelMesh : ChunckVoxelMesh
   {
     private Dictionary<VoxelLocation, VoxelMesh> _chunks;
 
@@ -35,19 +35,33 @@ namespace org.rnp.voxel.mesh
       get { return _min; }
     }
 
-    /// <see cref="org.rnp.voxel.mesh.map.IMapVoxelMesh"/>
-    public Dimensions3D ChunckDimensions
+    /// <see cref="org.rnp.voxel.mesh.map.ChunckVoxelMesh"/>
+    public override Dimensions3D ChunckDimensions
     {
       get { return this._chunckDimensions; }
+    }
+
+    /// <see cref="org.rnp.voxel.mesh.map.ChunckVoxelMesh"/>
+    public override IEnumerator<VoxelLocation> ChunckLocations
+    {
+      get
+      {
+        foreach(VoxelLocation key in this._chunks.Keys)
+        {
+          yield return key;
+        }
+      }
     }
 
     /// <summary>
     ///   An empty default MapVoxelMesh.
     /// </summary>
-    public MapVoxelMesh()
+    /// <param name="chunckDimensions"></param>
+    public MapVoxelMesh(Dimensions3D chunckDimensions)
     {
       this._chunks = new Dictionary<VoxelLocation, VoxelMesh>();
       this._chunkFactory = ArrayVoxelMesh.Create;
+      this._chunckDimensions = chunckDimensions;
       this._max = new VoxelLocation();
       this._min = new VoxelLocation();
     }
@@ -55,11 +69,13 @@ namespace org.rnp.voxel.mesh
     /// <summary>
     ///   Create a MapVoxelMesh with a custom chunck configuration.
     /// </summary>
+    /// <param name="chunckDimensions"></param>
     /// <param name="factory"></param>
-    public MapVoxelMesh(VoxelMeshFactory factory)
+    public MapVoxelMesh(Dimensions3D chunckDimensions, VoxelMeshFactory factory)
     {
       this._chunks = new Dictionary<VoxelLocation, VoxelMesh>();
       this._chunkFactory = factory;
+      this._chunckDimensions = chunckDimensions;
       this._max = new VoxelLocation();
       this._min = new VoxelLocation();
     }
@@ -72,6 +88,7 @@ namespace org.rnp.voxel.mesh
     {
       this._chunks = new Dictionary<VoxelLocation, VoxelMesh>();
       this._chunkFactory = toCopy._chunkFactory;
+      this._chunckDimensions = toCopy.ChunckDimensions;
       this._max = toCopy._max;
       this._min = toCopy._min;
 
@@ -82,10 +99,11 @@ namespace org.rnp.voxel.mesh
     ///   Copy an existing VoxelMesh.
     /// </summary>
     /// <param name="toCopy"></param>
-    public MapVoxelMesh(VoxelMesh toCopy)
+    public MapVoxelMesh(Dimensions3D chunckDimensions, VoxelMesh toCopy)
     {
       this._chunks = new Dictionary<VoxelLocation, VoxelMesh>();
       this._chunkFactory = ArrayVoxelMesh.Create;
+      this._chunckDimensions = chunckDimensions;
 
       VoxelMeshes.Copy(toCopy, this);
       this.EvaluateSize();
@@ -96,10 +114,11 @@ namespace org.rnp.voxel.mesh
     /// </summary>
     /// <param name="toCopy"></param>
     /// <param name="builder"></param>
-    public MapVoxelMesh(VoxelMesh toCopy, VoxelMeshFactory builder)
+    public MapVoxelMesh(Dimensions3D chunckDimensions, VoxelMesh toCopy, VoxelMeshFactory builder)
     {
       this._chunks = new Dictionary<VoxelLocation, VoxelMesh>();
       this._chunkFactory = builder;
+      this._chunckDimensions = chunckDimensions;
 
       VoxelMeshes.Copy(toCopy, this);
       this.EvaluateSize();
@@ -127,28 +146,6 @@ namespace org.rnp.voxel.mesh
       this._max = new VoxelLocation(maxX, maxY, maxZ).Mul(this._chunckDimensions);
     }
 
-    /// <see cref="org.rnp.voxel.mesh.map.IMapVoxelMesh"/>
-    public HashSet<VoxelLocation> Keys()
-    {
-      return new HashSet<VoxelLocation>(this._chunks.Keys);
-    }
-
-    /// <summary>
-    ///   Transform an absolute location to a chunck location.
-    /// </summary>
-    /// <param name="x"></param>
-    /// <param name="y"></param>
-    /// <param name="z"></param>
-    /// <returns></returns>
-    public VoxelLocation ToChunckLocation(int x, int y, int z)
-    {
-      return new VoxelLocation(
-        x / (float) this._chunckDimensions.Width,
-        y / (float) this._chunckDimensions.Height,
-        z / (float) this._chunckDimensions.Depth
-      );
-    }
-
     /// <summary>
     ///   Get the chunck that contains the specified location.
     /// </summary>
@@ -156,7 +153,7 @@ namespace org.rnp.voxel.mesh
     /// <param name="y"></param>
     /// <param name="z"></param>
     /// <returns></returns>
-    private VoxelMesh GetChunckAt(int x, int y, int z)
+    private VoxelMesh GetWritableChunckAt(int x, int y, int z)
     {
       VoxelLocation chunckLocation = this.ToChunckLocation(x, y, z);
 
@@ -219,7 +216,7 @@ namespace org.rnp.voxel.mesh
     /// <param name="y"></param>
     /// <param name="z"></param>
     /// <returns></returns>
-    private VoxelMesh GetChunckAtOrCreate(int x, int y, int z)
+    private VoxelMesh GetOrCreateChunckAt(int x, int y, int z)
     {
       VoxelLocation chunckLocation = this.ToChunckLocation(x, y, z);
 
@@ -233,14 +230,15 @@ namespace org.rnp.voxel.mesh
       }
     }
 
-    /// <see cref="org.rnp.voxel.mesh.map.IMapVoxelMesh"/>
-    public ReadonlyVoxelMesh GetChild(int x, int y, int z)
+
+    /// <see cref="org.rnp.voxel.mesh.ChunckVoxelMesh"/>
+    public override VoxelMesh GetChunck(int x, int y, int z)
     {
-      return this.GetChild(new VoxelLocation(x, y, z));
+      return this.GetChunck(new VoxelLocation(x, y, z));
     }
 
-    /// <see cref="org.rnp.voxel.mesh.map.IMapVoxelMesh"/>
-    public ReadonlyVoxelMesh GetChild(VoxelLocation location)
+    /// <see cref="org.rnp.voxel.mesh.ChunckVoxelMesh"/>
+    public override VoxelMesh GetChunck(VoxelLocation location)
     {
       if (this._chunks.ContainsKey(location))
       {
@@ -252,22 +250,32 @@ namespace org.rnp.voxel.mesh
       }
     }
 
-    /// <see cref="org.rnp.voxel.mesh.map.IMapVoxelMesh"/>
-    public VoxelLocation ToLocale(int x, int y, int z)
+    /// <see cref="org.rnp.voxel.mesh.ChunckVoxelMesh"/>
+    public override VoxelMesh GetChunckAt(int x, int y, int z)
     {
-      VoxelLocation location = new VoxelLocation(x, y, z).Mod(this._chunckDimensions);
-      
-      return location.Add(
-        (location.X < 0) ? this._chunckDimensions.Width : 0,
-        (location.Y < 0) ? this._chunckDimensions.Height : 0,
-        (location.Z < 0) ? this._chunckDimensions.Depth : 0
-      );
+      return this.GetChunckAt(new VoxelLocation(x, y, z));
+    }
+
+    /// <see cref="org.rnp.voxel.mesh.ChunckVoxelMesh"/>
+    public override VoxelMesh GetChunckAt(VoxelLocation location)
+    {
+      VoxelLocation chunckLocation = this.ToChunckLocation(location);
+
+      if (this._chunks.ContainsKey(chunckLocation))
+      {
+        return this._chunks[chunckLocation].Readonly();
+      }
+      else
+      {
+        return null;
+      }
     }
 
     /// <see cref="org.rnp.voxel.mesh.VoxelMesh"/>
     public override Color32 Get(int x, int y, int z)
     {
-      VoxelMesh chunck = this.GetChunckAt(x, y, z);
+      VoxelMesh chunck = this.GetWritableChunckAt(x, y, z);
+
       if (chunck == null)
       {
         return Voxels.Empty;
@@ -295,7 +303,7 @@ namespace org.rnp.voxel.mesh
     {
       if (color.a == 255)
       {
-        VoxelMesh chunck = this.GetChunckAt(x, y, z);
+        VoxelMesh chunck = this.GetWritableChunckAt(x, y, z);
         if (chunck != null)
         {
           chunck[this.ToLocale(x, y, z)] = Voxels.Empty;
@@ -308,7 +316,7 @@ namespace org.rnp.voxel.mesh
       }
       else
       {
-        this.GetChunckAtOrCreate(x, y, z)[
+        this.GetOrCreateChunckAt(x, y, z)[
           this.ToLocale(x, y, z)
         ] = color;
       }
@@ -347,7 +355,7 @@ namespace org.rnp.voxel.mesh
     }
 
     /// <see cref="org.rnp.voxel.mesh.VoxelMesh"/>
-    public override ReadonlyVoxelMesh Readonly()
+    public override VoxelMesh Readonly()
     {
       return new ReadonlyMapVoxelMesh(this);
     }

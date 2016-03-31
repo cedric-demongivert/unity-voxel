@@ -32,7 +32,13 @@ namespace org.rnp.voxel.mesh
     {
       get { return this._writableMesh.Start; }
     }
-    
+
+    /// <see cref="org.rnp.voxel.mesh.VoxelMesh"></see>
+    public override bool IsReadonly
+    {
+      get { return true; }
+    }
+
     /// <summary>
     ///   Wrap a writable voxel mesh in a readonly implementation.
     /// </summary>
@@ -88,7 +94,7 @@ namespace org.rnp.voxel.mesh
     }
 
     /// <see cref="org.rnp.voxel.mesh.VoxelMesh"/>
-    public override ReadonlyVoxelMesh Readonly()
+    public override VoxelMesh Readonly()
     {
       return this;
     }

@@ -18,7 +18,6 @@ namespace org.rnp.voxel.mesh
   ///
   /// <summary>
   ///   A color matrix that store voxel mesh datas, it can be finite or no.
-  ///   Readonly implementations must implements the ReadonlyVoxelMesh interface of the same package.
   /// </summary>
   public abstract class VoxelMesh : ScriptableObject
   {
@@ -34,6 +33,14 @@ namespace org.rnp.voxel.mesh
     ///   Get the minimum point of that voxel mesh (inclusive).
     /// </summary>
     public abstract VoxelLocation Start
+    {
+      get;
+    }
+
+    /// <summary>
+    ///   True if the mesh is in a readonly state.
+    /// </summary>
+    public abstract bool IsReadonly
     {
       get;
     }
@@ -89,7 +96,7 @@ namespace org.rnp.voxel.mesh
     ///   If the mesh is already in an Readonly state, this method must return it.
     /// </summary>
     /// <returns></returns>
-    public abstract ReadonlyVoxelMesh Readonly();
+    public abstract VoxelMesh Readonly();
 
     /// <summary>
     ///   Return a deep-copy of the voxel mesh.
