@@ -19,7 +19,7 @@ namespace org.rnp.voxel.mesh
     /// </summary>
     /// <param name="toCopy"></param>
     /// <param name="toPaste"></param>
-    public static void Copy(IVoxelMesh toCopy, IVoxelMesh toPaste)
+    public static void Copy(VoxelMesh toCopy, VoxelMesh toPaste)
     {
       VoxelMeshes.Copy(
         toCopy,
@@ -36,7 +36,7 @@ namespace org.rnp.voxel.mesh
     /// <param name="toCopy"></param>
     /// <param name="toPaste"></param>
     /// <param name="where"></param>
-    public static void Copy(IVoxelMesh toCopy, IVoxelMesh toPaste, VoxelLocation where)
+    public static void Copy(VoxelMesh toCopy, VoxelMesh toPaste, VoxelLocation where)
     {
       VoxelMeshes.Copy(
         toCopy,
@@ -54,7 +54,7 @@ namespace org.rnp.voxel.mesh
     /// <param name="toPaste"></param>
     /// <param name="from"></param>
     /// <param name="to"></param>
-    public static void Copy(IVoxelMesh toCopy, IVoxelMesh toPaste, VoxelLocation from, VoxelLocation to)
+    public static void Copy(VoxelMesh toCopy, VoxelMesh toPaste, VoxelLocation from, VoxelLocation to)
     {
       VoxelMeshes.Copy(
         toCopy,
@@ -73,7 +73,7 @@ namespace org.rnp.voxel.mesh
     /// <param name="start"></param>
     /// <param name="size"></param>
     /// <param name="where"></param>
-    public static void Copy(IVoxelMesh toCopy, IVoxelMesh toPaste, VoxelLocation from, VoxelLocation to, VoxelLocation where)
+    public static void Copy(VoxelMesh toCopy, VoxelMesh toPaste, VoxelLocation from, VoxelLocation to, VoxelLocation where)
     {
       VoxelMeshes.Copy(
         toCopy, 
@@ -91,7 +91,7 @@ namespace org.rnp.voxel.mesh
     /// <param name="start"></param>
     /// <param name="size"></param>
     /// <param name="where"></param>
-    public static void Copy(IVoxelMesh toCopy, IVoxelMesh toPaste, VoxelLocation start, Dimensions3D size, VoxelLocation where)
+    public static void Copy(VoxelMesh toCopy, VoxelMesh toPaste, VoxelLocation start, Dimensions3D size, VoxelLocation where)
     {
       for (int x = 0; x < size.Width; ++x)
       {
@@ -112,7 +112,7 @@ namespace org.rnp.voxel.mesh
     /// <param name="start"></param>
     /// <param name="size"></param>
     /// <param name="color"></param>
-    public static void Fill(IVoxelMesh mesh, VoxelLocation start, Dimensions3D size, Color32 color)
+    public static void Fill(VoxelMesh mesh, VoxelLocation start, Dimensions3D size, Color32 color)
     {
       for (int x = 0; x < size.Width; ++x)
       {
@@ -133,7 +133,7 @@ namespace org.rnp.voxel.mesh
     /// <param name="start"></param>
     /// <param name="end"></param>
     /// <param name="color"></param>
-    public static void Fill(IVoxelMesh mesh, VoxelLocation start, VoxelLocation end, Color32 color)
+    public static void Fill(VoxelMesh mesh, VoxelLocation start, VoxelLocation end, Color32 color)
     {
       VoxelMeshes.Fill(
         mesh,
@@ -148,7 +148,7 @@ namespace org.rnp.voxel.mesh
     /// </summary>
     /// <param name="mesh"></param>
     /// <param name="color"></param>
-    public static void Fill(IVoxelMesh mesh, Color32 color)
+    public static void Fill(VoxelMesh mesh, Color32 color)
     {
       VoxelMeshes.Fill(
         mesh, 

@@ -7,6 +7,13 @@ using UnityEngine;
 
 namespace org.rnp.voxel.mesh
 {
+  /// <summary>
+  ///   A delegate that create new instances of voxel mesh.
+  /// </summary>
+  /// <param name="dimensions"></param>
+  /// <returns></returns>
+  public delegate VoxelMesh VoxelMeshFactory(Dimensions3D dimensions);
+
   /// <author>Cédric DEMONGIVERT [cedric.demongivert@gmail.com]</author>
   ///
   /// <summary>
@@ -72,7 +79,10 @@ namespace org.rnp.voxel.mesh
     ///   Clear the voxel mesh.
     ///   All voxels of the mesh must be set to Voxels.Empty.
     /// </summary>
-    public abstract void Clear();
+    public virtual void Clear()
+    {
+      VoxelMeshes.Fill(this, Voxels.Empty);
+    }
 
     /// <summary>
     ///   Get a Readonly implementation.
