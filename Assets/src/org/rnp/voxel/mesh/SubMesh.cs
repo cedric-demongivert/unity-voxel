@@ -12,7 +12,7 @@ namespace org.rnp.voxel.mesh
   /// <summary>
   ///   A simple implementation.
   /// </summary>
-  public class SubMesh : VoxelMesh
+  public class SubMesh : VoxelMesh, IVoxelMeshCommitListener
   {
     /// <summary>
     ///   Voxel dimension of the mesh.
@@ -57,6 +57,21 @@ namespace org.rnp.voxel.mesh
       get { return this._parentMesh; }
     }
 
+    /// <see cref="org.rnp.voxel.mesh.VoxelMesh"></see>
+    public override bool IsReadonly
+    {
+      get { return false; }
+    }
+
+    /// <see cref="org.rnp.voxel.mesh.VoxelMesh"></see>
+    public override bool IsDirty
+    {
+      get
+      {
+        return this._parentMesh.IsDirty;
+      }
+    }
+    
     /// <summary>
     ///   Keep a submesh of an existing mesh.
     /// </summary>
@@ -106,6 +121,7 @@ namespace org.rnp.voxel.mesh
       if (this.Contains(location))
       {
         this._parentMesh.Set(location.Add(this._offset), value);
+        this.MarkDirty();
       }
       else
       {
@@ -139,9 +155,41 @@ namespace org.rnp.voxel.mesh
     }
 
     /// <see cref="org.rnp.voxel.mesh.VoxelMesh"/>
-    public override ReadonlyVoxelMesh Readonly()
+    public override VoxelMesh Readonly()
     {
       return new ReadonlyVoxelMesh(this);
     }
+
+    /// <see cref="org.rnp.voxel.mesh.VoxelMesh"></see>
+    public override void Commit()
+    {
+      this._parentMesh.Commit();
+    }
+
+    /// <see cref="org.rnp.voxel.mesh.IVoxelMeshCommitListener"/>
+    public void OnRegister(VoxelMesh mesh)
+    { }
+
+    /// <see cref="org.rnp.voxel.mesh.IVoxelMeshCommitListener"/>
+    public void OnCommitBegin(VoxelMesh mesh)
+    {
+      foreach (IVoxelMeshCommitListener listener in this.Listeners)
+      {
+        listener.OnCommitBegin(this);
+      }
+    }
+
+    /// <see cref="org.rnp.voxel.mesh.IVoxelMeshCommitListener"/>
+    public void OnCommitEnd(VoxelMesh mesh)
+    {
+      foreach (IVoxelMeshCommitListener listener in this.Listeners)
+      {
+        listener.OnCommitEnd(this);
+      }
+    }
+
+    /// <see cref="org.rnp.voxel.mesh.IVoxelMeshCommitListener"/>
+    public void OnUnregister(VoxelMesh mesh)
+    { }
   }
 }

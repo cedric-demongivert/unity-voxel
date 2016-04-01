@@ -22,6 +22,16 @@ namespace org.rnp.voxel.mesh
   public abstract class VoxelMesh : ScriptableObject
   {
     /// <summary>
+    ///     Listeners for commit.
+    /// </summary>
+    private HashSet<IVoxelMeshCommitListener> _listeners;
+
+    /// <summary>
+    ///   True if the mesh changed and had not been commited.
+    /// </summary>
+    private bool _isDirty;
+
+    /// <summary>
     ///   Dimensions of the voxel mesh.
     /// </summary>
     public abstract Dimensions3D Dimensions
@@ -43,6 +53,20 @@ namespace org.rnp.voxel.mesh
     public abstract bool IsReadonly
     {
       get;
+    }
+
+    /// <summary>
+    ///   Listener enumerator.
+    /// </summary>
+    protected IEnumerable<IVoxelMeshCommitListener> Listeners
+    {
+      get
+      {
+        foreach(IVoxelMeshCommitListener listener in _listeners)
+        {
+          yield return listener;
+        }
+      }
     }
 
     /// <summary>
@@ -80,6 +104,90 @@ namespace org.rnp.voxel.mesh
       {
         this.Set(location, value);
       }
+    }
+
+    /// <summary>
+    ///   True if the mesh changed and had not been commited.
+    /// </summary>
+    public virtual bool IsDirty
+    {
+      get
+      {
+        return this._isDirty;
+      }
+    }
+
+    /// <summary>
+    ///   Base voxel mesh constructor.
+    /// </summary>
+    public VoxelMesh()
+    {
+      this._listeners = new HashSet<IVoxelMeshCommitListener>();
+      this._isDirty = false;
+    }
+
+    /// <summary>
+    ///   Register a new listener that listen for commits of this mesh.
+    /// </summary>
+    /// <param name="listener"></param>
+    public virtual void RegisterCommitListener(IVoxelMeshCommitListener listener)
+    {
+      if(!this._listeners.Contains(listener))
+      {
+        this._listeners.Add(listener);
+        listener.OnRegister(this);
+      }
+    }
+
+    /// <summary>
+    ///   Unregister a registered commit listener.
+    /// </summary>
+    /// <param name="listener"></param>
+    public virtual void UnregisterCommitListener(IVoxelMeshCommitListener listener)
+    {
+      if(this._listeners.Contains(listener))
+      {
+        this._listeners.Remove(listener);
+        listener.OnUnregister(this);
+      }
+    }
+
+    /// <summary>
+    ///   Notify changes of the mesh.
+    /// </summary>
+    public virtual void Commit()
+    {
+      if (this.IsDirty)
+      {
+        foreach (IVoxelMeshCommitListener listener in this._listeners)
+        {
+          listener.OnCommitBegin(this);
+        }
+
+        foreach (IVoxelMeshCommitListener listener in this._listeners)
+        {
+          listener.OnCommitEnd(this);
+        }
+
+        this._isDirty = false;
+      }
+    }
+
+    /// <see cref="http://docs.unity3d.com/ScriptReference/ScriptableObject.html"/>
+    protected virtual void OnDestroy()
+    {
+      foreach(IVoxelMeshCommitListener listener in new HashSet<IVoxelMeshCommitListener>(this._listeners))
+      {
+        this.UnregisterCommitListener(listener);
+      }
+    }
+
+    /// <summary>
+    ///   Mark this object has dirty.
+    /// </summary>
+    public virtual void MarkDirty()
+    {
+      this._isDirty = true;
     }
 
     /// <summary>
@@ -140,7 +248,6 @@ namespace org.rnp.voxel.mesh
     /// <returns></returns>
     public virtual bool IsFull()
     {
-      VoxelLocation start = this.Start;
       Dimensions3D dimensions = this.Dimensions;
 
       for (int x = 0; x < dimensions.Width; ++x)
@@ -166,7 +273,6 @@ namespace org.rnp.voxel.mesh
     /// <returns></returns>
     public virtual bool IsEmpty()
     {
-      VoxelLocation start = this.Start;
       Dimensions3D dimensions = this.Dimensions;
 
       for (int x = 0; x < dimensions.Width; ++x)

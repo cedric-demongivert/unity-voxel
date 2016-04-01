@@ -114,12 +114,14 @@ namespace org.rnp.voxel.mesh
     public override void Set(VoxelLocation location, Color32 value)
     {
       this._datas[location.X, location.Y, location.Z] = value;
+      this.MarkDirty();
     }
 
     /// <see cref="org.rnp.voxel.mesh.VoxelMesh"/>
     public override void Set(int x, int y, int z, Color32 value)
     {
       this._datas[x, y, z] = value;
+      this.MarkDirty();
     }
 
     /// <see cref="org.rnp.voxel.mesh.VoxelMesh"/>

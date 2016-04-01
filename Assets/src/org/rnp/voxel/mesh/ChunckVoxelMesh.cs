@@ -25,7 +25,7 @@ namespace org.rnp.voxel.mesh
     /// <summary>
     ///   Iterate over each chuncks location of the mesh.
     /// </summary>
-    public abstract IEnumerator<VoxelLocation> ChunckLocations {
+    public abstract IEnumerable<VoxelLocation> ChunckLocations {
       get;
     }
 

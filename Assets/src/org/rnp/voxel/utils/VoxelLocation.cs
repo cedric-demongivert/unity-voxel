@@ -44,7 +44,16 @@ namespace org.rnp.voxel.utils
     {
       this.X = this.Y = this.Z = 0;
     }
-    
+
+    /// <summary>
+    ///   A new voxel location.
+    /// </summary>
+    /// <param name="pos"></param>
+    public VoxelLocation(int pos)
+    {
+      this.X = this.Y = this.Z = pos;
+    }
+
     /// <summary>
     ///   A new voxel location.
     /// </summary>
@@ -70,6 +79,15 @@ namespace org.rnp.voxel.utils
       this.X = Mathf.FloorToInt(x);
       this.Y = Mathf.FloorToInt(y);
       this.Z = Mathf.FloorToInt(z);
+    }
+
+    /// <summary>
+    ///   A new voxel location.
+    /// </summary>
+    /// <param name="pos"></param>
+    public VoxelLocation(float pos)
+    {
+      this.X = this.Y = this.Z = Mathf.FloorToInt(pos);
     }
 
     /// <summary>

@@ -42,7 +42,7 @@ namespace org.rnp.voxel.mesh
     }
 
     /// <see cref="org.rnp.voxel.mesh.map.ChunckVoxelMesh"/>
-    public override IEnumerator<VoxelLocation> ChunckLocations
+    public override IEnumerable<VoxelLocation> ChunckLocations
     {
       get
       {
@@ -51,6 +51,12 @@ namespace org.rnp.voxel.mesh
           yield return key;
         }
       }
+    }
+    
+    /// <see cref="org.rnp.voxel.mesh.VoxelMesh"></see>
+    public override bool IsReadonly
+    {
+      get { return false; }
     }
 
     /// <summary>
@@ -122,6 +128,28 @@ namespace org.rnp.voxel.mesh
 
       VoxelMeshes.Copy(toCopy, this);
       this.EvaluateSize();
+    }
+    
+    /// <see cref="org.rnp.voxel.mesh.VoxelMesh"></see>
+    public override void Commit()
+    {
+      if(this.IsDirty)
+      {
+        foreach(IVoxelMeshCommitListener listener in this.Listeners)
+        {
+          listener.OnCommitBegin(this);
+        }
+
+        foreach (VoxelMesh child in this._chunks.Values)
+        {
+          child.Commit();
+        }
+
+        foreach (IVoxelMeshCommitListener listener in this.Listeners)
+        {
+          listener.OnCommitEnd(this);
+        }
+      }
     }
 
     /// <summary>
@@ -320,6 +348,8 @@ namespace org.rnp.voxel.mesh
           this.ToLocale(x, y, z)
         ] = color;
       }
+
+      this.MarkDirty();
     }
 
     /// <see cref="org.rnp.voxel.mesh.VoxelMesh"/>
@@ -357,7 +387,7 @@ namespace org.rnp.voxel.mesh
     /// <see cref="org.rnp.voxel.mesh.VoxelMesh"/>
     public override VoxelMesh Readonly()
     {
-      return new ReadonlyMapVoxelMesh(this);
+      return new ReadonlyChunckVoxelMesh(this);
     }
   }
 }

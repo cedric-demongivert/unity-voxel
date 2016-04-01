@@ -21,18 +21,26 @@ namespace org.rnp.voxel.utils
     public readonly int Width;
     public readonly int Height;
     public readonly int Depth;
+    private int v;
     #endregion
-    
+
     #region Constructors
     /// <summary>
     ///   Create a custom Dimensions3D.
     /// </summary>
-    /// <param name="width"></param>
-    /// <param name="height"></param>
-    /// <param name="depth"></param>
     public Dimensions3D()
     {
       this.Width = this.Height = this.Depth = 0;
+    }
+
+    /// <summary>
+    ///   Create a custom Dimensions3D.
+    /// </summary>
+    /// <param name="size"></param>
+    public Dimensions3D(int size)
+    {
+      this.AssertIsValidDimensions(size, size, size);
+      this.Width = this.Height = this.Depth = size;
     }
 
     /// <summary>
@@ -61,6 +69,16 @@ namespace org.rnp.voxel.utils
       this.Width = Mathf.CeilToInt(width);
       this.Height = Mathf.CeilToInt(height);
       this.Depth = Mathf.CeilToInt(depth);
+    }
+
+    /// <summary>
+    ///   Create a custom Dimensions3D.
+    /// </summary>
+    /// <param name="size"></param>
+    public Dimensions3D(float size)
+    {
+      this.AssertIsValidDimensions(size, size, size);
+      this.Width = this.Height = this.Depth = Mathf.CeilToInt(size);
     }
 
     /// <summary>
@@ -110,7 +128,7 @@ namespace org.rnp.voxel.utils
       this.Depth = toCopy.Depth;
     }
     #endregion
-    
+
     #region Assertions
     /// <summary>
     ///   Check if all parameters are positive.

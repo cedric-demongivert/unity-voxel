@@ -2,24 +2,27 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using org.rnp.voxel.mesh.exceptions;
+using org.rnp.voxel.mesh;
 using org.rnp.voxel.utils;
 using UnityEngine;
+using org.rnp.voxel.mesh.exceptions;
 
 namespace org.rnp.voxel.mesh
 {
   /// <author>Cédric DEMONGIVERT [cedric.demongivert@gmail.com]</author>
-  ///
+  /// 
   /// <summary>
-  ///   A read-only voxel mesh.
+  ///   A infinite voxel mesh based on a map, not writable.
   /// </summary>
-  public class ReadonlyVoxelMesh : VoxelMesh, IVoxelMeshCommitListener
+  public sealed class ReadonlyChunckVoxelMesh : ChunckVoxelMesh, IVoxelMeshCommitListener
   {
-    /// <summary>
-    ///   Wrapped voxel mesh.
-    /// </summary>
-    [SerializeField]
-    private VoxelMesh _writableMesh;
+    private ChunckVoxelMesh _writableMesh;
+    
+    /// <see cref="org.rnp.voxel.mesh.VoxelMesh"></see>
+    public override bool IsReadonly
+    {
+      get { return false; }
+    }
 
     /// <see cref="org.rnp.voxel.mesh.VoxelMesh"></see>
     public override Dimensions3D Dimensions
@@ -34,12 +37,6 @@ namespace org.rnp.voxel.mesh
     }
 
     /// <see cref="org.rnp.voxel.mesh.VoxelMesh"></see>
-    public override bool IsReadonly
-    {
-      get { return true; }
-    }
-
-    /// <see cref="org.rnp.voxel.mesh.VoxelMesh"></see>
     public override bool IsDirty
     {
       get
@@ -48,24 +45,68 @@ namespace org.rnp.voxel.mesh
       }
     }
 
-    /// <summary>
-    ///   Wrap a writable voxel mesh in a readonly implementation.
-    /// </summary>
-    /// <param name="writableMesh"></param>
-    public ReadonlyVoxelMesh(VoxelMesh writableMesh) : base()
+    /// <see cref="org.rnp.voxel.mesh.map.ChunckVoxelMesh"/>
+    public override Dimensions3D ChunckDimensions
     {
-      this._writableMesh = writableMesh;
+      get
+      {
+        return this._writableMesh.ChunckDimensions;
+      }
+    }
+
+    /// <see cref="org.rnp.voxel.mesh.map.ChunckVoxelMesh"/>
+    public override IEnumerable<VoxelLocation> ChunckLocations
+    {
+      get
+      {
+        foreach(VoxelLocation location in this._writableMesh.ChunckLocations) {
+          yield return location;
+        }
+      }
+    }
+
+    /// <summary>
+    ///   Wrap in a readonly implementation, a writable voxel map implementation.
+    /// </summary>
+    /// <param name="writableMap"></param>
+    public ReadonlyChunckVoxelMesh(ChunckVoxelMesh writableMap)
+    {
+      this._writableMesh = writableMap;
       this._writableMesh.RegisterCommitListener(this);
     }
 
     /// <summary>
-    ///   Copy an existing readonly implementation.
+    ///   Copy another ReadonlyChunckVoxelMesh object.
     /// </summary>
     /// <param name="toCopy"></param>
-    public ReadonlyVoxelMesh(ReadonlyVoxelMesh toCopy) : base()
+    public ReadonlyChunckVoxelMesh(ReadonlyChunckVoxelMesh toCopy)
     {
       this._writableMesh = toCopy._writableMesh;
       this._writableMesh.RegisterCommitListener(this);
+    }
+
+    /// <see cref="org.rnp.voxel.mesh.VoxelMesh"/>
+    public override VoxelMesh Copy()
+    {
+      return new ReadonlyChunckVoxelMesh(this);
+    }
+
+    /// <see cref="org.rnp.voxel.mesh.VoxelMesh"/>
+    public override VoxelMesh Readonly()
+    {
+      return this;
+    }
+
+    /// <see cref="org.rnp.voxel.mesh.map.ChunckVoxelMesh"/>
+    public override VoxelMesh GetChunck(int x, int y, int z)
+    {
+      return this._writableMesh.GetChunck(x, y, z);
+    }
+
+    /// <see cref="org.rnp.voxel.mesh.map.ChunckVoxelMesh"/>
+    public override VoxelMesh GetChunck(VoxelLocation location)
+    {
+      return this._writableMesh.GetChunck(location);
     }
 
     /// <see cref="org.rnp.voxel.mesh.VoxelMesh"/>
@@ -87,6 +128,12 @@ namespace org.rnp.voxel.mesh
     }
 
     /// <see cref="org.rnp.voxel.mesh.VoxelMesh"/>
+    public override void Clear()
+    {
+      throw new UnmodifiableVoxelMeshException(this);
+    }
+
+    /// <see cref="org.rnp.voxel.mesh.VoxelMesh"/>
     public override void Set(VoxelLocation location, Color32 value)
     {
       throw new UnmodifiableVoxelMeshException(this);
@@ -98,22 +145,11 @@ namespace org.rnp.voxel.mesh
       throw new UnmodifiableVoxelMeshException(this);
     }
 
-    /// <see cref="org.rnp.voxel.mesh.VoxelMesh"/>
-    public override void Clear()
+    /// <see cref="http://docs.unity3d.com/ScriptReference/ScriptableObject.html"/>
+    protected override void OnDestroy()
     {
-      throw new UnmodifiableVoxelMeshException(this);
-    }
-
-    /// <see cref="org.rnp.voxel.mesh.VoxelMesh"/>
-    public override VoxelMesh Copy()
-    {
-      return new ReadonlyVoxelMesh(this);
-    }
-
-    /// <see cref="org.rnp.voxel.mesh.VoxelMesh"/>
-    public override VoxelMesh Readonly()
-    {
-      return this;
+      base.OnDestroy();
+      this._writableMesh.UnregisterCommitListener(this);
     }
 
     /// <see cref="org.rnp.voxel.mesh.VoxelMesh"/>
@@ -129,7 +165,7 @@ namespace org.rnp.voxel.mesh
     /// <see cref="org.rnp.voxel.mesh.IVoxelMeshCommitListener"/>
     public void OnCommitBegin(VoxelMesh mesh)
     {
-      foreach(IVoxelMeshCommitListener listener in this.Listeners)
+      foreach (IVoxelMeshCommitListener listener in this.Listeners)
       {
         listener.OnCommitBegin(mesh);
       }
@@ -142,13 +178,6 @@ namespace org.rnp.voxel.mesh
       {
         listener.OnCommitEnd(mesh);
       }
-    }
-
-    /// <see cref="http://docs.unity3d.com/ScriptReference/ScriptableObject.html"/>
-    protected override void OnDestroy()
-    {
-      base.OnDestroy();
-      this._writableMesh.UnregisterCommitListener(this);
     }
 
     /// <see cref="org.rnp.voxel.mesh.IVoxelMeshCommitListener"/>
