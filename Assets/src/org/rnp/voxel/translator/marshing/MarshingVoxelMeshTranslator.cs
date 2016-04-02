@@ -19,8 +19,8 @@ namespace org.rnp.voxel.translator.cubic
     protected override void DoTranslation()
     {
       Dimensions3D dimensions = this.LocalMesh.Dimensions;
-      VoxelLocation end = this.LocalMesh.Start.Add(dimensions);
-      VoxelLocation start = this.LocalMesh.Start;
+      VoxelLocation end = this.WorldLocation.Add(dimensions);
+      VoxelLocation start = this.WorldLocation;
       
       for (int x = start.X - 1; x < end.X + 1; ++x)
       {

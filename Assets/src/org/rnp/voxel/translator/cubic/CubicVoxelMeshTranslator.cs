@@ -21,13 +21,7 @@ namespace org.rnp.voxel.translator.cubic
       Dimensions3D dimensions = this.LocalMesh.Dimensions;
       VoxelLocation end = this.WorldLocation.Add(dimensions);
       VoxelLocation start = this.WorldLocation;
-
-      /*
-      Debug.Log("Start at " + start + " and end at " + end);
-      Debug.Log("Local is " + this.LocalMesh);
-      Debug.Log("Global is " + this.GlobalMesh);
-      */
-
+      
       for (int x = start.X; x < end.X; ++x)
       {
         for (int y = start.Y; y < end.Y; ++y)
