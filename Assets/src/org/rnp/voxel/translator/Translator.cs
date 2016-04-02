@@ -125,7 +125,7 @@ namespace org.rnp.voxel.translator
         this._localMesh = localMesh;
         this._globalMesh = globalMesh;
         this._worldLocation = worldLocation;
-
+        
         this._localMesh.RegisterCommitListener(this);
       }
     }

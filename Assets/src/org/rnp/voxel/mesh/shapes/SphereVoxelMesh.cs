@@ -14,13 +14,16 @@ namespace org.rnp.voxel.mesh
   ///     A sphere of voxels.
   /// </summary> 
   [CreateAssetMenu(menuName="Voxel/Sphere")]
-  public class SphereVoxelMesh : VoxelMesh
+  public class SphereVoxelMesh : ChunckVoxelMesh
   {
     [SerializeField]
     private int _radius;
 
     [SerializeField]
     private Color32 _color;
+
+    [SerializeField]
+    private Dimensions3D _chunckDimensions;
 
     public int Radius
     {
@@ -51,30 +54,63 @@ namespace org.rnp.voxel.mesh
     /// <summary>
     ///   A new empty sphere voxel mesh.
     /// </summary>
-    public SphereVoxelMesh()
+    public SphereVoxelMesh() : base()
     {
       this._radius = 0;
       this._color = Voxels.Empty;
+      this._chunckDimensions = new Dimensions3D(16, 16, 16);
+    }
+
+    /// <summary>
+    ///   A new empty sphere voxel mesh.
+    /// </summary>
+    public SphereVoxelMesh(Dimensions3D chunckDimensions) : base()
+    {
+      this._radius = 0;
+      this._color = Voxels.Empty;
+      this._chunckDimensions = chunckDimensions;
     }
 
     /// <summary>
     ///   A  sphere voxel mesh.
     /// </summary>
-    public SphereVoxelMesh(int radius, Color32 color)
+    public SphereVoxelMesh(int radius, Color32 color) : base()
     {
       this._radius = radius;
       this._color = color;
+      this._chunckDimensions = new Dimensions3D(16, 16, 16);
     }
 
     /// <summary>
     ///   Copy a sphere voxel mesh.
     /// </summary>
-    public SphereVoxelMesh(SphereVoxelMesh toCopy)
+    public SphereVoxelMesh(SphereVoxelMesh toCopy) : base()
     {
       this._radius = toCopy._radius;
       this._color = toCopy._color;
+      this._chunckDimensions = new Dimensions3D(16, 16, 16);
     }
 
+    /// <summary>
+    ///   A  sphere voxel mesh.
+    /// </summary>
+    public SphereVoxelMesh(int radius, Color32 color, Dimensions3D chunckDimensions) : base()
+    {
+      this._radius = radius;
+      this._color = color;
+      this._chunckDimensions = chunckDimensions;
+    }
+
+    /// <summary>
+    ///   Copy a sphere voxel mesh.
+    /// </summary>
+    public SphereVoxelMesh(SphereVoxelMesh toCopy, Dimensions3D chunckDimensions) : base()
+    {
+      this._radius = toCopy._radius;
+      this._color = toCopy._color;
+      this._chunckDimensions = chunckDimensions;
+    }
+    
     /// <see cref="org.rnp.voxel.mesh.VoxelMesh"></see>
     public override Dimensions3D Dimensions
     {
@@ -102,10 +138,78 @@ namespace org.rnp.voxel.mesh
       }
     }
 
+    /// <see cref="org.rnp.voxel.mesh.ChunckVoxelMesh"></see>
+    public override Dimensions3D ChunckDimensions
+    {
+      get
+      {
+        return this._chunckDimensions;
+      }
+    }
+
+    /// <see cref="org.rnp.voxel.mesh.ChunckVoxelMesh"></see>
+    public override IEnumerable<VoxelLocation> ChunckLocations
+    {
+      get
+      {
+        Dimensions3D chunckCounts = new Dimensions3D(
+          (this.Radius / (float) this.ChunckDimensions.Width),
+          (this.Radius / (float) this.ChunckDimensions.Height),
+          (this.Radius / (float) this.ChunckDimensions.Depth)
+        );
+
+        for(int i = -chunckCounts.Width; i < chunckCounts.Width; ++i)
+        {
+          for (int j = -chunckCounts.Height; j < chunckCounts.Height; ++j)
+          {
+            for (int k = -chunckCounts.Depth; k < chunckCounts.Depth; ++k)
+            {
+              VoxelLocation chunckLocation = new VoxelLocation(i, j, k);
+              if (IsChunckOfInterest(chunckLocation.Mul(this.ChunckDimensions))) yield return chunckLocation;
+            }
+          }
+        }
+      }
+    }
+
+    private bool IsChunckOfInterest(VoxelLocation chunckLocation)
+    {
+      VoxelLocation[] bounds = new VoxelLocation[]
+      {
+        chunckLocation,
+        chunckLocation.Add(this.ChunckDimensions),
+        chunckLocation.Add(this.ChunckDimensions.Mul(1, 0, 0)),
+        chunckLocation.Add(this.ChunckDimensions.Mul(0, 1, 0)),
+        chunckLocation.Add(this.ChunckDimensions.Mul(1, 1, 0)),
+        chunckLocation.Add(this.ChunckDimensions.Mul(0, 0, 1)),
+        chunckLocation.Add(this.ChunckDimensions.Mul(1, 0, 1)),
+        chunckLocation.Add(this.ChunckDimensions.Mul(0, 1, 1))
+      };
+
+      bool HasInner = false;
+      bool HasOuter = false;
+
+      float squareRadius = this.Radius * this.Radius;
+
+      foreach(VoxelLocation location in bounds)
+      {
+        if(location.SquaredLength() < squareRadius)
+        {
+          HasInner = true;
+        }
+        else
+        {
+          HasOuter = true;
+        }
+      }
+
+      return HasInner && HasOuter;
+    }
+
     /// <see cref="org.rnp.voxel.mesh.VoxelMesh"></see>
     public override VoxelMesh Readonly()
     {
-      return new ReadonlyVoxelMesh(this);
+      return new ReadonlyChunckVoxelMesh(this);
     }
 
     /// <see cref="org.rnp.voxel.mesh.VoxelMesh"></see>
@@ -171,6 +275,18 @@ namespace org.rnp.voxel.mesh
       {
         return Voxels.Empty;
       }
+    }
+
+    /// <see cref="org.rnp.voxel.mesh.ChunckVoxelMesh"></see>
+    public override VoxelMesh GetChunck(int x, int y, int z)
+    {
+      return this.GetChunck(new VoxelLocation(x, y, z));
+    }
+
+    /// <see cref="org.rnp.voxel.mesh.ChunckVoxelMesh"></see>
+    public override VoxelMesh GetChunck(VoxelLocation location)
+    {
+      return new SubMesh(this, location.Mul(this.ChunckDimensions), this.ChunckDimensions);
     }
   }
 }

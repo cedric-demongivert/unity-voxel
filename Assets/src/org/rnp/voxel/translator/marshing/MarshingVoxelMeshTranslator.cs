@@ -9,9 +9,9 @@ using UnityEngine;
 
 namespace org.rnp.voxel.translator.cubic
 {
-  [Translate("Cubes", typeof(VoxelMesh))]
+  [Translate("Marshing", typeof(VoxelMesh))]
   [ExecuteInEditMode]
-  public class CubicVoxelMeshTranslator : CubicVoxelMeshBuilder
+  public class MarshingVoxelMeshTranslator : MarshingVoxelMeshBuilder
   {
     /// <summary>
     ///   Translation process.
@@ -19,20 +19,14 @@ namespace org.rnp.voxel.translator.cubic
     protected override void DoTranslation()
     {
       Dimensions3D dimensions = this.LocalMesh.Dimensions;
-      VoxelLocation end = this.WorldLocation.Add(dimensions);
-      VoxelLocation start = this.WorldLocation;
-
-      /*
-      Debug.Log("Start at " + start + " and end at " + end);
-      Debug.Log("Local is " + this.LocalMesh);
-      Debug.Log("Global is " + this.GlobalMesh);
-      */
-
-      for (int x = start.X; x < end.X; ++x)
+      VoxelLocation end = this.LocalMesh.Start.Add(dimensions);
+      VoxelLocation start = this.LocalMesh.Start;
+      
+      for (int x = start.X - 1; x < end.X + 1; ++x)
       {
-        for (int y = start.Y; y < end.Y; ++y)
+        for (int y = start.Y - 1; y < end.Y + 1; ++y)
         {
-          for (int z = start.Z; z < end.Z; ++z)
+          for (int z = start.Z - 1; z < end.Z + 1; ++z)
           {
             this.Translate(x, y, z);
           }

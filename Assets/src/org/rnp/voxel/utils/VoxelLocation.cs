@@ -572,6 +572,24 @@ namespace org.rnp.voxel.utils
         (this.Z > other.Z) ? this.Z : other.Z
       );
     }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns></returns>
+    public float SquaredLength()
+    {
+      return this.X * this.X + this.Y * this.Y + this.Z * this.Z;
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns></returns>
+    public float Length()
+    {
+      return Mathf.Sqrt(this.X * this.X + this.Y * this.Y + this.Z * this.Z);
+    }
     #endregion
 
     #region Base objects methods

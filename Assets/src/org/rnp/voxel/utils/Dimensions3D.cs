@@ -11,6 +11,7 @@ namespace org.rnp.voxel.utils
   /// <summary>
   ///   A simple struct for 3D voxel cubes dimensions.
   /// </summary>
+  [System.Serializable]
   public sealed class Dimensions3D
   {
     #region Constants
@@ -18,10 +19,31 @@ namespace org.rnp.voxel.utils
     #endregion
 
     #region Fields
-    public readonly int Width;
-    public readonly int Height;
-    public readonly int Depth;
-    private int v;
+    [SerializeField]
+    private int _width;
+
+    [SerializeField]
+    private int _height;
+
+    [SerializeField]
+    private int _depth;
+    #endregion
+
+    #region Getters & Setters
+    public int Width
+    {
+      get { return _width; }
+    }
+
+    public int Height
+    {
+      get { return _height; }
+    }
+
+    public int Depth
+    {
+      get { return _depth; }
+    }
     #endregion
 
     #region Constructors
@@ -30,7 +52,7 @@ namespace org.rnp.voxel.utils
     /// </summary>
     public Dimensions3D()
     {
-      this.Width = this.Height = this.Depth = 0;
+      this._width = this._height = this._depth = 0;
     }
 
     /// <summary>
@@ -40,7 +62,7 @@ namespace org.rnp.voxel.utils
     public Dimensions3D(int size)
     {
       this.AssertIsValidDimensions(size, size, size);
-      this.Width = this.Height = this.Depth = size;
+      this._width = this._height = this._depth = size;
     }
 
     /// <summary>
@@ -52,9 +74,9 @@ namespace org.rnp.voxel.utils
     public Dimensions3D(int width, int height, int depth)
     {
       this.AssertIsValidDimensions(width, height, depth);
-      this.Width = width;
-      this.Height = height;
-      this.Depth = depth;
+      this._width = width;
+      this._height = height;
+      this._depth = depth;
     }
 
     /// <summary>
@@ -66,9 +88,9 @@ namespace org.rnp.voxel.utils
     public Dimensions3D(float width, float height, float depth)
     {
       this.AssertIsValidDimensions(width, height, depth);
-      this.Width = Mathf.CeilToInt(width);
-      this.Height = Mathf.CeilToInt(height);
-      this.Depth = Mathf.CeilToInt(depth);
+      this._width = Mathf.CeilToInt(width);
+      this._height = Mathf.CeilToInt(height);
+      this._depth = Mathf.CeilToInt(depth);
     }
 
     /// <summary>
@@ -78,7 +100,7 @@ namespace org.rnp.voxel.utils
     public Dimensions3D(float size)
     {
       this.AssertIsValidDimensions(size, size, size);
-      this.Width = this.Height = this.Depth = Mathf.CeilToInt(size);
+      this._width = this._height = this._depth = Mathf.CeilToInt(size);
     }
 
     /// <summary>
@@ -88,9 +110,9 @@ namespace org.rnp.voxel.utils
     public Dimensions3D(Vector3 dimensions)
     {
       this.AssertIsValidDimensions(dimensions.x, dimensions.y, dimensions.z);
-      this.Width = Mathf.CeilToInt(dimensions.x);
-      this.Height = Mathf.CeilToInt(dimensions.y);
-      this.Depth = Mathf.CeilToInt(dimensions.z);
+      this._width = Mathf.CeilToInt(dimensions.x);
+      this._height = Mathf.CeilToInt(dimensions.y);
+      this._depth = Mathf.CeilToInt(dimensions.z);
     }
 
     /// <summary>
@@ -100,9 +122,9 @@ namespace org.rnp.voxel.utils
     public Dimensions3D(VoxelLocation dimensions)
     {
       this.AssertIsValidDimensions(dimensions.X, dimensions.Y, dimensions.Z);
-      this.Width = dimensions.X;
-      this.Height = dimensions.Y;
-      this.Depth = dimensions.Z;
+      this._width = dimensions.X;
+      this._height = dimensions.Y;
+      this._depth = dimensions.Z;
     }
 
     /// <summary>
@@ -111,9 +133,9 @@ namespace org.rnp.voxel.utils
     /// <param name="dimensions"></param>
     public Dimensions3D(VoxelLocation start, VoxelLocation end)
     {
-      this.Width = Mathf.Abs(end.X - start.X);
-      this.Height = Mathf.Abs(end.Y - start.Y);
-      this.Depth = Mathf.Abs(end.Z - start.Z);
+      this._width = Mathf.Abs(end.X - start.X);
+      this._height = Mathf.Abs(end.Y - start.Y);
+      this._depth = Mathf.Abs(end.Z - start.Z);
     }
 
     /// <summary>
@@ -122,10 +144,10 @@ namespace org.rnp.voxel.utils
     /// <param name="toCopy"></param>
     public Dimensions3D(Dimensions3D toCopy)
     {
-      this.AssertIsValidDimensions(toCopy.Width, toCopy.Height, toCopy.Depth);
-      this.Width = toCopy.Width;
-      this.Height = toCopy.Height;
-      this.Depth = toCopy.Depth;
+      this.AssertIsValidDimensions(toCopy._width, toCopy._height, toCopy._depth);
+      this._width = toCopy._width;
+      this._height = toCopy._height;
+      this._depth = toCopy._depth;
     }
     #endregion
 
@@ -166,9 +188,9 @@ namespace org.rnp.voxel.utils
     public Dimensions3D Add(Vector3 toAdd)
     {
       return new Dimensions3D(
-        this.Width + toAdd.x,
-        this.Height + toAdd.y,
-        this.Depth + toAdd.z
+        this._width + toAdd.x,
+        this._height + toAdd.y,
+        this._depth + toAdd.z
       );
     }
 
@@ -180,9 +202,9 @@ namespace org.rnp.voxel.utils
     public Dimensions3D Add(Dimensions3D other)
     {
       return new Dimensions3D(
-        this.Width + other.Width,
-        this.Height + other.Height,
-        this.Depth + other.Depth
+        this._width + other._width,
+        this._height + other._height,
+        this._depth + other._depth
       );
     }
 
@@ -194,9 +216,9 @@ namespace org.rnp.voxel.utils
     public Dimensions3D Add(VoxelLocation other)
     {
       return new Dimensions3D(
-        this.Width + other.X,
-        this.Height + other.Y,
-        this.Depth + other.Z
+        this._width + other.X,
+        this._height + other.Y,
+        this._depth + other.Z
       );
     }
 
@@ -210,9 +232,9 @@ namespace org.rnp.voxel.utils
     public Dimensions3D Add(int width, int height, int depth)
     {
       return new Dimensions3D(
-        this.Width + width,
-        this.Height + height,
-        this.Depth + depth
+        this._width + width,
+        this._height + height,
+        this._depth + depth
       );
     }
     #endregion
@@ -226,9 +248,9 @@ namespace org.rnp.voxel.utils
     public Dimensions3D Sub(Vector3 toSub)
     {
       return new Dimensions3D(
-        this.Width - toSub.x,
-        this.Height - toSub.y,
-        this.Depth - toSub.z
+        this._width - toSub.x,
+        this._height - toSub.y,
+        this._depth - toSub.z
       );
     }
 
@@ -240,9 +262,9 @@ namespace org.rnp.voxel.utils
     public Dimensions3D Sub(Dimensions3D other)
     {
       return new Dimensions3D(
-        this.Width - other.Width,
-        this.Height - other.Height,
-        this.Depth - other.Depth
+        this._width - other._width,
+        this._height - other._height,
+        this._depth - other._depth
       );
     }
 
@@ -254,9 +276,9 @@ namespace org.rnp.voxel.utils
     public Dimensions3D Sub(VoxelLocation other)
     {
       return new Dimensions3D(
-        this.Width - other.X,
-        this.Height - other.Y,
-        this.Depth - other.Z
+        this._width - other.X,
+        this._height - other.Y,
+        this._depth - other.Z
       );
     }
 
@@ -270,9 +292,9 @@ namespace org.rnp.voxel.utils
     public Dimensions3D Sub(int width, int height, int depth)
     {
       return new Dimensions3D(
-        this.Width - width,
-        this.Height - height,
-        this.Depth - depth
+        this._width - width,
+        this._height - height,
+        this._depth - depth
       );
     }
     #endregion
@@ -288,9 +310,9 @@ namespace org.rnp.voxel.utils
     public Dimensions3D Mul(int sx, int sy, int sz)
     {
       return new Dimensions3D(
-        this.Width * sx,
-        this.Height * sy,
-        this.Depth * sz
+        this._width * sx,
+        this._height * sy,
+        this._depth * sz
       );
     }
 
@@ -304,9 +326,9 @@ namespace org.rnp.voxel.utils
     public Dimensions3D Mul(float sx, float sy, float sz)
     {
       return new Dimensions3D(
-        this.Width * sx,
-        this.Height * sy,
-        this.Depth * sz
+        this._width * sx,
+        this._height * sy,
+        this._depth * sz
       );
     }
 
@@ -318,9 +340,9 @@ namespace org.rnp.voxel.utils
     public Dimensions3D Mul(float s)
     {
       return new Dimensions3D(
-        this.Width * s,
-        this.Height * s,
-        this.Depth * s
+        this._width * s,
+        this._height * s,
+        this._depth * s
       );
     }
 
@@ -332,9 +354,9 @@ namespace org.rnp.voxel.utils
     public Dimensions3D Mul(int s)
     {
       return new Dimensions3D(
-        this.Width * s,
-        this.Height * s,
-        this.Depth * s
+        this._width * s,
+        this._height * s,
+        this._depth * s
       );
     }
     #endregion
@@ -350,9 +372,9 @@ namespace org.rnp.voxel.utils
     public Dimensions3D Div(int sx, int sy, int sz)
     {
       return new Dimensions3D(
-        this.Width / sx,
-        this.Height / sy,
-        this.Depth / sz
+        this._width / sx,
+        this._height / sy,
+        this._depth / sz
       );
     }
 
@@ -366,9 +388,9 @@ namespace org.rnp.voxel.utils
     public Dimensions3D Div(float sx, float sy, float sz)
     {
       return new Dimensions3D(
-        this.Width / sx,
-        this.Height / sy,
-        this.Depth / sz
+        this._width / sx,
+        this._height / sy,
+        this._depth / sz
       );
     }
 
@@ -380,9 +402,9 @@ namespace org.rnp.voxel.utils
     public Dimensions3D Div(float s)
     {
       return new Dimensions3D(
-        this.Width / s,
-        this.Height / s,
-        this.Depth / s
+        this._width / s,
+        this._height / s,
+        this._depth / s
       );
     }
 
@@ -394,9 +416,9 @@ namespace org.rnp.voxel.utils
     public Dimensions3D Div(int s)
     {
       return new Dimensions3D(
-        this.Width / s,
-        this.Height / s,
-        this.Depth / s
+        this._width / s,
+        this._height / s,
+        this._depth / s
       );
     }
     #endregion
@@ -408,7 +430,7 @@ namespace org.rnp.voxel.utils
     /// <returns></returns>
     public bool HasNull()
     {
-      return this.Width == 0 || this.Height == 0 || this.Depth == 0;
+      return this._width == 0 || this._height == 0 || this._depth == 0;
     }
     
     /// <summary>
@@ -417,7 +439,7 @@ namespace org.rnp.voxel.utils
     /// <returns></returns>
     public bool IsEmpty()
     {
-      return this.Width == 0 && this.Height == 0 && this.Depth == 0;
+      return this._width == 0 && this._height == 0 && this._depth == 0;
     }
     #endregion
 
@@ -425,13 +447,13 @@ namespace org.rnp.voxel.utils
     /// <see cref="object"/>
     public override string ToString()
     {
-      return "Dimensions3D (" + this.Width + ", " + this.Height + ", " + this.Depth + ")";
+      return "Dimensions3D (" + this._width + ", " + this._height + ", " + this._depth + ")";
     }
 
     /// <see cref="object"/>
     public override int GetHashCode()
     {
-      return ((this.Width * 31 + this.Height) * 31 + this.Depth) * 31;
+      return ((this._width * 31 + this._height) * 31 + this._depth) * 31;
     }
 
     /// <see cref="object"/>
@@ -450,7 +472,7 @@ namespace org.rnp.voxel.utils
       if (obj is Dimensions3D)
       {
         Dimensions3D toCmp = (Dimensions3D) obj;
-        return this.Width == toCmp.Width && this.Height == toCmp.Height && this.Depth == toCmp.Depth;
+        return this._width == toCmp._width && this._height == toCmp._height && this._depth == toCmp._depth;
       }
 
       return false;

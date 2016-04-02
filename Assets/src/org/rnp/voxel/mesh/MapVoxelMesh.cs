@@ -63,7 +63,7 @@ namespace org.rnp.voxel.mesh
     ///   An empty default MapVoxelMesh.
     /// </summary>
     /// <param name="chunckDimensions"></param>
-    public MapVoxelMesh(Dimensions3D chunckDimensions)
+    public MapVoxelMesh(Dimensions3D chunckDimensions) : base()
     {
       this._chunks = new Dictionary<VoxelLocation, VoxelMesh>();
       this._chunkFactory = ArrayVoxelMesh.Create;
@@ -77,7 +77,7 @@ namespace org.rnp.voxel.mesh
     /// </summary>
     /// <param name="chunckDimensions"></param>
     /// <param name="factory"></param>
-    public MapVoxelMesh(Dimensions3D chunckDimensions, VoxelMeshFactory factory)
+    public MapVoxelMesh(Dimensions3D chunckDimensions, VoxelMeshFactory factory) : base()
     {
       this._chunks = new Dictionary<VoxelLocation, VoxelMesh>();
       this._chunkFactory = factory;
@@ -90,7 +90,7 @@ namespace org.rnp.voxel.mesh
     ///   Copy an existing MapVoxelMesh.
     /// </summary>
     /// <param name="toCopy"></param>
-    public MapVoxelMesh(MapVoxelMesh toCopy)
+    public MapVoxelMesh(MapVoxelMesh toCopy) : base()
     {
       this._chunks = new Dictionary<VoxelLocation, VoxelMesh>();
       this._chunkFactory = toCopy._chunkFactory;
@@ -105,7 +105,7 @@ namespace org.rnp.voxel.mesh
     ///   Copy an existing VoxelMesh.
     /// </summary>
     /// <param name="toCopy"></param>
-    public MapVoxelMesh(Dimensions3D chunckDimensions, VoxelMesh toCopy)
+    public MapVoxelMesh(Dimensions3D chunckDimensions, VoxelMesh toCopy) : base()
     {
       this._chunks = new Dictionary<VoxelLocation, VoxelMesh>();
       this._chunkFactory = ArrayVoxelMesh.Create;
@@ -120,7 +120,7 @@ namespace org.rnp.voxel.mesh
     /// </summary>
     /// <param name="toCopy"></param>
     /// <param name="builder"></param>
-    public MapVoxelMesh(Dimensions3D chunckDimensions, VoxelMesh toCopy, VoxelMeshFactory builder)
+    public MapVoxelMesh(Dimensions3D chunckDimensions, VoxelMesh toCopy, VoxelMeshFactory builder) : base()
     {
       this._chunks = new Dictionary<VoxelLocation, VoxelMesh>();
       this._chunkFactory = builder;

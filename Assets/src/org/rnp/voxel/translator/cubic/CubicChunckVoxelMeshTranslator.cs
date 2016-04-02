@@ -62,8 +62,8 @@ namespace org.rnp.voxel.translator.cubic
       {
         if (!_chuncks.ContainsKey(location))
         {
-          VoxelLocation worldLocation = location.Mul(this._map.ChunckDimensions).Add(this.WorldLocation);
-
+          VoxelLocation worldLocation = location.Mul(this._map.ChunckDimensions); //.Add(this.WorldLocation);
+                    
           Translator genered = Translators.Instance().Generate(
             "Cubes", this.GlobalMesh, this._map.GetChunck(location), worldLocation
           );

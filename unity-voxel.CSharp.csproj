@@ -87,6 +87,8 @@
     <Compile Include="Assets\src\org\rnp\voxel\mesh\readonly\ReadonlyChunckVoxelMesh.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\mesh\readonly\ReadonlyVoxelMesh.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\translator\ComposedTranslator.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\translator\marshing\MarshingVoxelMeshTranslator.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\translator\marshing\MarshingVoxelMeshBuilder.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\translator\Translate.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\translator\Translator.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\translator\Translators.cs" />
