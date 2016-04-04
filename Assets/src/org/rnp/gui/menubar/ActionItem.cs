@@ -50,11 +50,11 @@ namespace org.rnp.gui.menubar
     {
       get
       {
-        return !this._selectable.interactable;
+                return false; //!this._selectable.interactable;
       }
       set
       {
-        this._selectable.interactable = !value;
+        //this._selectable.interactable = !value;
       }
     }
 

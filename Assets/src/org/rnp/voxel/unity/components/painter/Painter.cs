@@ -5,7 +5,8 @@ using org.rnp.voxel.unity.components.meshes;
 using org.rnp.voxel.unity.components.translators;
 using org.rnp.voxel.unity.components.colliders;
 using org.rnp.voxel.utils;
-
+using Assets.src.org.rnp.voxel.utils;
+using UnityEditor;
 
 namespace org.rnp.voxel.unity.components.painter
 {
@@ -73,5 +74,35 @@ namespace org.rnp.voxel.unity.components.painter
         this.PaintedCollider.RefreshCollider();
       }
     }
+
+
+    public void SaveMesh()
+    {
+            //Ask for file
+            var path = EditorUtility.SaveFilePanel(
+                    "Save Mesh",
+                    "",
+                    "Mesh" + ".vxl",
+                    "vxl");
+
+
+            //Save Mesh to file
+            VoxelFile.Save( PaintedMesh.Mesh, path);
+    }
+
+    public void OpenMesh()
+    {
+            var file = EditorUtility.OpenFilePanel("", "", "vxl");
+
+            IVoxelMesh vm= VoxelFile.Load(file);
+            if(vm != null)
+                PaintedMesh.Mesh = vm;
+
+            this.PaintedTranslator.Translate();
+            this.PaintedTranslator.Publish();
+
+            this.PaintedCollider.RefreshCollider();
+
+        }
   }
 }

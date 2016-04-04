@@ -65,8 +65,8 @@ namespace Assets.src.org.rnp.voxel.utils
                 bw.Write(vm.Height);
                 bw.Write(vm.Depth);
 
-                IVoxelLocation Start = vm.Start;
-                IVoxelLocation End = vm.End;
+                VoxelLocation Start = vm.Start;
+                VoxelLocation End = vm.End;
 
                 for (int w = Start.X; w < End.X; w++)
                 {
