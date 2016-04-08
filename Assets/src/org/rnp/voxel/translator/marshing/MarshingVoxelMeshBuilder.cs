@@ -611,7 +611,7 @@ namespace org.rnp.voxel.translator.cubic
       this._mesh.colors32 = this._meshVerticesColor.ToArray();
       this._mesh.triangles = this._meshTriangles.ToArray();
       
-      this._mesh.UploadMeshData(true);
+      this._mesh.UploadMeshData(false);
       
       this.Clear();
     }

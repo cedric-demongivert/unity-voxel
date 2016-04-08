@@ -26,7 +26,7 @@ public class Emetteur : MonoBehaviour {
         {
             water.createParticule(position);
             timeLeft = initTime;
-            Debug.Log("particule");
+            //Debug.Log("particule");
         }
     }
 

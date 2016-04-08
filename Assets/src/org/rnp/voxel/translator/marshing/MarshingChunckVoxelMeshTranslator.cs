@@ -12,7 +12,7 @@ namespace org.rnp.voxel.translator.cubic
   /// <summary>
   ///   Translate a map voxel mesh chunck by chunck.
   /// </summary>
-  [Translate("Marshing", typeof(ChunckVoxelMesh))]
+  //[Translate("Marshing", typeof(ChunckVoxelMesh))]
   [ExecuteInEditMode]
   public class MarshingChunckVoxelMeshTranslator : ComposedTranslator
   {
