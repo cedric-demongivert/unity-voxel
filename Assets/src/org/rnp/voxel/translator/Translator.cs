@@ -19,47 +19,18 @@ namespace org.rnp.voxel.translator
     /// <summary>
     ///   The computed mesh.
     /// </summary>
-    private VoxelMesh _globalMesh;
-    
+    private VoxelMesh _meshToTranslate;
+        
     /// <summary>
     ///   The computed part of the mesh.
     /// </summary>
-    private VoxelMesh _localMesh;
-    
-    /// <summary>
-    ///   World location of the computed part.
-    /// </summary>
-    private VoxelLocation _localMeshGlobalLocation;
-    
-    /// <summary>
-    ///   The computed mesh.
-    /// </summary>
-    public VoxelMesh GlobalMesh {
-      get {
-        return _globalMesh;
-      }
-    }
-
-    /// <summary>
-    ///   The computed part of the mesh.
-    /// </summary>
-    public VoxelMesh LocalMesh
+    public VoxelMesh MeshToTranslate
     {
       get {
-        return _localMesh;
+        return _meshToTranslate;
       }
     }
-
-    /// <summary>
-    ///   World location of the computed part.
-    /// </summary>
-    public VoxelLocation LocalMeshGlobalLocation
-    {
-      get {
-        return _localMeshGlobalLocation;
-      }
-    }
-
+    
     /// <summary>
     ///   If true, this translator needs to be destroyed on next commit.
     /// </summary>
@@ -86,33 +57,8 @@ namespace org.rnp.voxel.translator
     ///   
     ///   A translator can be initialized only one time.
     /// </summary>
-    /// <param name="globalMesh"></param>
-    public void Initialize(VoxelMesh globalMesh)
-    {
-      this.Initialize(globalMesh, globalMesh, globalMesh.Start);
-    }
-
-    /// <summary>
-    ///   Initialize the translator. 
-    ///   
-    ///   A translator can be initialized only one time.
-    /// </summary>
-    /// <param name="globalMesh"></param>
-    /// <param name="localMesh"></param>
-    public void Initialize(VoxelMesh globalMesh, VoxelMesh localMesh)
-    {
-      this.Initialize(globalMesh, localMesh, localMesh.Start);
-    }
-
-    /// <summary>
-    ///   Initialize the translator. 
-    ///   
-    ///   A translator can be initialized only one time.
-    /// </summary>
-    /// <param name="globalMesh"></param>
-    /// <param name="localMesh"></param>
-    /// <param name="worldLocation"></param>
-    public void Initialize(VoxelMesh globalMesh, VoxelMesh localMesh, VoxelLocation worldLocation)
+    /// <param name="meshToTranslate"></param>
+    public void Initialize(VoxelMesh meshToTranslate)
     {
       if(_initialized)
       {
@@ -122,20 +68,17 @@ namespace org.rnp.voxel.translator
       {
         _initialized = true;
 
-        this._localMesh = localMesh;
-        this._globalMesh = globalMesh;
-        this._localMeshGlobalLocation = worldLocation;
-        
-        this._localMesh.RegisterCommitListener(this);
+        this._meshToTranslate = meshToTranslate;
+        this._meshToTranslate.RegisterCommitListener(this);
       }
     }
 
     /// <see cref="http://docs.unity3d.com/ScriptReference/MonoBehaviour.html"/>
     protected virtual void OnDestroy()
     {
-      if(this._localMesh != null)
+      if(this._meshToTranslate != null)
       {
-        this._localMesh.UnregisterCommitListener(this);
+        this._meshToTranslate.UnregisterCommitListener(this);
       }
     }
     
@@ -147,7 +90,7 @@ namespace org.rnp.voxel.translator
     /// <see cref="org.rnp.voxel.mesh.IVoxelMeshCommitListener"/>
     public void OnRegister(VoxelMesh mesh)
     {
-      if(mesh != this._localMesh)
+      if(mesh != this._meshToTranslate)
       {
         mesh.UnregisterCommitListener(this);
         throw new InvalidOperationException("A Translator can be registered to only one voxel mesh.");
@@ -161,7 +104,7 @@ namespace org.rnp.voxel.translator
     /// <see cref="org.rnp.voxel.mesh.IVoxelMeshCommitListener"/>
     public void OnCommitBegin(VoxelMesh mesh)
     {
-      if (mesh == this._localMesh)
+      if (mesh == this._meshToTranslate)
       {
         this.DoTranslation();
       }
@@ -176,12 +119,10 @@ namespace org.rnp.voxel.translator
     /// <see cref="org.rnp.voxel.mesh.IVoxelMeshCommitListener"/>
     public void OnUnregister(VoxelMesh mesh)
     {
-      if(mesh == this._localMesh)
+      if(mesh == this._meshToTranslate)
       {
         this._destroyOnCommit = true;
-        this._localMesh = null;
-        this._globalMesh = null;
-        this._localMeshGlobalLocation = null;
+        this._meshToTranslate = null;
       }
     }
   }

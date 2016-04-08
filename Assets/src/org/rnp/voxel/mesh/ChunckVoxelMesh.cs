@@ -2,160 +2,188 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using UnityEngine;
+using org.rnp.voxel.mesh;
 using org.rnp.voxel.utils;
+using UnityEngine;
 
 namespace org.rnp.voxel.mesh
 {
   /// <author>Cédric DEMONGIVERT [cedric.demongivert@gmail.com]</author>
-  ///
   /// <summary>
-  ///   A voxel mesh made of many chuncks that are sub-meshes of a specific dimension.
+  ///   A Chunck of a Chuncked Voxel Mesh, a chunck hold a world location and
+  /// can select voxels that is out of its bounds.
   /// </summary>
-  public abstract class ChunckVoxelMesh : VoxelMesh
+  public class ChunckVoxelMesh : VoxelMesh
   {
     /// <summary>
-    ///   Dimensions of each chunks of the mesh.
+    ///   Chunck location in map
     /// </summary>
-    public abstract Dimensions3D ChunckDimensions
+    private VoxelLocation _location;
+
+    /// <summary>
+    ///   Parent mesh.
+    /// </summary>
+    private ChunckedVoxelMesh _parentMesh;
+
+    /// <summary>
+    ///   Voxel mesh used for storing data.
+    /// </summary>
+    private VoxelMesh _container;
+    
+    /// <see cref="org.rnp.voxel.utils.IDimensions3D"></see>
+    public override Dimensions3D Dimensions
     {
-      get;
+      get
+      {
+        return this._parentMesh.ChunckDimensions;
+      }
     }
 
-    /// <summary>
-    ///   Iterate over each chuncks location of the mesh.
-    /// </summary>
-    public abstract IEnumerable<VoxelLocation> ChunckLocations {
-      get;
+    /// <see cref="org.rnp.voxel.mesh.VoxelMesh"></see>
+    public override VoxelLocation Start
+    {
+      get
+      {
+        return VoxelLocation.Zero;
+      }
     }
 
-    /// <summary>
-    ///   Return a chunck of the mesh.
-    ///   
-    ///   This methods use chunck's coordinates, in other words if you
-    ///   want the chunck at (1,0,1) you will obtain the sub-mesh at location
-    ///   (chunckWidth, 0, chunckDepth) of dimensions ChunckDimensions.
-    ///   
-    ///   Each returned chunck are in a readonly state, if you want to modify a chunck,
-    ///   you have to modify the parent mesh directly.
-    /// </summary>
-    /// <param name="x"></param>
-    /// <param name="y"></param>
-    /// <param name="z"></param>
-    /// <returns></returns>
-    public abstract VoxelMesh GetChunck(int x, int y, int z);
-
-    /// <summary>
-    ///   Return a chunck of the mesh.
-    ///   
-    ///   This methods use chunck's coordinates, in other words if you
-    ///   want the chunck at (1,0,1) you will obtain the sub-mesh at location
-    ///   (chunckWidth, 0, chunckDepth) of dimensions ChunckDimensions.
-    ///   
-    ///   Each returned chunck are in a readonly state, if you want to modify a chunck,
-    ///   you have to modify the parent mesh directly.
-    /// </summary>
-    /// <param name="location"></param>
-    /// <returns></returns>
-    public abstract VoxelMesh GetChunck(VoxelLocation location);
-
-    /// <summary>
-    ///   Return a chunck of the mesh.
-    ///   
-    ///   This methods use world coordinates, it will returns the chunck that
-    ///   contains the voxel at the specified location.
-    ///   
-    ///   Each returned chunck are in a readonly state, if you want to modify a chunck,
-    ///   you have to modify the parent mesh directly.
-    /// </summary>
-    /// <param name="x"></param>
-    /// <param name="y"></param>
-    /// <param name="z"></param>
-    /// <returns></returns>
-    public virtual VoxelMesh GetChunckAt(int x, int y, int z)
+    public VoxelLocation ChunckLocation
     {
-      return this.GetChunckAt(new VoxelLocation(x, y, z));
+      get { return this._location; }
     }
 
-    /// <summary>
-    ///   Return a chunck of the mesh.
-    ///   
-    ///   This methods use world coordinates, it will returns the chunck that
-    ///   contains the voxel at the specified location.
-    ///   
-    ///   Each returned chunck are in a readonly state, if you want to modify a chunck,
-    ///   you have to modify the parent mesh directly.
-    /// </summary>
-    /// <param name="location"></param>
-    /// <returns></returns>
-    public virtual VoxelMesh GetChunckAt(VoxelLocation location)
+    public ChunckedVoxelMesh ParentMesh
     {
-      return this.GetChunck(location.Div(this.ChunckDimensions));
+      get { return this._parentMesh; }
     }
 
-    /// <summary>
-    ///   Convert a world location to a chunck-relative location.
-    /// </summary>
-    /// <param name="x"></param>
-    /// <param name="y"></param>
-    /// <param name="z"></param>
-    /// <returns></returns>
-    public virtual VoxelLocation ToLocale(int x, int y, int z)
+    /// <see cref="org.rnp.voxel.mesh.VoxelMesh"></see>
+    public override bool IsReadonly
     {
-      return this.ToLocale(new VoxelLocation(x, y, z));
+      get { return false; }
+    }
+    
+    /// <summary>
+    ///   Create a chunck.
+    /// </summary>
+    /// <param name="parent"></param>
+    /// <param name="start"></param>
+    /// <param name="dimensions"></param>
+    public ChunckVoxelMesh(ChunckedVoxelMesh parent, VoxelLocation location, VoxelMesh container) : base()
+    {
+      this._parentMesh = parent;
+      this._location = location;
+      this._container = container;
+    }
+    
+    /// <summary>
+    ///   Copy an existing chunck.
+    /// </summary>
+    /// <param name="toCopy"></param>
+    public ChunckVoxelMesh(ChunckVoxelMesh toCopy)
+      : base()
+    {
+      this._parentMesh = toCopy.ParentMesh;
+      this._location = toCopy.ChunckLocation;
+      this._container = toCopy._container.Copy();
     }
 
-    /// <summary>
-    ///   Transform a world location to a chunck location.
-    /// </summary>
-    /// <param name="x"></param>
-    /// <param name="y"></param>
-    /// <param name="z"></param>
-    /// <returns></returns>
-    public virtual VoxelLocation ToChunckLocation(int x, int y, int z)
+    /// <see cref="org.rnp.voxel.mesh.VoxelMesh"/>
+    public override void Set(int x, int y, int z, Color32 value)
     {
-      Dimensions3D chunckDimensions = this.ChunckDimensions;
-
-      return new VoxelLocation(
-        x / (float)chunckDimensions.Width,
-        y / (float)chunckDimensions.Height,
-        z / (float)chunckDimensions.Depth
-      );
+      if (this.Contains(x, y, z))
+      {
+        this._container.Set(x, y, z, value);
+        this.MarkDirty();
+      }
+      else
+      {
+        this._parentMesh[this._parentMesh.ToWorldLocation(this._location, x, y, z)] = value;
+      }
     }
 
-    /// <summary>
-    ///   Transform a world location to a chunck location.
-    /// </summary>
-    /// <param name="x"></param>
-    /// <param name="y"></param>
-    /// <param name="z"></param>
-    /// <returns></returns>
-    public virtual VoxelLocation ToChunckLocation(VoxelLocation location)
+    /// <see cref="org.rnp.voxel.mesh.VoxelMesh"/>
+    public override void Set(VoxelLocation location, Color32 value)
     {
-      Dimensions3D chunckDimensions = this.ChunckDimensions;
-
-      return new VoxelLocation(
-        location.X / (float)chunckDimensions.Width,
-        location.Y / (float)chunckDimensions.Height,
-        location.Z / (float)chunckDimensions.Depth
-      );
+      if (this.Contains(location))
+      {
+        this._container.Set(location, value);
+        this.MarkDirty();
+      }
+      else
+      {
+        this._parentMesh[this._parentMesh.ToWorldLocation(this._location, location)] = value;
+      }
     }
 
-    /// <summary>
-    ///   Convert a world location to a chunck-relative location.
-    /// </summary>
-    /// <param name="worldLocation"></param>
-    /// <returns></returns>
-    public virtual VoxelLocation ToLocale(VoxelLocation worldLocation)
+    /// <see cref="org.rnp.voxel.mesh.VoxelMesh"/>
+    public override Color32 Get(int x, int y, int z)
     {
-      Dimensions3D chunckDimensions = this.ChunckDimensions;
-      VoxelLocation location = worldLocation.Mod(chunckDimensions);
+      if (this.Contains(x,y,z))
+      {
+        return this._container.Get(new VoxelLocation(x, y, z));
+      }
+      else
+      {
+        return this._parentMesh[this._parentMesh.ToWorldLocation(this._location, x, y, z)];
+      }
+    }
 
-      return location.Add(
-        (location.X < 0) ? chunckDimensions.Width : 0,
-        (location.Y < 0) ? chunckDimensions.Height : 0,
-        (location.Z < 0) ? chunckDimensions.Depth : 0
-      );
+    /// <see cref="org.rnp.voxel.mesh.VoxelMesh"/>
+    public override Color32 Get(VoxelLocation location)
+    {
+      if (this.Contains(location))
+      {
+        return this._container.Get(location);
+      }
+      else
+      {
+        return this._parentMesh[this._parentMesh.ToWorldLocation(this._location, location)];
+      }
+    }
+    
+    /// <see cref="org.rnp.voxel.mesh.VoxelMesh"/>
+    public override void Clear()
+    {
+      this._container.Clear();
+      this.MarkDirty();
+    }
+
+    /// <see cref="org.rnp.voxel.mesh.VoxelMesh"/>
+    public override bool IsFull()
+    {
+      return this._container.IsFull();
+    }
+
+    /// <see cref="org.rnp.voxel.mesh.VoxelMesh"/>
+    public override bool IsEmpty()
+    {
+      return this._container.IsEmpty();
+    }
+
+    /// <see cref="org.rnp.voxel.mesh.VoxelMesh"/>
+    public override bool IsEmpty(int x, int y, int z)
+    {
+      return Voxels.IsEmpty(this[x, y, z]);
+    }
+
+    /// <see cref="org.rnp.voxel.mesh.VoxelMesh"/>
+    public override bool IsEmpty(VoxelLocation location)
+    {
+      return Voxels.IsEmpty(this[location]);
+    }
+
+    /// <see cref="org.rnp.voxel.mesh.VoxelMesh"/>
+    public override VoxelMesh Copy()
+    {
+      return new ChunckVoxelMesh(this);
+    }
+
+    /// <see cref="org.rnp.voxel.mesh.VoxelMesh"/>
+    public override VoxelMesh Readonly()
+    {
+      return new ReadonlyVoxelMesh(this);
     }
   }
 }

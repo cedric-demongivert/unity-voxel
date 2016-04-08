@@ -169,7 +169,7 @@ namespace org.rnp.voxel.mesh
           listener.OnCommitEnd(this);
         }
 
-        this._isDirty = false;
+        this.MarkFresh();
       }
     }
     

@@ -9,6 +9,9 @@ using UnityEngine;
 
 namespace org.rnp.voxel.translator.cubic
 {
+  /// <summary>
+  ///   A translator that generate all Voxel Mesh but wich is unoptimized.
+  /// </summary>
   [Translate("Cubes", typeof(VoxelMesh))]
   [ExecuteInEditMode]
   public class CubicVoxelMeshTranslator : CubicVoxelMeshBuilder
@@ -18,10 +21,10 @@ namespace org.rnp.voxel.translator.cubic
     /// </summary>
     protected override void DoTranslation()
     {
-      Dimensions3D dimensions = this.LocalMesh.Dimensions;
+      Dimensions3D dimensions = this.MeshToTranslate.Dimensions;
       
-      VoxelLocation end = this.LocalMeshGlobalLocation.Add(dimensions);
-      VoxelLocation start = this.LocalMeshGlobalLocation;
+      VoxelLocation end = this.MeshToTranslate.Start.Add(dimensions);
+      VoxelLocation start = this.MeshToTranslate.Start;
 
       for (int x = start.X; x < end.X; ++x)
       {

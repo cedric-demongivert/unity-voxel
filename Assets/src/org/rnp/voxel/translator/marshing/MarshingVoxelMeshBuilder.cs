@@ -610,8 +610,11 @@ namespace org.rnp.voxel.translator.cubic
       this._mesh.uv = this._meshUV.ToArray();
       this._mesh.colors32 = this._meshVerticesColor.ToArray();
       this._mesh.triangles = this._meshTriangles.ToArray();
-      
-      this._mesh.UploadMeshData(true);
+
+      this._mesh.RecalculateBounds();
+      this._mesh.RecalculateNormals();
+
+      this._mesh.UploadMeshData(false);
       
       this.Clear();
     }
@@ -626,14 +629,14 @@ namespace org.rnp.voxel.translator.cubic
     {
       int index = 0;
 
-      index |= (!this.GlobalMesh.IsEmpty(x + 0, y + 0, z + 0)) ? 1 : 0;
-      index |= (!this.GlobalMesh.IsEmpty(x + 1, y + 0, z + 0)) ? 2 : 0;
-      index |= (!this.GlobalMesh.IsEmpty(x + 1, y + 0, z + 1)) ? 4 : 0;
-      index |= (!this.GlobalMesh.IsEmpty(x + 0, y + 0, z + 1)) ? 8 : 0;
-      index |= (!this.GlobalMesh.IsEmpty(x + 0, y + 1, z + 0)) ? 16 : 0;
-      index |= (!this.GlobalMesh.IsEmpty(x + 1, y + 1, z + 0)) ? 32 : 0;
-      index |= (!this.GlobalMesh.IsEmpty(x + 1, y + 1, z + 1)) ? 64 : 0;
-      index |= (!this.GlobalMesh.IsEmpty(x + 0, y + 1, z + 1)) ? 128 : 0;
+      index |= (!this.MeshToTranslate.IsEmpty(x + 0, y + 0, z + 0)) ? 1 : 0;
+      index |= (!this.MeshToTranslate.IsEmpty(x + 1, y + 0, z + 0)) ? 2 : 0;
+      index |= (!this.MeshToTranslate.IsEmpty(x + 1, y + 0, z + 1)) ? 4 : 0;
+      index |= (!this.MeshToTranslate.IsEmpty(x + 0, y + 0, z + 1)) ? 8 : 0;
+      index |= (!this.MeshToTranslate.IsEmpty(x + 0, y + 1, z + 0)) ? 16 : 0;
+      index |= (!this.MeshToTranslate.IsEmpty(x + 1, y + 1, z + 0)) ? 32 : 0;
+      index |= (!this.MeshToTranslate.IsEmpty(x + 1, y + 1, z + 1)) ? 64 : 0;
+      index |= (!this.MeshToTranslate.IsEmpty(x + 0, y + 1, z + 1)) ? 128 : 0;
 
       Color32[,,] colors = new Color32[2,2,2];
 
@@ -643,7 +646,7 @@ namespace org.rnp.voxel.translator.cubic
         {
           for(int k = 0; k < 2; ++k)
           {
-            colors[i, j, k] = this.GlobalMesh[x + i, y + j, z + k];
+            colors[i, j, k] = this.MeshToTranslate[x + i, y + j, z + k];
           }
         }
       }

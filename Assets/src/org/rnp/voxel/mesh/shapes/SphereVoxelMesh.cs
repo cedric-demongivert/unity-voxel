@@ -14,7 +14,7 @@ namespace org.rnp.voxel.mesh
   ///     A sphere of voxels.
   /// </summary> 
   [CreateAssetMenu(menuName="Voxel/Sphere")]
-  public class SphereVoxelMesh : ChunckVoxelMesh
+  public class SphereVoxelMesh : ChunckedVoxelMesh
   {
     [SerializeField]
     private int _radius;
@@ -138,7 +138,7 @@ namespace org.rnp.voxel.mesh
       }
     }
 
-    /// <see cref="org.rnp.voxel.mesh.ChunckVoxelMesh"></see>
+    /// <see cref="org.rnp.voxel.mesh.ChunckedVoxelMesh"></see>
     public override Dimensions3D ChunckDimensions
     {
       get
@@ -147,7 +147,7 @@ namespace org.rnp.voxel.mesh
       }
     }
 
-    /// <see cref="org.rnp.voxel.mesh.ChunckVoxelMesh"></see>
+    /// <see cref="org.rnp.voxel.mesh.ChunckedVoxelMesh"></see>
     public override IEnumerable<VoxelLocation> ChunckLocations
     {
       get
@@ -209,7 +209,7 @@ namespace org.rnp.voxel.mesh
     /// <see cref="org.rnp.voxel.mesh.VoxelMesh"></see>
     public override VoxelMesh Readonly()
     {
-      return new ReadonlyChunckVoxelMesh(this);
+      return new ReadonlyChunckedVoxelMesh(this);
     }
 
     /// <see cref="org.rnp.voxel.mesh.VoxelMesh"></see>
@@ -277,16 +277,16 @@ namespace org.rnp.voxel.mesh
       }
     }
 
-    /// <see cref="org.rnp.voxel.mesh.ChunckVoxelMesh"></see>
-    public override VoxelMesh GetChunck(int x, int y, int z)
+    /// <see cref="org.rnp.voxel.mesh.ChunckedVoxelMesh"></see>
+    public override ChunckVoxelMesh GetChunck(int x, int y, int z)
     {
       return this.GetChunck(new VoxelLocation(x, y, z));
     }
 
-    /// <see cref="org.rnp.voxel.mesh.ChunckVoxelMesh"></see>
-    public override VoxelMesh GetChunck(VoxelLocation location)
+    /// <see cref="org.rnp.voxel.mesh.ChunckedVoxelMesh"></see>
+    public override ChunckVoxelMesh GetChunck(VoxelLocation location)
     {
-      return new SubMesh(this, location.Mul(this.ChunckDimensions), this.ChunckDimensions);
+      return new ChunckVoxelMesh(this, location, new SubMesh(this, location.Mul(this.ChunckDimensions), this.ChunckDimensions));
     }
   }
 }

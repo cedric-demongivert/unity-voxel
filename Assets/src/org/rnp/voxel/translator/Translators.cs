@@ -107,30 +107,7 @@ namespace org.rnp.voxel.translator
         }
       }
     }
-
-    /// <summary>
-    ///   Instanciate a translator for a voxel mesh.
-    /// </summary>
-    /// <param name="style"></param>
-    /// <param name="globalMesh"></param>
-    /// <returns></returns>
-    public Translator Generate(string style, VoxelMesh globalMesh)
-    {
-      return this.Generate(style, globalMesh, globalMesh, globalMesh.Start);
-    }
-
-    /// <summary>
-    ///   Instanciate a translator for a voxel mesh.
-    /// </summary>
-    /// <param name="style"></param>
-    /// <param name="globalMesh"></param>
-    /// <param name="localMesh"></param>
-    /// <returns></returns>
-    public Translator Generate(string style, VoxelMesh globalMesh, VoxelMesh localMesh)
-    {
-      return this.Generate(style, globalMesh, localMesh, localMesh.Start);
-    }
-
+    
     /// <summary>
     ///   Instanciate a translator for a voxel mesh.
     /// </summary>
@@ -139,14 +116,14 @@ namespace org.rnp.voxel.translator
     /// <param name="localMesh"></param>
     /// <param name="worldLocation"></param>
     /// <returns></returns>
-    public Translator Generate(string style, VoxelMesh globalMesh, VoxelMesh localMesh, VoxelLocation worldLocation)
+    public Translator Generate(string style, VoxelMesh meshToTranslate)
     {
       if (!this.ExistStyle(style))
       {
         return null;
       }
 
-      Type translator = this.GetTranslatorFor(style, localMesh);
+      Type translator = this.GetTranslatorFor(style, meshToTranslate);
 
       if (translator == null)
       {
@@ -157,7 +134,7 @@ namespace org.rnp.voxel.translator
       result.AddComponent(translator);
 
       Translator componentTranslator = result.GetComponent<Translator>();
-      componentTranslator.Initialize(globalMesh, localMesh, worldLocation);
+      componentTranslator.Initialize(meshToTranslate);
 
       return componentTranslator;
     }

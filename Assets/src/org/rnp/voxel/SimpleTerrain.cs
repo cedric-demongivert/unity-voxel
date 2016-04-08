@@ -40,15 +40,22 @@ namespace org.rnp.voxel
     {
       this.Terrain.Clear();
 
-      for(int i = 0; i < 100; ++i)
+      for(int i = 0; i < 300; ++i)
       {
-        for(int k = 0; k < 100; ++k)
+        for(int k = 0; k < 300; ++k)
         {
-          int height = (int)(Mathf.PerlinNoise(i/100f, k/100f) * 30);
+          int height = (int)(Mathf.PerlinNoise(i/150f, k/150f) * 30);
 
           for(int j = 0; j <= height; ++j)
           {
-            Terrain[i, j, k] = new Color32(110,110,110,0);
+            if(j + 1 > height && j > 10)
+            {
+              Terrain[i, j, k] = new Color32(185, 232, 95, 0);
+            }
+            else
+            {
+              Terrain[i, j, k] = new Color32(167, 52, 55, 0);
+            }
           }
         }
       }

@@ -16,7 +16,7 @@ namespace org.rnp.voxel
   [ExecuteInEditMode]
   public class RandomMesh : VoxelMeshContainer
   {
-    private VoxelMesh _mesh = new MapVoxelMesh(new Dimensions3D(20, 20, 20));
+    private VoxelMesh _mesh = new MapVoxelMesh(new Dimensions3D(5, 5, 5));
     public Dimensions3D size = new Dimensions3D(40, 40, 40);
     public VoxelLocation start = new VoxelLocation(-20);
 

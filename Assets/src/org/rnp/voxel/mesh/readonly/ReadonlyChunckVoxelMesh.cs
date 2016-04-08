@@ -14,9 +14,9 @@ namespace org.rnp.voxel.mesh
   /// <summary>
   ///   A infinite voxel mesh based on a map, not writable.
   /// </summary>
-  public sealed class ReadonlyChunckVoxelMesh : ChunckVoxelMesh, IVoxelMeshCommitListener
+  public sealed class ReadonlyChunckedVoxelMesh : ChunckedVoxelMesh, IVoxelMeshCommitListener
   {
-    private ChunckVoxelMesh _writableMesh;
+    private ChunckedVoxelMesh _writableMesh;
     
     /// <see cref="org.rnp.voxel.mesh.VoxelMesh"></see>
     public override bool IsReadonly
@@ -69,7 +69,7 @@ namespace org.rnp.voxel.mesh
     ///   Wrap in a readonly implementation, a writable voxel map implementation.
     /// </summary>
     /// <param name="writableMap"></param>
-    public ReadonlyChunckVoxelMesh(ChunckVoxelMesh writableMap)
+    public ReadonlyChunckedVoxelMesh(ChunckedVoxelMesh writableMap)
     {
       this._writableMesh = writableMap;
       this._writableMesh.RegisterCommitListener(this);
@@ -79,7 +79,7 @@ namespace org.rnp.voxel.mesh
     ///   Copy another ReadonlyChunckVoxelMesh object.
     /// </summary>
     /// <param name="toCopy"></param>
-    public ReadonlyChunckVoxelMesh(ReadonlyChunckVoxelMesh toCopy)
+    public ReadonlyChunckedVoxelMesh(ReadonlyChunckedVoxelMesh toCopy)
     {
       this._writableMesh = toCopy._writableMesh;
       this._writableMesh.RegisterCommitListener(this);
@@ -88,7 +88,7 @@ namespace org.rnp.voxel.mesh
     /// <see cref="org.rnp.voxel.mesh.VoxelMesh"/>
     public override VoxelMesh Copy()
     {
-      return new ReadonlyChunckVoxelMesh(this);
+      return new ReadonlyChunckedVoxelMesh(this);
     }
 
     /// <see cref="org.rnp.voxel.mesh.VoxelMesh"/>
@@ -98,13 +98,13 @@ namespace org.rnp.voxel.mesh
     }
 
     /// <see cref="org.rnp.voxel.mesh.map.ChunckVoxelMesh"/>
-    public override VoxelMesh GetChunck(int x, int y, int z)
+    public override ChunckVoxelMesh GetChunck(int x, int y, int z)
     {
       return this._writableMesh.GetChunck(x, y, z);
     }
 
     /// <see cref="org.rnp.voxel.mesh.map.ChunckVoxelMesh"/>
-    public override VoxelMesh GetChunck(VoxelLocation location)
+    public override ChunckVoxelMesh GetChunck(VoxelLocation location)
     {
       return this._writableMesh.GetChunck(location);
     }
