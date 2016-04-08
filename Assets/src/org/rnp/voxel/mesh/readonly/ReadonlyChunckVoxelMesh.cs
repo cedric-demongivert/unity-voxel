@@ -146,9 +146,9 @@ namespace org.rnp.voxel.mesh
     }
 
     /// <see cref="http://docs.unity3d.com/ScriptReference/ScriptableObject.html"/>
-    protected override void OnDestroy()
+    public override void Destroy()
     {
-      base.OnDestroy();
+      base.Destroy();
       this._writableMesh.UnregisterCommitListener(this);
     }
 

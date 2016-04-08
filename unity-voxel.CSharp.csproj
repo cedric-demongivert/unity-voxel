@@ -79,13 +79,14 @@
     <Compile Include="Assets\src\org\rnp\voxel\mesh\listener\VoxelMeshCommitListener.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\mesh\MapVoxelMesh.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\mesh\shapes\SphereVoxelMesh.cs" />
-    <Compile Include="Assets\src\org\rnp\voxel\mesh\shapes\SphereVoxelMeshEditor.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\mesh\SubMesh.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\mesh\VoxelMesh.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\mesh\VoxelMeshes.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\mesh\exceptions\UnmodifiableVoxelMeshException.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\mesh\readonly\ReadonlyChunckVoxelMesh.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\mesh\readonly\ReadonlyVoxelMesh.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\RandomMesh.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\SimpleTerrain.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\translator\ComposedTranslator.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\translator\marshing\MarshingChunckVoxelMeshTranslator.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\translator\marshing\MarshingVoxelMeshTranslator.cs" />
@@ -110,6 +111,7 @@
     <Compile Include="Assets\src\org\rnp\voxel\utils\VoxelColor.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\utils\VoxelLocation.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\utils\Voxels.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\VoxelMeshContainer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\shaders\GridShader.shader" />

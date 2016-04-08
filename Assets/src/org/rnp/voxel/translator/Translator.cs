@@ -29,7 +29,7 @@ namespace org.rnp.voxel.translator
     /// <summary>
     ///   World location of the computed part.
     /// </summary>
-    private VoxelLocation _worldLocation;
+    private VoxelLocation _localMeshGlobalLocation;
     
     /// <summary>
     ///   The computed mesh.
@@ -53,10 +53,10 @@ namespace org.rnp.voxel.translator
     /// <summary>
     ///   World location of the computed part.
     /// </summary>
-    public VoxelLocation WorldLocation
+    public VoxelLocation LocalMeshGlobalLocation
     {
       get {
-        return _worldLocation;
+        return _localMeshGlobalLocation;
       }
     }
 
@@ -89,7 +89,7 @@ namespace org.rnp.voxel.translator
     /// <param name="globalMesh"></param>
     public void Initialize(VoxelMesh globalMesh)
     {
-      this.Initialize(globalMesh, globalMesh, VoxelLocation.Zero);
+      this.Initialize(globalMesh, globalMesh, globalMesh.Start);
     }
 
     /// <summary>
@@ -101,7 +101,7 @@ namespace org.rnp.voxel.translator
     /// <param name="localMesh"></param>
     public void Initialize(VoxelMesh globalMesh, VoxelMesh localMesh)
     {
-      this.Initialize(globalMesh, localMesh, VoxelLocation.Zero);
+      this.Initialize(globalMesh, localMesh, localMesh.Start);
     }
 
     /// <summary>
@@ -124,7 +124,7 @@ namespace org.rnp.voxel.translator
 
         this._localMesh = localMesh;
         this._globalMesh = globalMesh;
-        this._worldLocation = worldLocation;
+        this._localMeshGlobalLocation = worldLocation;
         
         this._localMesh.RegisterCommitListener(this);
       }
@@ -181,7 +181,7 @@ namespace org.rnp.voxel.translator
         this._destroyOnCommit = true;
         this._localMesh = null;
         this._globalMesh = null;
-        this._worldLocation = null;
+        this._localMeshGlobalLocation = null;
       }
     }
   }

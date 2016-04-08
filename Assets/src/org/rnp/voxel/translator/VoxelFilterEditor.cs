@@ -28,14 +28,14 @@ namespace org.rnp.voxel.translator
     {
       EditorGUILayout.BeginVertical();
 
-      this.TargetFilter.Mesh = EditorGUILayout.ObjectField("Mesh", this.TargetFilter.Mesh, typeof(VoxelMesh), true) as VoxelMesh;
+      this.TargetFilter.Mesh = EditorGUILayout.ObjectField("Mesh", this.TargetFilter.Mesh, typeof(VoxelMeshContainer), true) as VoxelMeshContainer;
       this.ChooseStyle();
 
-      if(this.TargetFilter.Mesh != null)
+      /*if(this.TargetFilter.Mesh != null)
       {
         EditorGUILayout.LabelField(this.TargetFilter.Mesh.GetType().Name, EditorStyles.boldLabel);
         Editor.CreateEditor(this.TargetFilter.Mesh).OnInspectorGUI();
-      }
+      }*/
 
       EditorGUILayout.EndVertical();
     }

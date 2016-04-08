@@ -60,9 +60,10 @@ namespace org.rnp.voxel.translator.cubic
     /// <see cref="http://docs.unity3d.com/ScriptReference/MonoBehaviour.html"/>
     protected override void OnDestroy()
     {
+      base.OnDestroy();
       this.GetComponent<MeshFilter>().sharedMesh = null;
       DestroyImmediate(this._mesh);
-      base.OnDestroy();
+      this._mesh = null;
     }
 
     /// <summary>
@@ -88,7 +89,7 @@ namespace org.rnp.voxel.translator.cubic
       this._mesh.colors32 = this._meshVerticesColor.ToArray();
       this._mesh.triangles = this._meshTriangles.ToArray();
       
-      this._mesh.UploadMeshData(true);
+      this._mesh.UploadMeshData(false);
       
       this.Clear();
     }
@@ -249,6 +250,11 @@ namespace org.rnp.voxel.translator.cubic
     private void TranslateFace(Vector3[] vertices, Color32 color)
     {
       int indexBase = this._meshVertices.Count;
+
+     /* for(int i = 0; i < vertices.Length; ++i)
+      {
+        vertices[i] += this.WorldLocation;
+      }*/
 
       this._meshVertices.AddRange(vertices);
 

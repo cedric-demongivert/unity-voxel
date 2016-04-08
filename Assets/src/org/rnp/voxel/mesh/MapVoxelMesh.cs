@@ -149,6 +149,8 @@ namespace org.rnp.voxel.mesh
         {
           listener.OnCommitEnd(this);
         }
+
+        this.MarkFresh();
       }
     }
 
@@ -376,6 +378,7 @@ namespace org.rnp.voxel.mesh
     public override void Clear()
     {
       this._chunks.Clear();
+      this.MarkDirty();
     }
 
     /// <see cref="org.rnp.voxel.mesh.VoxelMesh"/>
