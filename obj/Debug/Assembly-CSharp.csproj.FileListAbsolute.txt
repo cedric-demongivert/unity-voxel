@@ -26,3 +26,25 @@ E:\unity-projets\unity-voxel\obj\Debug\Assembly-CSharp.pdb
 =======
 D:\Prem\Documents\ESIEE\E4FI-2015-2016\Projet E4\unity-voxel\obj\Debug\Assembly-CSharp.csprojResolveAssemblyReference.cache
 >>>>>>> simpleForm
+D:\GitHub\unity-voxel\Temp\bin\Debug\Assembly-CSharp.dll
+D:\GitHub\unity-voxel\Temp\bin\Debug\Assembly-CSharp.pdb
+D:\GitHub\unity-voxel\Temp\bin\Debug\Mono.Cecil.dll
+D:\GitHub\unity-voxel\Temp\bin\Debug\UnityEditor.dll
+D:\GitHub\unity-voxel\Temp\bin\Debug\UnityEditor.iOS.Extensions.Xcode.dll
+D:\GitHub\unity-voxel\Temp\bin\Debug\UnityEngine.dll
+D:\GitHub\unity-voxel\Temp\bin\Debug\UnityEngine.Networking.dll
+D:\GitHub\unity-voxel\Temp\bin\Debug\UnityEngine.UI.dll
+D:\GitHub\unity-voxel\Temp\bin\Debug\Unity.SerializationLogic.dll
+D:\GitHub\unity-voxel\Temp\bin\Debug\Unity.DataContract.dll
+D:\GitHub\unity-voxel\Temp\bin\Debug\ICSharpCode.NRefactory.dll
+D:\GitHub\unity-voxel\Temp\bin\Debug\Unity.UNetWeaver.dll
+D:\GitHub\unity-voxel\Temp\bin\Debug\Unity.CecilTools.dll
+D:\GitHub\unity-voxel\Temp\bin\Debug\Mono.Cecil.Pdb.dll
+D:\GitHub\unity-voxel\Temp\bin\Debug\Mono.Cecil.Mdb.dll
+D:\GitHub\unity-voxel\Temp\bin\Debug\UnityEngine.xml
+D:\GitHub\unity-voxel\Temp\bin\Debug\UnityEditor.xml
+D:\GitHub\unity-voxel\Temp\bin\Debug\UnityEngine.UI.xml
+D:\GitHub\unity-voxel\Temp\bin\Debug\UnityEngine.Networking.xml
+D:\GitHub\unity-voxel\obj\Debug\Assembly-CSharp.csprojResolveAssemblyReference.cache
+D:\GitHub\unity-voxel\obj\Debug\Assembly-CSharp.dll
+D:\GitHub\unity-voxel\obj\Debug\Assembly-CSharp.pdb
