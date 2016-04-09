@@ -19,7 +19,7 @@ namespace org.rnp.voxel.mesh
   /// <summary>
   ///   A color matrix that store voxel mesh datas, it can be finite or no.
   /// </summary>
-  public abstract class VoxelMesh : ScriptableObject
+  public abstract class VoxelMesh
   {
     /// <summary>
     ///     Listeners for commit.
@@ -118,7 +118,7 @@ namespace org.rnp.voxel.mesh
     }
 
     /// <summary>
-    ///   Base voxel mesh constructor.
+    ///   Base constructor.
     /// </summary>
     public VoxelMesh()
     {
@@ -169,12 +169,14 @@ namespace org.rnp.voxel.mesh
           listener.OnCommitEnd(this);
         }
 
-        this._isDirty = false;
+        this.MarkFresh();
       }
     }
-
-    /// <see cref="http://docs.unity3d.com/ScriptReference/ScriptableObject.html"/>
-    protected virtual void OnDestroy()
+    
+    /// <summary>
+    ///   Clean the voxel mesh.
+    /// </summary>
+    public virtual void Destroy()
     {
       foreach(IVoxelMeshCommitListener listener in new HashSet<IVoxelMeshCommitListener>(this._listeners))
       {
@@ -191,12 +193,20 @@ namespace org.rnp.voxel.mesh
     }
 
     /// <summary>
+    /// </summary>
+    public virtual void MarkFresh()
+    {
+      this._isDirty = false;
+    }
+
+    /// <summary>
     ///   Clear the voxel mesh.
     ///   All voxels of the mesh must be set to Voxels.Empty.
     /// </summary>
     public virtual void Clear()
     {
       VoxelMeshes.Fill(this, Voxels.Empty);
+      this.MarkDirty();
     }
 
     /// <summary>

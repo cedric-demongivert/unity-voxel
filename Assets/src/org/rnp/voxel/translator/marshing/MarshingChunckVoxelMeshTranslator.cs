@@ -12,7 +12,7 @@ namespace org.rnp.voxel.translator.cubic
   /// <summary>
   ///   Translate a map voxel mesh chunck by chunck.
   /// </summary>
-  //[Translate("Marshing", typeof(ChunckVoxelMesh))]
+  [Translate("Marshing", typeof(ChunckedVoxelMesh))]
   [ExecuteInEditMode]
   public class MarshingChunckVoxelMeshTranslator : ComposedTranslator
   {
@@ -27,11 +27,11 @@ namespace org.rnp.voxel.translator.cubic
       this._chuncks = new Dictionary<VoxelLocation, Translator>();
     }
 
-    private ChunckVoxelMesh _map
+    private ChunckedVoxelMesh _map
     {
       get
       {
-        return this.LocalMesh as ChunckVoxelMesh;
+        return this.MeshToTranslate as ChunckedVoxelMesh;
       }
     }
 
@@ -62,13 +62,14 @@ namespace org.rnp.voxel.translator.cubic
       {
         if (!_chuncks.ContainsKey(location))
         {
-          VoxelLocation worldLocation = location.Mul(this._map.ChunckDimensions); //.Add(this.WorldLocation);
+          VoxelLocation worldLocation = location.Mul(this._map.ChunckDimensions);
                     
           Translator genered = Translators.Instance().Generate(
-            "Marshing", this.GlobalMesh, this._map.GetChunck(location), worldLocation
+            "Marshing", this._map.GetChunck(location)
           );
 
           genered.transform.SetParent(this.transform);
+          genered.transform.localPosition = worldLocation;
 
           this._chuncks[location] = genered;
         }

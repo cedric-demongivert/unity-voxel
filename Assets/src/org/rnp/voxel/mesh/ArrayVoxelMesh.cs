@@ -65,6 +65,8 @@ namespace org.rnp.voxel.mesh
     {
       this._dimensions = new Dimensions3D();
       this._datas = new Color32[0, 0, 0];
+      this.Clear();
+      this.MarkFresh();
     }
 
     /// <summary>
@@ -79,6 +81,7 @@ namespace org.rnp.voxel.mesh
       this._dimensions = new Dimensions3D(width, height, depth);
       this._datas = new Color32[width, height, depth];
       this.Clear();
+      this.MarkFresh();
     }
 
     /// Create a custom voxel mesh.
@@ -93,6 +96,7 @@ namespace org.rnp.voxel.mesh
         dimensions.Depth
       ];
       this.Clear();
+      this.MarkFresh();
     }
 
     /// <summary>

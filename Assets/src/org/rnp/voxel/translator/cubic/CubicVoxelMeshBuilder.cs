@@ -60,9 +60,10 @@ namespace org.rnp.voxel.translator.cubic
     /// <see cref="http://docs.unity3d.com/ScriptReference/MonoBehaviour.html"/>
     protected override void OnDestroy()
     {
+      base.OnDestroy();
       this.GetComponent<MeshFilter>().sharedMesh = null;
       DestroyImmediate(this._mesh);
-      base.OnDestroy();
+      this._mesh = null;
     }
 
     /// <summary>
@@ -87,9 +88,9 @@ namespace org.rnp.voxel.translator.cubic
       this._mesh.uv = this._meshUV.ToArray();
       this._mesh.colors32 = this._meshVerticesColor.ToArray();
       this._mesh.triangles = this._meshTriangles.ToArray();
-
-      this._mesh.RecalculateNormals();
+      
       this._mesh.RecalculateBounds();
+      this._mesh.RecalculateNormals();
 
       this._mesh.UploadMeshData(false);
       
@@ -106,36 +107,36 @@ namespace org.rnp.voxel.translator.cubic
     {
       Color32 color;
 
-      if (!this.GlobalMesh.IsEmpty(x, y, z))
+      if (!this.MeshToTranslate.IsEmpty(x, y, z))
       {
-        color = this.GlobalMesh[x, y, z];
+        color = this.MeshToTranslate[x, y, z];
 
-        if (this.GlobalMesh.IsEmpty(x, y + 1, z))
+        if (this.MeshToTranslate.IsEmpty(x, y + 1, z))
         {
           this.TranslateUp(x, y, z, color);
         }
 
-        if (this.GlobalMesh.IsEmpty(x, y - 1, z))
+        if (this.MeshToTranslate.IsEmpty(x, y - 1, z))
         {
           this.TranslateDown(x, y, z, color);
         }
 
-        if (this.GlobalMesh.IsEmpty(x - 1, y, z))
+        if (this.MeshToTranslate.IsEmpty(x - 1, y, z))
         {
           this.TranslateLeft(x, y, z, color);
         }
 
-        if (this.GlobalMesh.IsEmpty(x + 1, y, z))
+        if (this.MeshToTranslate.IsEmpty(x + 1, y, z))
         {
           this.TranslateRight(x, y, z, color);
         }
 
-        if (this.GlobalMesh.IsEmpty(x, y, z + 1))
+        if (this.MeshToTranslate.IsEmpty(x, y, z + 1))
         {
           this.TranslateFront(x, y, z, color);
         }
 
-        if (this.GlobalMesh.IsEmpty(x, y, z - 1))
+        if (this.MeshToTranslate.IsEmpty(x, y, z - 1))
         {
           this.TranslateBack(x, y, z, color);
         }

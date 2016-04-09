@@ -10,11 +10,11 @@ using System.Collections;
 namespace org.rnp.voxel.translator.cubic
 {
   /// <summary>
-  ///   Translate a map voxel mesh chunck by chunck.
+  ///   Translate a voxel mesh which is made of many chuncks.
   /// </summary>
-  ///[Translate("Cubes", typeof(ChunckVoxelMesh))]
+  [Translate("Cubes", typeof(ChunckedVoxelMesh))]
   [ExecuteInEditMode]
-  public class CubicChunckVoxelMeshTranslator : ComposedTranslator
+  public class CubicChunckedVoxelMeshTranslator : ComposedTranslator
   {
     /// <summary>
     ///   Translated chuncks.
@@ -27,11 +27,11 @@ namespace org.rnp.voxel.translator.cubic
       this._chuncks = new Dictionary<VoxelLocation, Translator>();
     }
 
-    private ChunckVoxelMesh _map
+    private ChunckedVoxelMesh _map
     {
       get
       {
-        return this.LocalMesh as ChunckVoxelMesh;
+        return this.MeshToTranslate as ChunckedVoxelMesh;
       }
     }
 
@@ -62,13 +62,14 @@ namespace org.rnp.voxel.translator.cubic
       {
         if (!_chuncks.ContainsKey(location))
         {
-          VoxelLocation worldLocation = location.Mul(this._map.ChunckDimensions); //.Add(this.WorldLocation);
+          VoxelLocation worldLocation = location.Mul(this._map.ChunckDimensions);
                     
           Translator genered = Translators.Instance().Generate(
-            "Cubes", this.GlobalMesh, this._map.GetChunck(location), worldLocation
+            "Cubes", this._map.GetChunck(location)
           );
 
           genered.transform.SetParent(this.transform);
+          genered.transform.localPosition = worldLocation;
 
           this._chuncks[location] = genered;
         }

@@ -20,12 +20,18 @@ namespace org.rnp.voxel.utils
   /// </summary>
   /// 
   /// <see cref="org.rnp.voxel.utils.VoxelLocation"/>
+  [System.Serializable]
   public sealed class VoxelLocation : ICopiable<VoxelLocation>
   {
     #region Fields
-    public readonly int X;
-    public readonly int Y;
-    public readonly int Z;
+    [SerializeField]
+    private int _x;
+
+    [SerializeField]
+    private int _y;
+
+    [SerializeField]
+    private int _z;
 
     public static readonly VoxelLocation Zero = new VoxelLocation();
     public static readonly VoxelLocation Up = new VoxelLocation(Vector3.up);
@@ -36,13 +42,30 @@ namespace org.rnp.voxel.utils
     public static readonly VoxelLocation Back = new VoxelLocation(Vector3.back);
     #endregion
 
+    #region Getters & Setters
+    public int X
+    {
+      get { return this._x; }
+    }
+
+    public int Y
+    {
+      get { return this._y; }
+    }
+
+    public int Z
+    {
+      get { return this._z; }
+    }
+    #endregion
+
     #region Constructors
     /// <summary>
     ///   A zero location.
     /// </summary>
     public VoxelLocation()
     {
-      this.X = this.Y = this.Z = 0;
+      this._x = this._y = this._z = 0;
     }
 
     /// <summary>
@@ -51,7 +74,7 @@ namespace org.rnp.voxel.utils
     /// <param name="pos"></param>
     public VoxelLocation(int pos)
     {
-      this.X = this.Y = this.Z = pos;
+      this._x = this._y = this._z = pos;
     }
 
     /// <summary>
@@ -62,9 +85,9 @@ namespace org.rnp.voxel.utils
     /// <param name="z"></param>
     public VoxelLocation(int x, int y, int z)
     {
-      this.X = x;
-      this.Y = y;
-      this.Z = z;
+      this._x = x;
+      this._y = y;
+      this._z = z;
     }
 
     /// <summary>
@@ -76,9 +99,9 @@ namespace org.rnp.voxel.utils
     /// <returns></returns>
     public VoxelLocation(float x, float y, float z)
     {
-      this.X = Mathf.FloorToInt(x);
-      this.Y = Mathf.FloorToInt(y);
-      this.Z = Mathf.FloorToInt(z);
+      this._x = Mathf.FloorToInt(x);
+      this._y = Mathf.FloorToInt(y);
+      this._z = Mathf.FloorToInt(z);
     }
 
     /// <summary>
@@ -87,7 +110,7 @@ namespace org.rnp.voxel.utils
     /// <param name="pos"></param>
     public VoxelLocation(float pos)
     {
-      this.X = this.Y = this.Z = Mathf.FloorToInt(pos);
+      this._x = this._y = this._z = Mathf.FloorToInt(pos);
     }
 
     /// <summary>
@@ -96,9 +119,9 @@ namespace org.rnp.voxel.utils
     /// <param name="toCopy"></param>
     public VoxelLocation(VoxelLocation toCopy)
     {
-      this.X = toCopy.X;
-      this.Y = toCopy.Y;
-      this.Z = toCopy.Z;
+      this._x = toCopy._x;
+      this._y = toCopy._y;
+      this._z = toCopy._z;
     }
 
     /// <summary>
@@ -107,9 +130,9 @@ namespace org.rnp.voxel.utils
     /// <param name="vector"></param>
     public VoxelLocation(Vector3 vector)
     {
-      this.X = Mathf.FloorToInt(vector.x);
-      this.Y = Mathf.FloorToInt(vector.y);
-      this.Z = Mathf.FloorToInt(vector.z);
+      this._x = Mathf.FloorToInt(vector.x);
+      this._y = Mathf.FloorToInt(vector.y);
+      this._z = Mathf.FloorToInt(vector.z);
     }
 
     /// <summary>
@@ -118,9 +141,9 @@ namespace org.rnp.voxel.utils
     /// <param name="vector"></param>
     public VoxelLocation(Vector2 vector)
     {
-      this.X = Mathf.FloorToInt(vector.x);
-      this.Y = Mathf.FloorToInt(vector.y);
-      this.Z = 0;
+      this._x = Mathf.FloorToInt(vector.x);
+      this._y = Mathf.FloorToInt(vector.y);
+      this._z = 0;
     }
     #endregion
     
@@ -133,9 +156,9 @@ namespace org.rnp.voxel.utils
     public VoxelLocation Add(VoxelLocation location)
     {
       return new VoxelLocation(
-        this.X + location.X,
-        this.Y + location.Y,
-        this.Z + location.Z
+        this._x + location._x,
+        this._y + location._y,
+        this._z + location._z
       );
     }
 
@@ -149,9 +172,9 @@ namespace org.rnp.voxel.utils
     public VoxelLocation Add(float x, float y, float z)
     {
       return new VoxelLocation(
-        this.X + x,
-        this.Y + y,
-        this.Z + z
+        this._x + x,
+        this._y + y,
+        this._z + z
       );
     }
 
@@ -165,9 +188,9 @@ namespace org.rnp.voxel.utils
     public VoxelLocation Add(int x, int y, int z)
     {
       return new VoxelLocation(
-        this.X + x,
-        this.Y + y,
-        this.Z + z
+        this._x + x,
+        this._y + y,
+        this._z + z
       );
     }
 
@@ -179,9 +202,9 @@ namespace org.rnp.voxel.utils
     public VoxelLocation Add(Vector3 vector)
     {
       return new VoxelLocation(
-        this.X + vector.x,
-        this.Y + vector.y,
-        this.Z + vector.z
+        this._x + vector.x,
+        this._y + vector.y,
+        this._z + vector.z
       );
     }
 
@@ -193,9 +216,9 @@ namespace org.rnp.voxel.utils
     public VoxelLocation Add(Vector2 vector)
     {
       return new VoxelLocation(
-        this.X + vector.x,
-        this.Y + vector.y,
-        this.Z
+        this._x + vector.x,
+        this._y + vector.y,
+        this._z
       );
     }
 
@@ -207,9 +230,9 @@ namespace org.rnp.voxel.utils
     public VoxelLocation Add(Dimensions3D dimensions)
     {
       return new VoxelLocation(
-        this.X + dimensions.Width,
-        this.Y + dimensions.Height,
-        this.Z + dimensions.Depth
+        this._x + dimensions.Width,
+        this._y + dimensions.Height,
+        this._z + dimensions.Depth
       );
     }
     #endregion
@@ -223,9 +246,9 @@ namespace org.rnp.voxel.utils
     public VoxelLocation Sub(VoxelLocation location)
     {
       return new VoxelLocation(
-        this.X - location.X,
-        this.Y - location.Y,
-        this.Z - location.Z
+        this._x - location._x,
+        this._y - location._y,
+        this._z - location._z
       );
     }
 
@@ -239,9 +262,9 @@ namespace org.rnp.voxel.utils
     public VoxelLocation Sub(float x, float y, float z)
     {
       return new VoxelLocation(
-        this.X - x,
-        this.Y - y,
-        this.Z - z
+        this._x - x,
+        this._y - y,
+        this._z - z
       );
     }
 
@@ -255,9 +278,9 @@ namespace org.rnp.voxel.utils
     public VoxelLocation Sub(int x, int y, int z)
     {
       return new VoxelLocation(
-        this.X - x,
-        this.Y - y,
-        this.Z - z
+        this._x - x,
+        this._y - y,
+        this._z - z
       );
     }
 
@@ -269,9 +292,9 @@ namespace org.rnp.voxel.utils
     public VoxelLocation Sub(Vector3 vector)
     {
       return new VoxelLocation(
-        this.X - vector.x,
-        this.Y - vector.y,
-        this.Z - vector.z
+        this._x - vector.x,
+        this._y - vector.y,
+        this._z - vector.z
       );
     }
 
@@ -283,9 +306,9 @@ namespace org.rnp.voxel.utils
     public VoxelLocation Sub(Vector2 vector)
     {
       return new VoxelLocation(
-        this.X - vector.x,
-        this.Y - vector.y,
-        this.Z
+        this._x - vector.x,
+        this._y - vector.y,
+        this._z
       );
     }
     
@@ -297,9 +320,9 @@ namespace org.rnp.voxel.utils
     public VoxelLocation Sub(Dimensions3D dimensions)
     {
       return new VoxelLocation(
-        this.X - dimensions.Width,
-        this.Y - dimensions.Height,
-        this.Z - dimensions.Depth
+        this._x - dimensions.Width,
+        this._y - dimensions.Height,
+        this._z - dimensions.Depth
       );
     }
     #endregion
@@ -315,9 +338,9 @@ namespace org.rnp.voxel.utils
     public VoxelLocation Mul(float sx, float sy, float sz)
     {
       return new VoxelLocation(
-        this.X * sx,
-        this.Y * sy,
-        this.Z * sz
+        this._x * sx,
+        this._y * sy,
+        this._z * sz
       );
     }
 
@@ -331,9 +354,9 @@ namespace org.rnp.voxel.utils
     public VoxelLocation Mul(int sx, int sy, int sz)
     {
       return new VoxelLocation(
-        this.X * sx,
-        this.Y * sy,
-        this.Z * sz
+        this._x * sx,
+        this._y * sy,
+        this._z * sz
       );
     }
 
@@ -345,9 +368,9 @@ namespace org.rnp.voxel.utils
     public VoxelLocation Mul(Dimensions3D dimensions)
     {
       return new VoxelLocation(
-        this.X * dimensions.Width,
-        this.Y * dimensions.Height,
-        this.Z * dimensions.Depth
+        this._x * dimensions.Width,
+        this._y * dimensions.Height,
+        this._z * dimensions.Depth
       );
     }
 
@@ -359,9 +382,9 @@ namespace org.rnp.voxel.utils
     public VoxelLocation Mul(float s)
     {
       return new VoxelLocation(
-        this.X * s,
-        this.Y * s,
-        this.Z * s
+        this._x * s,
+        this._y * s,
+        this._z * s
       );
     }
 
@@ -373,9 +396,9 @@ namespace org.rnp.voxel.utils
     public VoxelLocation Mul(int s)
     {
       return new VoxelLocation(
-        this.X * s,
-        this.Y * s,
-        this.Z * s
+        this._x * s,
+        this._y * s,
+        this._z * s
       );
     }
     #endregion
@@ -391,9 +414,9 @@ namespace org.rnp.voxel.utils
     public VoxelLocation Div(float sx, float sy, float sz)
     {
       return new VoxelLocation(
-        this.X / sx,
-        this.Y / sy,
-        this.Z / sz
+        this._x / sx,
+        this._y / sy,
+        this._z / sz
       );
     }
 
@@ -407,9 +430,9 @@ namespace org.rnp.voxel.utils
     public VoxelLocation Div(int sx, int sy, int sz)
     {
       return new VoxelLocation(
-        this.X / sx,
-        this.Y / sy,
-        this.Z / sz
+        this._x / sx,
+        this._y / sy,
+        this._z / sz
       );
     }
 
@@ -421,9 +444,9 @@ namespace org.rnp.voxel.utils
     public VoxelLocation Div(Dimensions3D dimensions)
     {
       return new VoxelLocation(
-        this.X / dimensions.Width,
-        this.Y / dimensions.Height,
-        this.Z / dimensions.Depth
+        this._x / dimensions.Width,
+        this._y / dimensions.Height,
+        this._z / dimensions.Depth
       );
     }
 
@@ -435,9 +458,9 @@ namespace org.rnp.voxel.utils
     public VoxelLocation Div(float s)
     {
       return new VoxelLocation(
-        this.X / s,
-        this.Y / s,
-        this.Z / s
+        this._x / s,
+        this._y / s,
+        this._z / s
       );
     }
 
@@ -449,9 +472,9 @@ namespace org.rnp.voxel.utils
     public VoxelLocation Div(int s)
     {
       return new VoxelLocation(
-        this.X / s,
-        this.Y / s,
-        this.Z / s
+        this._x / s,
+        this._y / s,
+        this._z / s
       );
     }
     #endregion
@@ -467,9 +490,9 @@ namespace org.rnp.voxel.utils
     public VoxelLocation Mod(int sx, int sy, int sz)
     {
       return new VoxelLocation(
-        this.X % sx,
-        this.Y % sy,
-        this.Z % sz
+        this._x % sx,
+        this._y % sy,
+        this._z % sz
       );
     }
 
@@ -481,9 +504,9 @@ namespace org.rnp.voxel.utils
     public VoxelLocation Mod(Dimensions3D dimensions)
     {
       return new VoxelLocation(
-        this.X % dimensions.Width,
-        this.Y % dimensions.Height,
-        this.Z % dimensions.Depth
+        this._x % dimensions.Width,
+        this._y % dimensions.Height,
+        this._z % dimensions.Depth
       );
     }
 
@@ -495,9 +518,9 @@ namespace org.rnp.voxel.utils
     public VoxelLocation Mod(int s)
     {
       return new VoxelLocation(
-        this.X % s,
-        this.Y % s,
-        this.Z % s
+        this._x % s,
+        this._y % s,
+        this._z % s
       );
     }
     #endregion
@@ -510,7 +533,7 @@ namespace org.rnp.voxel.utils
     /// <returns></returns>
     public bool AnyEquals(VoxelLocation other)
     {
-      return this.X == other.X || this.Y == other.Y || this.Z == other.Z;
+      return this._x == other._x || this._y == other._y || this._z == other._z;
     }
 
     /// <summary>
@@ -523,9 +546,9 @@ namespace org.rnp.voxel.utils
     public VoxelLocation SetIfMin(int x, int y, int z)
     {
       return new VoxelLocation(
-        (this.X < x) ? this.X : x,
-        (this.Y < y) ? this.Y : y,
-        (this.Z < z) ? this.Z : z
+        (this._x < x) ? this._x : x,
+        (this._y < y) ? this._y : y,
+        (this._z < z) ? this._z : z
       );
     }
 
@@ -539,9 +562,9 @@ namespace org.rnp.voxel.utils
     public VoxelLocation SetIfMax(int x, int y, int z)
     {
       return new VoxelLocation(
-        (this.X > x) ? this.X : x,
-        (this.Y > y) ? this.Y : y,
-        (this.Z > z) ? this.Z : z
+        (this._x > x) ? this._x : x,
+        (this._y > y) ? this._y : y,
+        (this._z > z) ? this._z : z
       );
     }
     
@@ -553,9 +576,9 @@ namespace org.rnp.voxel.utils
     public VoxelLocation SetIfMin(VoxelLocation other)
     {
       return new VoxelLocation(
-        (this.X < other.X) ? this.X : other.X,
-        (this.Y < other.Y) ? this.Y : other.Y,
-        (this.Z < other.Z) ? this.Z : other.Z
+        (this._x < other._x) ? this._x : other._x,
+        (this._y < other._y) ? this._y : other._y,
+        (this._z < other._z) ? this._z : other._z
       );
     }
 
@@ -567,9 +590,9 @@ namespace org.rnp.voxel.utils
     public VoxelLocation SetIfMax(VoxelLocation other)
     {
       return new VoxelLocation(
-        (this.X > other.X) ? this.X : other.X,
-        (this.Y > other.Y) ? this.Y : other.Y,
-        (this.Z > other.Z) ? this.Z : other.Z
+        (this._x > other._x) ? this._x : other._x,
+        (this._y > other._y) ? this._y : other._y,
+        (this._z > other._z) ? this._z : other._z
       );
     }
 
@@ -579,7 +602,7 @@ namespace org.rnp.voxel.utils
     /// <returns></returns>
     public float SquaredLength()
     {
-      return this.X * this.X + this.Y * this.Y + this.Z * this.Z;
+      return this._x * this._x + this._y * this._y + this._z * this._z;
     }
 
     /// <summary>
@@ -588,7 +611,7 @@ namespace org.rnp.voxel.utils
     /// <returns></returns>
     public float Length()
     {
-      return Mathf.Sqrt(this.X * this.X + this.Y * this.Y + this.Z * this.Z);
+      return Mathf.Sqrt(this._x * this._x + this._y * this._y + this._z * this._z);
     }
     #endregion
 
@@ -596,13 +619,13 @@ namespace org.rnp.voxel.utils
     /// <see cref="object"/>
     public override string ToString()
     {
-      return "VoxelLocation (" + this.X + ", " + this.Y + ", " + this.Z + ")";
+      return "VoxelLocation (" + this._x + ", " + this._y + ", " + this._z + ")";
     }
 
     /// <see cref="object"/>
     public override int GetHashCode()
     {
-      return ((this.X * 31 + this.Y) * 31 + this.Z) * 31;
+      return ((this._x * 31 + this._y) * 31 + this._z) * 31;
     }
 
     /// <see cref="object"/>
@@ -621,7 +644,7 @@ namespace org.rnp.voxel.utils
       if (obj is VoxelLocation)
       {
         VoxelLocation toCmp = (VoxelLocation) obj;
-        return this.X == toCmp.X && this.Y == toCmp.Y && this.Z == toCmp.Z;
+        return this._x == toCmp._x && this._y == toCmp._y && this._z == toCmp._z;
       }
 
       return false;
@@ -638,7 +661,7 @@ namespace org.rnp.voxel.utils
     /// <returns></returns>
     public static implicit operator Vector3(VoxelLocation location)
     {
-      return new Vector3(location.X, location.Y, location.Z);
+      return new Vector3(location._x, location._y, location._z);
     }
 
     /// <summary>
@@ -658,7 +681,7 @@ namespace org.rnp.voxel.utils
     /// <returns></returns>
     public static implicit operator Vector2(VoxelLocation location)
     {
-      return new Vector2(location.X, location.Y);
+      return new Vector2(location._x, location._y);
     }
 
     /// <summary>
@@ -708,9 +731,9 @@ namespace org.rnp.voxel.utils
     public static Vector3 operator -(Vector3 a, VoxelLocation b)
     {
       Vector3 result = a;
-      result.x -= b.X;
-      result.y -= b.Y;
-      result.z -= b.Z;
+      result.x -= b._x;
+      result.y -= b._y;
+      result.z -= b._z;
       return result;
     }
 
@@ -722,8 +745,8 @@ namespace org.rnp.voxel.utils
     public static Vector2 operator -(Vector2 a, VoxelLocation b)
     {
       Vector2 result = a;
-      result.x -= b.X;
-      result.y -= b.Y;
+      result.x -= b._x;
+      result.y -= b._y;
       return result;
     }
 

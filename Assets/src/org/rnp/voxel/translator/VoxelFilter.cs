@@ -31,7 +31,7 @@ namespace org.rnp.voxel.translator
     ///   The mesh to translate.
     /// </summary>
     [SerializeField]
-    private VoxelMesh _mesh;
+    private VoxelMeshContainer _mesh;
 
     /// <summary>
     ///   Genered translator.
@@ -71,7 +71,7 @@ namespace org.rnp.voxel.translator
     /// <summary>
     ///   Mesh to translate.
     /// </summary>
-    public VoxelMesh Mesh
+    public VoxelMeshContainer Mesh
     {
       get
       {
@@ -83,7 +83,7 @@ namespace org.rnp.voxel.translator
         {
           if(this._mesh != null)
           {
-            this._mesh.UnregisterCommitListener(this);
+            this._mesh.Mesh.UnregisterCommitListener(this);
             this._mesh = null;
           }
          
@@ -134,9 +134,9 @@ namespace org.rnp.voxel.translator
         this.UnregisterVoxelFilterCommitListener(listener);
       }
 
-      if (this._mesh != null)
+      if (this._mesh != null && this._mesh.Mesh != null)
       {
-        this._mesh.UnregisterCommitListener(this);
+        this._mesh.Mesh.UnregisterCommitListener(this);
       }
     }
 
@@ -145,10 +145,10 @@ namespace org.rnp.voxel.translator
     /// </summary>
     public void Reset()
     {
-      if(this._mesh != null && this._style != null)
+      if(this._mesh != null && this._style != null && this._mesh.Mesh != null)
       {
-        this._mesh.UnregisterCommitListener(this);
-        this._mesh.RegisterCommitListener(this);
+        this._mesh.Mesh.UnregisterCommitListener(this);
+        this._mesh.Mesh.RegisterCommitListener(this);
       }
     }
 
@@ -174,7 +174,7 @@ namespace org.rnp.voxel.translator
       {
         this._translator = Translators.Instance().Generate(
           this._style,
-          this._mesh
+          this._mesh.Mesh
         );
 
         this._translator.transform.SetParent(this.transform);
