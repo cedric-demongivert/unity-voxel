@@ -9,26 +9,26 @@ public class Emetteur : MonoBehaviour {
 
     public Vector3 position;
 
-    public float initTime = 1;
+    public float tickTime = 1;
     private float timeLeft;
 
     
 
     // Use this for initialization
     void Start () {
-        timeLeft = initTime;
+        timeLeft = 0;
     }
 	
 	// Update is called once per frame
 	void Update () {
-        timeLeft -= Time.deltaTime;
-        if (timeLeft < 0)
-        {
-            water.createParticule(position);
-            timeLeft = initTime;
-            //Debug.Log("particule");
-        }
+    timeLeft += Time.deltaTime;
+
+    while(timeLeft >= tickTime)
+    {
+      water.createParticule(position);
+      timeLeft -= tickTime;
     }
+  }
 
 
 }

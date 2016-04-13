@@ -33,11 +33,11 @@ namespace org.rnp.voxel
     }
 
     /// <see cref="http://docs.unity3d.com/ScriptReference/MonoBehaviour.html"/>
-    public override void Awake()
+    public void Awake()
     {  }
 
     /// <see cref="http://docs.unity3d.com/ScriptReference/MonoBehaviour.html"/>
-    public override void Update()
+    public void Update()
     {
       this._time += Time.deltaTime;
 

@@ -24,14 +24,6 @@ namespace org.rnp.voxel
     }
 
     /// <see cref="http://docs.unity3d.com/ScriptReference/MonoBehaviour.html"/>
-    public virtual void Awake()
-    { }
-
-    /// <see cref="http://docs.unity3d.com/ScriptReference/MonoBehaviour.html"/>
-    public virtual void Update()
-    { }
-
-    /// <see cref="http://docs.unity3d.com/ScriptReference/MonoBehaviour.html"/>
     protected virtual void OnDestroy()
     {
       if(this.Mesh != null)

@@ -28,7 +28,7 @@ namespace org.rnp.voxel
     }
 
     /// <see cref="http://docs.unity3d.com/ScriptReference/MonoBehaviour.html"/>
-    public override void Awake()
+    public void Awake()
     {
       this.Generate();
     }
