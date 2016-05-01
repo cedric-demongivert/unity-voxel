@@ -48,6 +48,7 @@
      <Compile Include="Assets\shaders\UnityVC\Editor\StandardShaderVCGUI.cs" />
      <None Include="Assets\shaders\UnityVC\StandardVC.shader" />
      <None Include="Assets\shaders\UnityVC\StandardSpecularVC.shader" />
+     <None Include="Assets\shaders\ToonishWater.shader" />
      <None Include="Assets\src\org\rnp\Shaders\NewSurfaceShader.shader" />
      <None Include="Assets\shaders\UnityVC\UnityVC.cginc" />
      <None Include="Assets\shaders\GridShader.shader" />
