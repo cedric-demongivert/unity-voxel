@@ -30,6 +30,15 @@ namespace org.rnp.voxel.utils
       return !Voxels.IsEmpty(voxel);
     }
 
+    public static Vector3 Mask(Vector3 vector, int mask)
+    {
+      return new Vector3(
+        ((mask & 1) > 0) ? vector.x : 0,
+        ((mask & 2) > 0) ? vector.y : 0,
+        ((mask & 4) > 0) ? vector.z : 0
+      );
+    }
+
     /// <summary>
     ///   Transform a vector in a voxel direction vector.
     ///   
@@ -74,6 +83,49 @@ namespace org.rnp.voxel.utils
         result.z = 0f;
       }
       else if (vector.z > 0)
+      {
+        result.z = 1f;
+      }
+      else
+      {
+        result.z = -1f;
+      }
+
+      return result;
+    }
+
+    /// <summary>
+    ///   Transform a vector in a voxel direction vector.
+    ///   
+    ///   For each value of the vector, if a value is negative this method
+    ///   set it to -1f, if a value is positive this method set it to 1f and if
+    ///   a value is null, this method set it to 1f.
+    /// </summary>
+    /// <param name="vector"></param>
+    /// <returns></returns>
+    public static Vector3 StrictDirection(Vector3 vector)
+    {
+      Vector3 result = new Vector3();
+      
+      if (vector.x >= 0f)
+      {
+        result.x = 1f;
+      }
+      else
+      {
+        result.x = -1f;
+      }
+
+      if (vector.y >= 0f)
+      {
+        result.y = 1f;
+      }
+      else
+      {
+        result.y = -1f;
+      }
+
+      if (vector.z >= 0)
       {
         result.z = 1f;
       }
@@ -149,6 +201,15 @@ namespace org.rnp.voxel.utils
     public static bool HasPositive(Vector3 vector)
     {
       return vector.x > 0 || vector.y > 0 || vector.z > 0;
+    }
+
+    public static Vector3 Clamp(Vector3 vector, float v, float precision)
+    {
+      return new Vector3(
+        (Mathf.Abs(vector.x - v) <= precision) ? v : vector.x,
+        (Mathf.Abs(vector.y - v) <= precision) ? v : vector.y,
+        (Mathf.Abs(vector.z - v) <= precision) ? v : vector.z
+      );
     }
 
     /// <summary>

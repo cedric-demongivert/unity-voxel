@@ -12,7 +12,7 @@ namespace org.rnp.voxel.translator.cubic
   /// <summary>
   ///   Translate a voxel mesh which is made of many chuncks.
   /// </summary>
-  [Translate("Cubes", typeof(ChunckedVoxelMesh))]
+  //[Translate("Cubes", typeof(ChunckedVoxelMesh))]
   [ExecuteInEditMode]
   public class CubicChunckedVoxelMeshTranslator : ComposedTranslator
   {
