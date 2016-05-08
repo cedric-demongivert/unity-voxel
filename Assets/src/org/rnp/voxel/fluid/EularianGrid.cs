@@ -18,66 +18,6 @@ namespace org.rnp.voxel.fluid
     [SerializeField]
     private Dimensions3D _size;
 
-    private struct Interpolation
-    {
-      public float[] interpolationValues;
-      public Vector3 a;
-      public Vector3 b;
-      public Vector3 c;
-      public Vector3 d;
-
-      public Vector3 GetPoint(int indx)
-      {
-        switch(indx)
-        {
-          case 0: return a;
-          case 1: return b;
-          case 2: return d;
-          case 3: return c;
-          default: throw new IndexOutOfRangeException();
-        }
-      }
-
-      public float GetCoef(int indx)
-      {
-        return this.interpolationValues[indx];
-      }
-
-      public int Count()
-      {
-        return 3;
-      }
-
-      public Interpolation(Vector3 a, Vector3 b, Vector3 c, Vector3 d, Vector3 location)
-      {
-        Vector3 localized = location - a;
-
-        this.a = a;
-        this.b = b;
-        this.c = c;
-        this.d = d;
-
-        if (localized.sqrMagnitude < (0.0001 * 0.0001))
-        {
-          this.interpolationValues = new float[] { 1, 0, 0, 0 };
-        }
-        else
-        {
-          this.interpolationValues = new float[] { 0, 0, 0, 0 };
-          this.Initialize(location);
-        }
-      }
-
-      public void Initialize(Vector3 location)
-      {
-        Vector3 localized = location - a;
-
-        this.interpolationValues[0] = RNPMath.Clamp((1f - Mathf.Abs(localized.x) + 1f - Mathf.Abs(localized.y))/ 2f, 0, 0.1f);
-        this.interpolationValues[1] = RNPMath.Clamp((Mathf.Abs(localized.x)) / 2f, 0, 0.1f);
-        this.interpolationValues[2] = RNPMath.Clamp((Mathf.Abs(localized.y)) / 2f, 0, 0.1f);
-      }
-    }
-
     /// <author>Cédric DEMONGIVERT [cedric.demongivert@gmail.com]</author>
     ///
     /// <summary>
@@ -86,52 +26,134 @@ namespace org.rnp.voxel.fluid
     [Serializable]
     public struct Fluid
     {
-      public float FluidQuantity;
-      public Vector3 FluidSpeed;
+      [SerializeField]
+      private bool _isFilled;
+
+      [SerializeField]
+      private Vector3 _fluidSpeed;
+
+      [SerializeField]
+      private float _pressure;
+
+      public float Pressure
+      {
+        get
+        {
+          if (this.IsEmpty)
+          {
+            return 0;
+          }
+          else
+          {
+            return this._pressure;
+          }
+        }
+        set
+        {
+          this._pressure = value;
+        }
+      }
+
+      public Vector3 FluidSpeed
+      {
+        get
+        {
+          if(this.IsEmpty)
+          {
+            return Vector3.zero;
+          }
+          else
+          {
+            return this._fluidSpeed;
+          }
+        }
+        set
+        {
+          if(this.IsEmpty)
+          {
+            this._fluidSpeed = Vector3.zero;
+          }
+          else
+          {
+            this._fluidSpeed = value;
+          }
+        }
+      }
+
+      public bool IsEmpty
+      {
+        get
+        {
+          return !this._isFilled;
+        }
+        set
+        {
+          this._isFilled = !value;
+
+          if(value)
+          {
+            this.FluidSpeed = Vector3.zero;
+          }
+        }
+      }
 
       public Fluid(Fluid toCopy)
       {
-        this.FluidQuantity = toCopy.FluidQuantity;
+        this.IsEmpty = toCopy.IsEmpty;
         this.FluidSpeed = toCopy.FluidSpeed;
       }
 
-      public Fluid(float quantity, Vector3 speed)
+      public Fluid(Vector3 speed)
       {
-        this.FluidQuantity = quantity;
+        this.IsEmpty = false;
         this.FluidSpeed = speed;
+      }
+
+      public Fluid(bool isEmpty, Vector3 speed)
+      {
+        this.IsEmpty = isEmpty;
+        this.FluidSpeed = speed;
+      }
+
+      public Fluid Fill()
+      {
+        this.IsEmpty = false;
+        return this;
+      }
+
+      public Fluid Dry()
+      {
+        this.IsEmpty = true;
+        return this;
       }
 
       public Fluid Add(Fluid other)
       {
-        this.FluidQuantity += other.FluidQuantity;
         this.FluidSpeed += other.FluidSpeed;
         return this;
       }
 
       public Fluid Sub(Fluid other)
       {
-        this.FluidQuantity -= other.FluidQuantity;
         this.FluidSpeed -= other.FluidSpeed;
         return this;
       }
 
       public Fluid Set(Fluid other)
       {
-        this.FluidQuantity = other.FluidQuantity;
+        this.IsEmpty = other.IsEmpty;
         this.FluidSpeed = other.FluidSpeed;
         return this;
       }
 
       public Fluid Mul(float scalar)
       {
-        this.FluidQuantity *= scalar;
         this.FluidSpeed *= scalar;
         return this;
       }
 
       public Fluid Div(float scalar)
       {
-        this.FluidQuantity /= scalar;
         this.FluidSpeed /= scalar;
         return this;
       }
@@ -145,9 +167,6 @@ namespace org.rnp.voxel.fluid
     [SerializeField]
     private Fluid[,,] _nodes;
     
-    /// <summary>
-    ///   Return the size of the eularian grid.
-    /// </summary>
     public Dimensions3D Size
     {
       get
@@ -156,11 +175,6 @@ namespace org.rnp.voxel.fluid
       }
     }
     
-    /// <summary>
-    ///   Get or set fluid data.
-    /// </summary>
-    /// <param name="location"></param>
-    /// <returns></returns>
     public Fluid this[Vector3 location]
     {
       get
@@ -173,161 +187,120 @@ namespace org.rnp.voxel.fluid
       }
     }
 
-    /// <summary>
-    ///   Create a new grid.
-    /// </summary>
-    /// <param name="simulationSize"></param>
+    public Fluid this[int x, int y, int z]
+    {
+      get
+      {
+        return this.Get(x, y, z);
+      }
+      set
+      {
+        this.Set(x, y, z, value);
+      }
+    }
+
     public EularianGrid(Dimensions3D size)
     {
       this._size = size;
-      this._nodes = new Fluid[this._size.Width + 1, this._size.Height + 1, this._size.Depth + 1];
+      this._nodes = new Fluid[this._size.Width, this._size.Height, this._size.Depth];
+    }
+    
+    public void Remove(Vector3 location)
+    {
+      this[location] = new Fluid();
+    }
+    
+    public void Add(Vector3 location, Fluid fluid)
+    {
+      this[location] = this[location].Fill().Add(fluid);
     }
 
-    /// <summary>
-    ///   
-    /// </summary>
-    /// <param name="location"></param>
-    /// <returns></returns>
-    private Vector3 GetReferer(Vector3 location)
+    public void Set(Vector3 location, Fluid value)
     {
-      return new Vector3(
-        Mathf.RoundToInt(location.x),
-        Mathf.RoundToInt(location.y),
-        Mathf.RoundToInt(location.z)
+      this.Set(
+           Mathf.FloorToInt(location.x),
+           Mathf.FloorToInt(location.y),
+           Mathf.FloorToInt(location.z),
+           value
       );
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="location"></param>
-    /// <returns></returns>
-    private Interpolation Interpolate(Vector3 location)
+    public void Set(int x, int y, int z, Fluid value)
     {
-      Vector3 referer = this.GetReferer(location);
-      Vector3 localized = location - referer;
-      Vector3 directions = Voxels.StrictDirection(localized);
+      this.ResetPressure(x, y, z);
+      this._nodes[x, y, z] = value;
+      this.UpdatePressure(x, y, z);
+    }
+
+    private void UpdatePressure(int x, int y, int z)
+    {
+      if (this.Contains(x + 1, y, z))
+      {
+        this._nodes[x + 1, y, z].Pressure += this._nodes[x, y, z].FluidSpeed.x;
+      }
+
+      if (this.Contains(x, y + 1, z))
+      {
+        this._nodes[x, y + 1, z].Pressure += this._nodes[x, y, z].FluidSpeed.y;
+      }
+
+      if (this.Contains(x, y, z + 1))
+      {
+        this._nodes[x, y, z + 1].Pressure += this._nodes[x, y, z].FluidSpeed.z;
+      }
       
-      return new Interpolation(
-        referer,
-        referer + Voxels.Mask(directions, 1),
-        referer + Voxels.Mask(directions, 3),
-        referer + Voxels.Mask(directions, 2),
-        location
+      if (this.Contains(x - 1, y, z))
+      {
+        this._nodes[x, y, z].Pressure += this._nodes[x - 1, y, z].FluidSpeed.x;
+      }
+
+      if (this.Contains(x, y - 1, z))
+      {
+        this._nodes[x, y, z].Pressure += this._nodes[x, y - 1, z].FluidSpeed.y;
+      }
+
+      if (this.Contains(x, y, z - 1))
+      {
+        this._nodes[x, y, z].Pressure += this._nodes[x, y, z - 1].FluidSpeed.z;
+      }
+
+      this._nodes[x, y, z].Pressure = 0;
+    }
+
+    private void ResetPressure(int x, int y, int z)
+    {
+      if(this.Contains(x + 1, y, z))
+      {
+        this._nodes[x + 1, y, z].Pressure -= this._nodes[x, y, z].FluidSpeed.x;
+      }
+
+      if (this.Contains(x, y + 1, z))
+      {
+        this._nodes[x, y + 1, z].Pressure -= this._nodes[x, y, z].FluidSpeed.y;
+      }
+
+      if (this.Contains(x, y, z + 1))
+      {
+        this._nodes[x, y, z + 1].Pressure -= this._nodes[x, y, z].FluidSpeed.z;
+      }
+
+      this._nodes[x, y, z].Pressure = 0;
+    }
+
+    public Fluid Get(Vector3 vector)
+    {
+      return this.Get(
+        Mathf.FloorToInt(vector.x),
+        Mathf.FloorToInt(vector.y),
+        Mathf.FloorToInt(vector.z)
       );
     }
 
-    /// <summary>
-    ///   Return interpolated data.
-    /// </summary>
-    /// <param name="location"></param>
-    /// <returns></returns>
-    public Fluid Get(Vector3 location)
+    public Fluid Get(int i, int j, int k)
     {
-      if(this.Contains(location))
+      if (this.Contains(i, j, k))
       {
-        Interpolation interpolation = this.Interpolate(location);
-        Fluid fluid = new Fluid();
-
-        for (int i = 0; i < interpolation.Count(); ++i)
-        {
-          fluid.Add(
-            this.GetNode(interpolation.GetPoint(i))
-                .Copy().Mul(interpolation.GetCoef(i))
-          );
-        }
-
-        return fluid;
-      }
-      else
-      {
-        return new Fluid();
-      }
-      
-    }
-
-    /// <summary>
-    ///   Add some values
-    /// </summary>
-    /// <param name="location"></param>
-    /// <param name="data"></param>
-    public void Add(Vector3 location, Fluid data)
-    {
-      if (this.Contains(location))
-      {
-        Vector3 referer = this.GetReferer(location);
-        Interpolation interpolation = this.Interpolate(location);
-        
-        for (int i = 0; i < interpolation.Count(); ++i)
-        {
-          float coef = interpolation.GetCoef(i);
-
-          if (coef >= 0.01)
-          {
-            Fluid fluid = this.GetNode(interpolation.GetPoint(i));
-            fluid.Add(data.Copy().Mul(interpolation.GetCoef(i)));
-            this.SetNode(interpolation.GetPoint(i), fluid);
-          }
-        }
-      }
-    }
-
-    /// <summary>
-    ///   Sub some values
-    /// </summary>
-    /// <param name="location"></param>
-    /// <param name="data"></param>
-    public void Sub(Vector3 location, Fluid data)
-    {
-      if (this.Contains(location))
-      {
-        Vector3 referer = this.GetReferer(location);
-        Interpolation interpolation = this.Interpolate(location);
-
-        for (int i = 0; i < interpolation.Count(); ++i)
-        {
-          Fluid fluid = this.GetNode(interpolation.GetPoint(i));
-          fluid.Sub(data.Copy().Mul(interpolation.GetCoef(i)));
-          this.SetNode(interpolation.GetPoint(i), fluid);
-        }
-      }
-    }
-
-    /// <summary>
-    ///   Change interpolated data.
-    /// </summary>
-    /// <param name="location"></param>
-    /// <param name="newData"></param>
-    public void Set(Vector3 location, Fluid newData)
-    {
-      if (this.Contains(location))
-      {
-        Vector3 referer = this.GetReferer(location);
-        Interpolation interpolation = this.Interpolate(location);
-        
-        for (int i = 0; i < interpolation.Count(); ++i)
-        {
-          Fluid fluid = this.GetNode(interpolation.GetPoint(i));
-          fluid.Set(newData.Copy().Mul(interpolation.GetCoef(i)));
-          this.SetNode(interpolation.GetPoint(i), fluid);
-        }
-      }
-    }
-
-    /// <summary>
-    ///   Return a node data. This method don't interpolate data.
-    /// </summary>
-    /// <param name="vector"></param>
-    /// <returns></returns>
-    public Fluid GetNode(Vector3 vector)
-    {
-      if (this.Contains(vector))
-      {
-        return this._nodes[
-          Mathf.RoundToInt(vector.x),
-          Mathf.RoundToInt(vector.y),
-          Mathf.RoundToInt(vector.z)
-        ];
+        return this._nodes[i, j, k];
       }
       else
       {
@@ -335,84 +308,20 @@ namespace org.rnp.voxel.fluid
       }
     }
 
-    /// <summary>
-    ///   Return a node data. This method don't interpolate data.
-    /// </summary>
-    /// <param name="x"></param>
-    /// <param name="y"></param>
-    /// <param name="z"></param>
-    /// <returns></returns>
-    public Fluid GetNode(int x, int y, int z)
-    {
-      if(this.Contains(x,y,z))
-      {
-        return this._nodes[x, y, z];
-      }
-      else
-      {
-        return new Fluid();
-      }
-    }
-
-    /// <summary>
-    ///   Change node data.
-    /// </summary>
-    /// <param name="vector"></param>
-    /// <param name="data"></param>
-    public void SetNode(Vector3 vector, Fluid data)
-    {
-      if(this.Contains(vector))
-      {
-        this._nodes[
-          Mathf.RoundToInt(vector.x),
-          Mathf.RoundToInt(vector.y),
-          Mathf.RoundToInt(vector.z)
-        ] = data;
-      }
-    }
-
-    /// <summary>
-    ///   Change node data.
-    /// </summary>
-    /// <param name="x"></param>
-    /// <param name="y"></param>
-    /// <param name="z"></param>
-    /// <param name="data"></param>
-    public void SetNode(int x, int y, int z, Fluid data)
-    {
-      this._nodes[x, y, z] = data;
-    }
-
-    /// <summary>
-    ///   Check if a location is in the grid.
-    /// </summary>
-    /// <param name="location"></param>
-    /// <returns></returns>
     public bool Contains(Vector3 location)
     {
-      return location.x >= 0 && location.x <= this._size.Width &&
-             location.y >= 0 && location.y <= this._size.Height &&
-             location.z >= 0 && location.z <= this._size.Depth;
+      return location.x >= 0 && location.x < this._size.Width &&
+             location.y >= 0 && location.y < this._size.Height &&
+             location.z >= 0 && location.z < this._size.Depth;
     }
-
-    /// <summary>
-    ///   Return true if this grid contains a (x, y, z) node.
-    /// </summary>
-    /// <param name="x"></param>
-    /// <param name="y"></param>
-    /// <param name="z"></param>
-    /// <returns></returns>
+    
     public bool Contains(int x, int y, int z)
     {
-      return x >= 0 && x <= this._size.Width  && 
-             y >= 0 && y <= this._size.Height && 
-             z >= 0 && z <= this._size.Depth;
+      return x >= 0 && x < this._size.Width  && 
+             y >= 0 && y < this._size.Height && 
+             z >= 0 && z < this._size.Depth;
     }
-
-    /// <summary>
-    ///   Return the maximum speed that is in the grid.
-    /// </summary>
-    /// <returns></returns>
+    
     public Vector3 GetMaxSpeed()
     {
       Vector3 max = Vector3.zero;
@@ -423,9 +332,9 @@ namespace org.rnp.voxel.fluid
         {
           for (int k = 0; k < this._size.Depth; ++k)
           {
-            if(this.GetNode(i,j,k).FluidSpeed.sqrMagnitude > max.sqrMagnitude)
+            if(this.Get(i,j,k).FluidSpeed.sqrMagnitude > max.sqrMagnitude)
             {
-              max = this.GetNode(i, j, k).FluidSpeed;
+              max = this.Get(i, j, k).FluidSpeed;
             }
           }
         }

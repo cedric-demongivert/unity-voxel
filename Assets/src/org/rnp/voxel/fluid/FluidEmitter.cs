@@ -28,11 +28,6 @@ namespace org.rnp.voxel.fluid
     public Vector3 speed = Vector3.down;
 
     /// <summary>
-    ///   Quantity of emitted fluid.
-    /// </summary>
-    public float quantity = 1f;
-
-    /// <summary>
     ///   Time between two emitions.
     /// </summary>
     public float emitionTime = 1f;
@@ -48,11 +43,13 @@ namespace org.rnp.voxel.fluid
     /// <see cref="http://docs.unity3d.com/ScriptReference/MonoBehaviour.html"/>
     void Update()
     {
+      if (emitionTime <= 0) return;
+
       timeLeft += Time.deltaTime;
 
       while(timeLeft > emitionTime)
       {
-        this.simulation.Add(quantity, position, speed);
+        this.simulation.Add(position, speed);
         timeLeft -= emitionTime;
       }
     }

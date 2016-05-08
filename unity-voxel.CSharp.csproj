@@ -75,6 +75,7 @@
     <Compile Include="Assets\src\org\rnp\gui\menubar\SubMenuEditor.cs" />
     <Compile Include="Assets\src\org\rnp\gui\menubar\SubMenuItem.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\fluid\EularianGrid.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\fluid\EulerianSimulation2D.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\RandomMesh.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\SimpleTerrain.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\utils\RNPMath.cs" />

@@ -22,16 +22,14 @@ namespace org.rnp.voxel.fluid
     /// <summary>
     ///   Add some fluid into the simulation.
     /// </summary>
-    /// <param name="quantity"></param>
     /// <param name="location"></param>
     /// <param name="speed"></param>
-    public abstract void Add(float quantity, Vector3 location, Vector3 speed);
+    public abstract void Add(Vector3 location, Vector3 speed);
 
     /// <summary>
     ///   Remove some fluid of the simulation.
     /// </summary>
-    /// <param name="quantity"></param>
     /// <param name="location"></param>
-    public abstract void Remove(float quantity, Vector3 location);
+    public abstract void Remove(Vector3 location);
   }
 }
