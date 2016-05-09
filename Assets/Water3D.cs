@@ -69,10 +69,11 @@ public class Water3D : VoxelMeshContainer
                         {
                             Live(cellDown);
                             Kill(cell);
+                            return;
                         }
                         else
                         {
-                            bool moved = false;
+                            bool moved = false;/*
                             for (int i = w - 1; i <= w + 1; i++)
                             {
                                 for (int k = d - 1; k <= d + 1; k++)
@@ -87,16 +88,16 @@ public class Water3D : VoxelMeshContainer
                                     }
                                 }
                                 if (moved) break;
-                            }
+                            }*/
                             if (!moved)
                             {
-                                int mod = 2;
-                                for (int j = h - 1; j <= h; j++)
+                                int mod = 1;
+                                for (int j = h - 1; j <= h+1; j++)
                                 {
                                     while (!moved
                                     && (w - mod > 0 || w + mod <= width)
                                     && (d - mod > 0 || d + mod <= depth))
-                                    {
+                                    {/*
                                         for (int i = w - mod; i <= w + mod; i++)
                                         {
                                             for (int k = d - mod; k <= d + mod; k++)
@@ -111,10 +112,48 @@ public class Water3D : VoxelMeshContainer
                                             }
                                             if (moved) break;
                                         }
-                                       
+                                       */
+
+                                        for(int i= w- mod;i<=w+ mod; i++)
+                                        {
+                                            if (IsDead(new VoxelLocation(i, j, d-mod)))
+                                            {
+                                                Live(new VoxelLocation(i, j, d - mod));
+                                                Kill(cell);
+                                                moved = true;
+                                                return;
+                                            }
+                                            else if (IsDead(new VoxelLocation(i, j, d + mod)))
+                                            {
+                                                Live(new VoxelLocation(i, j, d + mod));
+                                                Kill(cell);
+                                                moved = true;
+                                                return;
+                                            }
+                                        }
+                                        if (!moved)
+                                        {
+                                            for (int k = d - mod;  k<= d + mod; k++)
+                                            {
+                                                if (IsDead(new VoxelLocation(w-mod, j, k)))
+                                                {
+                                                    Live(new VoxelLocation(w-mod, j, k));
+                                                    Kill(cell);
+                                                    moved = true;
+                                                    return;
+                                                }
+                                                else if (IsDead(new VoxelLocation(w+mod, j, k)))
+                                                {
+                                                    Live(new VoxelLocation(w+mod, j, k));
+                                                    Kill(cell);
+                                                    moved = true;
+                                                    return;
+                                                }
+                                            }
+                                        }
                                         mod++;
                                     }
-                                    if (moved) break;
+                                    if (moved) return;
                                 }
                                 
                             }
