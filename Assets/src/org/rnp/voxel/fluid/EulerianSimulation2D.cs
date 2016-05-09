@@ -202,9 +202,28 @@ namespace org.rnp.voxel.fluid
       result = this.ApplyViscosity(result, step);
       result = this.ApplyForces(result, step);
 
+      result = this.ApplyBoundaries(result);
+
       result = this.PressureSolve(result, step);
 
       this.Commit(result);
+    }
+
+    private Cell[,] ApplyBoundaries(Cell[,] result)
+    {
+      for(int i = 0; i < this.Width; ++i)
+      {
+        if (result[i, 0].Speed.y < 0) result[i, 0].Speed.y = 0;
+        if (result[i, this.Height - 1].Speed.y > 0) result[i, this.Height - 1].Speed.y = 0;
+      }
+
+      for (int i = 0; i < this.Height; ++i)
+      {
+        if (result[0, i].Speed.x < 0) result[0, i].Speed.x = 0;
+        if (result[this.Width - 1, i].Speed.x > 0) result[this.Width - 1, i].Speed.x = 0;
+      }
+
+      return result;
     }
 
     private Cell[,] PressureSolve(Cell[,] result, float step)
@@ -227,9 +246,16 @@ namespace org.rnp.voxel.fluid
           float pT = 0;
 
           if (this.Contains(i - 1, j)) pL = pressureResult[i - 1, j];
+          else pL = pressureResult[i, j];
+
           if (this.Contains(i + 1, j)) pR = pressureResult[i + 1, j];
+          else pR = pressureResult[i, j];
+
           if (this.Contains(i, j - 1)) pB = pressureResult[i, j - 1];
+          else pB = pressureResult[i, j];
+
           if (this.Contains(i, j + 1)) pT = pressureResult[i, j + 1];
+          else pT = pressureResult[i, j];
 
           result[i, j].Speed -= halfdrx * new Vector2(pR - pL, pT - pB);
         }
@@ -291,11 +317,18 @@ namespace org.rnp.voxel.fluid
       Vector2 wB = Vector2.zero;
       Vector2 wT = Vector2.zero;
 
-      if (this.Contains(i - 1, j) && w[i - 1, j].IsWater) wL = w[i - 1, j].Speed;
-      if (this.Contains(i + 1, j) && w[i + 1, j].IsWater) wR = w[i + 1, j].Speed;
-      if (this.Contains(i, j - 1) && w[i, j - 1].IsWater) wB = w[i, j - 1].Speed;
-      if (this.Contains(i, j + 1) && w[i, j + 1].IsWater) wT = w[i, j + 1].Speed;
-      
+      if (this.Contains(i - 1, j)) wL = w[i - 1, j].Speed;
+      else wL = -w[i, j].Speed;
+
+      if (this.Contains(i + 1, j)) wR = w[i + 1, j].Speed;
+      else wR = -w[i, j].Speed;
+
+      if (this.Contains(i, j - 1)) wB = w[i, j - 1].Speed;
+      else wB = -w[i, j].Speed;
+
+      if (this.Contains(i, j + 1)) wT = w[i, j + 1].Speed;
+      else wT = -w[i, j].Speed;
+
       return halfrdx * ((wR.x - wL.x) + (wT.y - wB.y));
     }
 
@@ -405,10 +438,17 @@ namespace org.rnp.voxel.fluid
       Vector2 xB = Vector2.zero;
       Vector2 xT = Vector2.zero;
 
-      if (this.Contains(i - 1, j) && gridX[i - 1, j].IsWater) xL = gridX[i - 1, j].Speed;
-      if (this.Contains(i + 1, j) && gridX[i + 1, j].IsWater) xR = gridX[i + 1, j].Speed;
-      if (this.Contains(i, j - 1) && gridX[i, j - 1].IsWater) xB = gridX[i, j - 1].Speed;
-      if (this.Contains(i, j + 1) && gridX[i, j + 1].IsWater) xT = gridX[i, j + 1].Speed;
+      if (this.Contains(i - 1, j)) xL = gridX[i - 1, j].Speed;
+      else xL = -gridX[i, j].Speed;
+
+      if (this.Contains(i + 1, j)) xR = gridX[i + 1, j].Speed;
+      else xR = -gridX[i, j].Speed;
+
+      if (this.Contains(i, j - 1)) xB = gridX[i, j - 1].Speed;
+      else xB = -gridX[i, j].Speed;
+
+      if (this.Contains(i, j + 1)) xT = gridX[i, j + 1].Speed;
+      else xT = -gridX[i, j].Speed;
 
       Vector2 bC = gridB[i, j].Speed;
 
@@ -423,9 +463,17 @@ namespace org.rnp.voxel.fluid
       float xT = 0f;
 
       if (this.Contains(i - 1, j)) xL = gridX[i - 1, j];
+      else xL = gridX[i, j];
+
       if (this.Contains(i + 1, j)) xR = gridX[i + 1, j];
+      else xR = gridX[i, j];
+
       if (this.Contains(i, j - 1)) xB = gridX[i, j - 1];
+      else xB = gridX[i, j];
+
       if (this.Contains(i, j + 1)) xT = gridX[i, j + 1];
+      else xT = gridX[i, j];
+
 
       float bC = gridB[i, j];
 
@@ -439,10 +487,17 @@ namespace org.rnp.voxel.fluid
       Vector2 c01 = Vector2.zero;
       Vector2 c02 = Vector2.zero;
 
-      if (this.Contains(i - 1, j) && grid[i - 1, j].IsWater) c10 = grid[i - 1, j].Speed;
-      if (this.Contains(i + 1, j) && grid[i + 1, j].IsWater) c20 = grid[i + 1, j].Speed;
-      if (this.Contains(i, j - 1) && grid[i, j - 1].IsWater) c01 = grid[i, j - 1].Speed;
-      if (this.Contains(i, j + 1) && grid[i, j + 1].IsWater) c02 = grid[i, j + 1].Speed;
+      if (this.Contains(i - 1, j)) c10 = grid[i - 1, j].Speed;
+      else c10 = -grid[i, j].Speed;
+
+      if (this.Contains(i + 1, j)) c20 = grid[i + 1, j].Speed;
+      else c20 = -grid[i, j].Speed;
+
+      if (this.Contains(i, j - 1)) c01 = grid[i, j - 1].Speed;
+      else c01 = -grid[i, j].Speed;
+
+      if (this.Contains(i, j + 1)) c02 = grid[i, j + 1].Speed;
+      else c02 = -grid[i, j].Speed;
 
       return c10 + c20 + c01 + c02 - 4 * grid[i, j].Speed;
     }
