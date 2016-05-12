@@ -57,9 +57,7 @@ namespace org.rnp.voxel.unity.components.painter
       {
         // bug
         Color pickedColor = this.Picker.PickedColor;
-
-        Debug.Log(pickedColor);
-
+        
         if ((int)(pickedColor.a * 255f) >= 254f)
         {
           pickedColor.a = 0;
