@@ -14,16 +14,24 @@ namespace org.rnp.voxel.utils
   ///   That object is used in voxel mesh in order to identify a 3D location.
   ///   In place of a common vector object, a voxel location use int coordinates.
   /// 
-  ///   Voxel location can be also used with hashtable (and this is it main purpose).
+  ///   Voxel location can be also used with hashtable.
+  ///   
+  ///   A voxel location is immutable.
   /// </summary>
   /// 
   /// <see cref="org.rnp.voxel.utils.VoxelLocation"/>
+  [System.Serializable]
   public sealed class VoxelLocation : ICopiable<VoxelLocation>
   {
     #region Fields
-    public int X;
-    public int Y;
-    public int Z;
+    [SerializeField]
+    private int _x;
+
+    [SerializeField]
+    private int _y;
+
+    [SerializeField]
+    private int _z;
 
     public static readonly VoxelLocation Zero = new VoxelLocation();
     public static readonly VoxelLocation Up = new VoxelLocation(Vector3.up);
@@ -34,13 +42,39 @@ namespace org.rnp.voxel.utils
     public static readonly VoxelLocation Back = new VoxelLocation(Vector3.back);
     #endregion
 
+    #region Getters & Setters
+    public int X
+    {
+      get { return this._x; }
+    }
+
+    public int Y
+    {
+      get { return this._y; }
+    }
+
+    public int Z
+    {
+      get { return this._z; }
+    }
+    #endregion
+
     #region Constructors
     /// <summary>
     ///   A zero location.
     /// </summary>
     public VoxelLocation()
     {
-      this.X = this.Y = this.Z = 0;
+      this._x = this._y = this._z = 0;
+    }
+
+    /// <summary>
+    ///   A new voxel location.
+    /// </summary>
+    /// <param name="pos"></param>
+    public VoxelLocation(int pos)
+    {
+      this._x = this._y = this._z = pos;
     }
 
     /// <summary>
@@ -51,8 +85,32 @@ namespace org.rnp.voxel.utils
     /// <param name="z"></param>
     public VoxelLocation(int x, int y, int z)
     {
-      this.X = this.Y = this.Z = 0;
-      this.Set(x, y, z);
+      this._x = x;
+      this._y = y;
+      this._z = z;
+    }
+
+    /// <summary>
+    ///   A new voxel location.
+    /// </summary>
+    /// <param name="x"></param>
+    /// <param name="y"></param>
+    /// <param name="z"></param>
+    /// <returns></returns>
+    public VoxelLocation(float x, float y, float z)
+    {
+      this._x = Mathf.FloorToInt(x);
+      this._y = Mathf.FloorToInt(y);
+      this._z = Mathf.FloorToInt(z);
+    }
+
+    /// <summary>
+    ///   A new voxel location.
+    /// </summary>
+    /// <param name="pos"></param>
+    public VoxelLocation(float pos)
+    {
+      this._x = this._y = this._z = Mathf.FloorToInt(pos);
     }
 
     /// <summary>
@@ -61,125 +119,34 @@ namespace org.rnp.voxel.utils
     /// <param name="toCopy"></param>
     public VoxelLocation(VoxelLocation toCopy)
     {
-      this.X = this.Y = this.Z = 0;
-      this.Set(toCopy);
+      this._x = toCopy._x;
+      this._y = toCopy._y;
+      this._z = toCopy._z;
     }
 
     /// <summary>
     ///   Copy an existing Vector3 location.
     /// </summary>
-    /// <param name="vec"></param>
-    public VoxelLocation(Vector3 vec)
+    /// <param name="vector"></param>
+    public VoxelLocation(Vector3 vector)
     {
-      this.X = this.Y = this.Z = 0;
-      this.Set(vec);
+      this._x = Mathf.FloorToInt(vector.x);
+      this._y = Mathf.FloorToInt(vector.y);
+      this._z = Mathf.FloorToInt(vector.z);
     }
 
     /// <summary>
     ///   Copy an existing Vector2 location.
     /// </summary>
-    /// <param name="vec"></param>
-    public VoxelLocation(Vector2 vec)
+    /// <param name="vector"></param>
+    public VoxelLocation(Vector2 vector)
     {
-      this.X = this.Y = this.Z = 0;
-      this.Set(vec);
+      this._x = Mathf.FloorToInt(vector.x);
+      this._y = Mathf.FloorToInt(vector.y);
+      this._z = 0;
     }
     #endregion
-
-    #region Definition
-    /// <see cref="org.rnp.utils.VoxelLocation"/>
-    public VoxelLocation Set(VoxelLocation location)
-    {
-      this.X = location.X;
-      this.Y = location.Y;
-      this.Z = location.Z;
-      return this;
-    }
-
-    /// <summary>
-    ///   Set this location to (x, y, z)
-    /// </summary>
-    /// <param name="x"></param>
-    /// <param name="y"></param>
-    /// <param name="z"></param>
-    /// <returns></returns>
-    public VoxelLocation Set(int x, int y, int z)
-    {
-      this.X = x;
-      this.Y = y;
-      this.Z = z;
-      return this;
-    }
-
-    /// <summary>
-    ///   Set this location to (x, y, z)
-    /// </summary>
-    /// <param name="x"></param>
-    /// <param name="y"></param>
-    /// <param name="z"></param>
-    /// <returns></returns>
-    public VoxelLocation Set(float x, float y, float z)
-    {
-      this.X = (int) x;
-      this.Y = (int) y;
-      this.Z = (int) z;
-      return this;
-    }
-
-    /// <summary>
-    ///   Set this location to (v, v, v)
-    /// </summary>
-    /// <param name="v"></param>
-    /// <returns></returns>
-    public VoxelLocation Set(int v)
-    {
-      this.X = this.Y = this.Z = v;
-      return this;
-    }
-
-    /// <summary>
-    ///   Set this location to (v, v, v)
-    /// </summary>
-    /// <param name="v"></param>
-    /// <returns></returns>
-    public VoxelLocation Set(float v)
-    {
-      this.X = this.Y = this.Z = (int) v;
-      return this;
-    }
-
-    /// <summary>
-    ///   Set this location equal to a vector.
-    /// </summary>
-    /// <param name="vector"></param>
-    /// <returns></returns>
-    public VoxelLocation Set(Vector3 vector)
-    {
-      this.X = (int)vector.x;
-      if (vector.x <= 0) this.X -= 1;
-      this.Y = (int)vector.y;
-      if (vector.y <= 0) this.Y -= 1;
-      this.Z = (int)vector.z;
-      if (vector.z <= 0) this.Z -= 1;
-      return this;
-    }
-
-    /// <summary>
-    ///   Set this location equal to a vector.
-    /// </summary>
-    /// <param name="vector"></param>
-    /// <returns></returns>
-    public VoxelLocation Set(Vector2 vector)
-    {
-      this.X = (int)vector.x;
-      if (vector.x <= 0) this.X -= 1;
-      this.Y = (int)vector.y;
-      if (vector.y <= 0) this.Y -= 1;
-      this.Z = 0;
-      return this;
-    }
-    #endregion
-
+    
     #region Addition
     /// <summary>
     ///   Add another location fields to this location.
@@ -188,10 +155,11 @@ namespace org.rnp.voxel.utils
     /// <returns></returns>
     public VoxelLocation Add(VoxelLocation location)
     {
-      this.X += location.X;
-      this.Y += location.Y;
-      this.Z += location.Z;
-      return this;
+      return new VoxelLocation(
+        this._x + location._x,
+        this._y + location._y,
+        this._z + location._z
+      );
     }
 
     /// <summary>
@@ -203,10 +171,11 @@ namespace org.rnp.voxel.utils
     /// <returns></returns>
     public VoxelLocation Add(float x, float y, float z)
     {
-      this.X += (int) x;
-      this.Y += (int) y;
-      this.Z += (int) z;
-      return this;
+      return new VoxelLocation(
+        this._x + x,
+        this._y + y,
+        this._z + z
+      );
     }
 
     /// <summary>
@@ -218,10 +187,11 @@ namespace org.rnp.voxel.utils
     /// <returns></returns>
     public VoxelLocation Add(int x, int y, int z)
     {
-      this.X += x;
-      this.Y += y;
-      this.Z += z;
-      return this;
+      return new VoxelLocation(
+        this._x + x,
+        this._y + y,
+        this._z + z
+      );
     }
 
     /// <summary>
@@ -231,10 +201,11 @@ namespace org.rnp.voxel.utils
     /// <returns></returns>
     public VoxelLocation Add(Vector3 vector)
     {
-      this.X += (int) vector.x;
-      this.Y += (int) vector.y;
-      this.Z += (int) vector.z;
-      return this;
+      return new VoxelLocation(
+        this._x + vector.x,
+        this._y + vector.y,
+        this._z + vector.z
+      );
     }
 
     /// <summary>
@@ -244,9 +215,25 @@ namespace org.rnp.voxel.utils
     /// <returns></returns>
     public VoxelLocation Add(Vector2 vector)
     {
-      this.X += (int)vector.x;
-      this.Y += (int)vector.y;
-      return this;
+      return new VoxelLocation(
+        this._x + vector.x,
+        this._y + vector.y,
+        this._z
+      );
+    }
+
+    /// <summary>
+    ///   Add a dimension object.
+    /// </summary>
+    /// <param name="dimensions"></param>
+    /// <returns></returns>
+    public VoxelLocation Add(Dimensions3D dimensions)
+    {
+      return new VoxelLocation(
+        this._x + dimensions.Width,
+        this._y + dimensions.Height,
+        this._z + dimensions.Depth
+      );
     }
     #endregion
 
@@ -258,10 +245,11 @@ namespace org.rnp.voxel.utils
     /// <returns></returns>
     public VoxelLocation Sub(VoxelLocation location)
     {
-      this.X -= location.X;
-      this.Y -= location.Y;
-      this.Z -= location.Z;
-      return this;
+      return new VoxelLocation(
+        this._x - location._x,
+        this._y - location._y,
+        this._z - location._z
+      );
     }
 
     /// <summary>
@@ -273,10 +261,11 @@ namespace org.rnp.voxel.utils
     /// <returns></returns>
     public VoxelLocation Sub(float x, float y, float z)
     {
-      this.X -= (int) x;
-      this.Y -= (int) y;
-      this.Z -= (int) z;
-      return this;
+      return new VoxelLocation(
+        this._x - x,
+        this._y - y,
+        this._z - z
+      );
     }
 
     /// <summary>
@@ -288,10 +277,11 @@ namespace org.rnp.voxel.utils
     /// <returns></returns>
     public VoxelLocation Sub(int x, int y, int z)
     {
-      this.X -= x;
-      this.Y -= y;
-      this.Z -= z;
-      return this;
+      return new VoxelLocation(
+        this._x - x,
+        this._y - y,
+        this._z - z
+      );
     }
 
     /// <summary>
@@ -301,10 +291,11 @@ namespace org.rnp.voxel.utils
     /// <returns></returns>
     public VoxelLocation Sub(Vector3 vector)
     {
-      this.X -= (int) vector.x;
-      this.Y -= (int) vector.y;
-      this.Z -= (int) vector.z;
-      return this;
+      return new VoxelLocation(
+        this._x - vector.x,
+        this._y - vector.y,
+        this._z - vector.z
+      );
     }
 
     /// <summary>
@@ -314,9 +305,25 @@ namespace org.rnp.voxel.utils
     /// <returns></returns>
     public VoxelLocation Sub(Vector2 vector)
     {
-      this.X -= (int)vector.x;
-      this.Y -= (int)vector.y;
-      return this;
+      return new VoxelLocation(
+        this._x - vector.x,
+        this._y - vector.y,
+        this._z
+      );
+    }
+    
+    /// <summary>
+    ///   Subtract a dimension object.
+    /// </summary>
+    /// <param name="dimensions"></param>
+    /// <returns></returns>
+    public VoxelLocation Sub(Dimensions3D dimensions)
+    {
+      return new VoxelLocation(
+        this._x - dimensions.Width,
+        this._y - dimensions.Height,
+        this._z - dimensions.Depth
+      );
     }
     #endregion
 
@@ -330,10 +337,11 @@ namespace org.rnp.voxel.utils
     /// <returns></returns>
     public VoxelLocation Mul(float sx, float sy, float sz)
     {
-      this.X = (int) (this.X * sx);
-      this.Y = (int) (this.Y * sy);
-      this.Z = (int) (this.Z * sz);
-      return this;
+      return new VoxelLocation(
+        this._x * sx,
+        this._y * sy,
+        this._z * sz
+      );
     }
 
     /// <summary>
@@ -345,10 +353,25 @@ namespace org.rnp.voxel.utils
     /// <returns></returns>
     public VoxelLocation Mul(int sx, int sy, int sz)
     {
-      this.X *= sx;
-      this.Y *= sy;
-      this.Z *= sz;
-      return this;
+      return new VoxelLocation(
+        this._x * sx,
+        this._y * sy,
+        this._z * sz
+      );
+    }
+
+    /// <summary>
+    ///   Multiply each coordinates by a specific factor.
+    /// </summary>
+    /// <param name="dimensions"></param>
+    /// <returns></returns>
+    public VoxelLocation Mul(Dimensions3D dimensions)
+    {
+      return new VoxelLocation(
+        this._x * dimensions.Width,
+        this._y * dimensions.Height,
+        this._z * dimensions.Depth
+      );
     }
 
     /// <summary>
@@ -358,10 +381,11 @@ namespace org.rnp.voxel.utils
     /// <returns></returns>
     public VoxelLocation Mul(float s)
     {
-      this.X = (int) (this.X * s);
-      this.Y = (int) (this.Y * s);
-      this.Z = (int) (this.Z * s);
-      return this;
+      return new VoxelLocation(
+        this._x * s,
+        this._y * s,
+        this._z * s
+      );
     }
 
     /// <summary>
@@ -371,10 +395,11 @@ namespace org.rnp.voxel.utils
     /// <returns></returns>
     public VoxelLocation Mul(int s)
     {
-      this.X *= s;
-      this.Y *= s;
-      this.Z *= s;
-      return this;
+      return new VoxelLocation(
+        this._x * s,
+        this._y * s,
+        this._z * s
+      );
     }
     #endregion
 
@@ -388,10 +413,11 @@ namespace org.rnp.voxel.utils
     /// <returns></returns>
     public VoxelLocation Div(float sx, float sy, float sz)
     {
-      this.X = (int)(this.X / sx);
-      this.Y = (int)(this.Y / sy);
-      this.Z = (int)(this.Z / sz);
-      return this;
+      return new VoxelLocation(
+        this._x / sx,
+        this._y / sy,
+        this._z / sz
+      );
     }
 
     /// <summary>
@@ -403,10 +429,25 @@ namespace org.rnp.voxel.utils
     /// <returns></returns>
     public VoxelLocation Div(int sx, int sy, int sz)
     {
-      this.X /= sx;
-      this.Y /= sy;
-      this.Z /= sz;
-      return this;
+      return new VoxelLocation(
+        this._x / sx,
+        this._y / sy,
+        this._z / sz
+      );
+    }
+
+    /// <summary>
+    ///   Divide each coordinates by a specific factor.
+    /// </summary>
+    /// <param name="dimensions"></param>
+    /// <returns></returns>
+    public VoxelLocation Div(Dimensions3D dimensions)
+    {
+      return new VoxelLocation(
+        this._x / dimensions.Width,
+        this._y / dimensions.Height,
+        this._z / dimensions.Depth
+      );
     }
 
     /// <summary>
@@ -416,10 +457,11 @@ namespace org.rnp.voxel.utils
     /// <returns></returns>
     public VoxelLocation Div(float s)
     {
-      this.X = (int)(this.X / s);
-      this.Y = (int)(this.Y / s);
-      this.Z = (int)(this.Z / s);
-      return this;
+      return new VoxelLocation(
+        this._x / s,
+        this._y / s,
+        this._z / s
+      );
     }
 
     /// <summary>
@@ -429,10 +471,147 @@ namespace org.rnp.voxel.utils
     /// <returns></returns>
     public VoxelLocation Div(int s)
     {
-      this.X /= s;
-      this.Y /= s;
-      this.Z /= s;
-      return this;
+      return new VoxelLocation(
+        this._x / s,
+        this._y / s,
+        this._z / s
+      );
+    }
+    #endregion
+
+    #region Modulo
+    /// <summary>
+    ///   Apply a modulo operation on each coordinates.
+    /// </summary>
+    /// <param name="sx"></param>
+    /// <param name="sy"></param>
+    /// <param name="sz"></param>
+    /// <returns></returns>
+    public VoxelLocation Mod(int sx, int sy, int sz)
+    {
+      return new VoxelLocation(
+        this._x % sx,
+        this._y % sy,
+        this._z % sz
+      );
+    }
+
+    /// <summary>
+    ///   Apply a modulo operation on each coordinates.
+    /// </summary>
+    /// <param name="dimensions"></param>
+    /// <returns></returns>
+    public VoxelLocation Mod(Dimensions3D dimensions)
+    {
+      return new VoxelLocation(
+        this._x % dimensions.Width,
+        this._y % dimensions.Height,
+        this._z % dimensions.Depth
+      );
+    }
+
+    /// <summary>
+    ///   Apply a modulo operation on each coordinates.
+    /// </summary>
+    /// <param name="s"></param>
+    /// <returns></returns>
+    public VoxelLocation Mod(int s)
+    {
+      return new VoxelLocation(
+        this._x % s,
+        this._y % s,
+        this._z % s
+      );
+    }
+    #endregion
+
+    #region Methods
+    /// <summary>
+    ///   Return true if at less one coordinates of both locations are the same.
+    /// </summary>
+    /// <param name="other"></param>
+    /// <returns></returns>
+    public bool AnyEquals(VoxelLocation other)
+    {
+      return this._x == other._x || this._y == other._y || this._z == other._z;
+    }
+
+    /// <summary>
+    ///   Change a coordinate if the new value is lower than the old value.
+    /// </summary>
+    /// <param name="x"></param>
+    /// <param name="y"></param>
+    /// <param name="z"></param>
+    /// <returns></returns>
+    public VoxelLocation SetIfMin(int x, int y, int z)
+    {
+      return new VoxelLocation(
+        (this._x < x) ? this._x : x,
+        (this._y < y) ? this._y : y,
+        (this._z < z) ? this._z : z
+      );
+    }
+
+    /// <summary>
+    ///   Change a coordinate if the new value is greater than the old value.
+    /// </summary>
+    /// <param name="x"></param>
+    /// <param name="y"></param>
+    /// <param name="z"></param>
+    /// <returns></returns>
+    public VoxelLocation SetIfMax(int x, int y, int z)
+    {
+      return new VoxelLocation(
+        (this._x > x) ? this._x : x,
+        (this._y > y) ? this._y : y,
+        (this._z > z) ? this._z : z
+      );
+    }
+    
+    /// <summary>
+    ///   Change a coordinate if the new value is lower than the old value.
+    /// </summary>
+    /// <param name="other"></param>
+    /// <returns></returns>
+    public VoxelLocation SetIfMin(VoxelLocation other)
+    {
+      return new VoxelLocation(
+        (this._x < other._x) ? this._x : other._x,
+        (this._y < other._y) ? this._y : other._y,
+        (this._z < other._z) ? this._z : other._z
+      );
+    }
+
+    /// <summary>
+    ///   Change a coordinate if the new value is greater than the old value.
+    /// </summary>
+    /// <param name="other"></param>
+    /// <returns></returns>
+    public VoxelLocation SetIfMax(VoxelLocation other)
+    {
+      return new VoxelLocation(
+        (this._x > other._x) ? this._x : other._x,
+        (this._y > other._y) ? this._y : other._y,
+        (this._z > other._z) ? this._z : other._z
+      );
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns></returns>
+    public float SquaredLength()
+    {
+      return this._x * this._x + this._y * this._y + this._z * this._z;
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns></returns>
+    public float Length()
+    {
+      return Mathf.Sqrt(this._x * this._x + this._y * this._y + this._z * this._z);
     }
     #endregion
 
@@ -440,13 +619,13 @@ namespace org.rnp.voxel.utils
     /// <see cref="object"/>
     public override string ToString()
     {
-      return "VoxelLocation (" + this.X + ", " + this.Y + ", " + this.Z + ")";
+      return "VoxelLocation (" + this._x + ", " + this._y + ", " + this._z + ")";
     }
 
     /// <see cref="object"/>
     public override int GetHashCode()
     {
-      return (((this.X) * 31 + this.Y) * 31 + this.Z) * 31;
+      return ((this._x * 31 + this._y) * 31 + this._z) * 31;
     }
 
     /// <see cref="object"/>
@@ -465,7 +644,7 @@ namespace org.rnp.voxel.utils
       if (obj is VoxelLocation)
       {
         VoxelLocation toCmp = (VoxelLocation) obj;
-        return this.X == toCmp.X && this.Y == toCmp.Y && this.Z == toCmp.Z;
+        return this._x == toCmp._x && this._y == toCmp._y && this._z == toCmp._z;
       }
 
       return false;
@@ -482,7 +661,7 @@ namespace org.rnp.voxel.utils
     /// <returns></returns>
     public static implicit operator Vector3(VoxelLocation location)
     {
-      return new Vector3(location.X, location.Y, location.Z);
+      return new Vector3(location._x, location._y, location._z);
     }
 
     /// <summary>
@@ -502,7 +681,7 @@ namespace org.rnp.voxel.utils
     /// <returns></returns>
     public static implicit operator Vector2(VoxelLocation location)
     {
-      return new Vector2(location.X, location.Y);
+      return new Vector2(location._x, location._y);
     }
 
     /// <summary>
@@ -519,100 +698,100 @@ namespace org.rnp.voxel.utils
     #region Addition
     public static VoxelLocation operator +(VoxelLocation a, VoxelLocation b)
     {
-      return a.Copy().Add(b);
+      return a.Add(b);
     }
 
     public static Vector3 operator +(Vector3 a, VoxelLocation b)
     {
-      return b.Copy().Add(a);
+      return b.Add(a);
     }
 
     public static VoxelLocation operator +(VoxelLocation a, Vector3 b)
     {
-      return a.Copy().Add(b);
+      return a.Add(b);
     }
 
     public static Vector2 operator +(Vector2 a, VoxelLocation b)
     {
-      return b.Copy().Add(a);
+      return b.Add(a);
     }
 
     public static VoxelLocation operator +(VoxelLocation a, Vector2 b)
     {
-      return a.Copy().Add(b);
+      return a.Add(b);
     }
     #endregion
 
     #region Substraction
     public static VoxelLocation operator -(VoxelLocation a, VoxelLocation b)
     {
-      return a.Copy().Sub(b);
+      return a.Sub(b);
     }
 
     public static Vector3 operator -(Vector3 a, VoxelLocation b)
     {
       Vector3 result = a;
-      result.x -= b.X;
-      result.y -= b.Y;
-      result.z -= b.Z;
+      result.x -= b._x;
+      result.y -= b._y;
+      result.z -= b._z;
       return result;
     }
 
     public static VoxelLocation operator -(VoxelLocation a, Vector3 b)
     {
-      return a.Copy().Sub(b);
+      return a.Sub(b);
     }
 
     public static Vector2 operator -(Vector2 a, VoxelLocation b)
     {
       Vector2 result = a;
-      result.x -= b.X;
-      result.y -= b.Y;
+      result.x -= b._x;
+      result.y -= b._y;
       return result;
     }
 
     public static VoxelLocation operator -(VoxelLocation a, Vector2 b)
     {
-      return a.Copy().Sub(b);
+      return a.Sub(b);
     }
 
     public static VoxelLocation operator -(VoxelLocation a)
     {
-      return a.Copy().Mul(-1);
+      return a.Mul(-1);
     }
     #endregion
 
     #region Multiplication
     public static VoxelLocation operator *(VoxelLocation a, float b)
     {
-      return a.Copy().Mul(b);
+      return a.Mul(b);
     }
 
     public static VoxelLocation operator *(float a, VoxelLocation b)
     {
-      return b.Copy().Mul(a);
+      return b.Mul(a);
     }
 
     public static VoxelLocation operator *(VoxelLocation a, int b)
     {
-      return a.Copy().Mul(b);
+      return a.Mul(b);
     }
 
     public static VoxelLocation operator *(int a, VoxelLocation b)
     {
-      return b.Copy().Mul(a);
+      return b.Mul(a);
     }
     #endregion
 
     #region Division
     public static VoxelLocation operator /(VoxelLocation a, float b)
     {
-      return a.Copy().Div(b);
+      return a.Div(b);
     }
 
     public static VoxelLocation operator /(VoxelLocation a, int b)
     {
-      return a.Copy().Div(b);
+      return a.Div(b);
     }
     #endregion
 

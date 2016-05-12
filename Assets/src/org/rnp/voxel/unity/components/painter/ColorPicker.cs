@@ -5,6 +5,7 @@ using System.Text;
 using UnityEngine;
 using org.rnp.voxel.utils;
 using org.rnp.voxel.unity.gui;
+using org.rnp.gui.colorPicker;
 
 namespace org.rnp.voxel.unity.components.painter
 {

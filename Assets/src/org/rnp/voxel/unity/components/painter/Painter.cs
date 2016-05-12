@@ -1,12 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 using org.rnp.voxel.mesh;
-using org.rnp.voxel.unity.components.meshes;
-using org.rnp.voxel.unity.components.translators;
-using org.rnp.voxel.unity.components.colliders;
 using org.rnp.voxel.utils;
-using Assets.src.org.rnp.voxel.utils;
 using UnityEditor;
+using System;
 
 namespace org.rnp.voxel.unity.components.painter
 {
@@ -15,14 +12,20 @@ namespace org.rnp.voxel.unity.components.painter
   ///   Unity component for paint.
   /// </summary>
   [ExecuteInEditMode]
-  public sealed class Painter : MonoBehaviour 
+  public sealed class Painter : VoxelMeshContainer 
   {
-    public PrototypeTranslator PaintedTranslator;
-    public OctreeCollider PaintedCollider;
     public VoxelMesh PaintedMesh;
 
     public ColorPicker Picker;
     public Cursor cursor;
+
+    public override VoxelMesh Mesh
+    {
+      get
+      {
+        return this.PaintedMesh;
+      }
+    }
 
     public void DitPlopl()
     {
@@ -32,6 +35,7 @@ namespace org.rnp.voxel.unity.components.painter
     /// <see cref="http://docs.unity3d.com/ScriptReference/MonoBehaviour.html"/>
     public void Awake()
     {
+      this.PaintedMesh = new MapVoxelMesh(new Dimensions3D(8, 8, 8));
     }
 
     /// <see cref="http://docs.unity3d.com/ScriptReference/MonoBehaviour.html"/>
@@ -44,12 +48,8 @@ namespace org.rnp.voxel.unity.components.painter
     {
       if (Input.GetKeyDown(KeyCode.Backspace))
       {
-        this.PaintedMesh.Mesh.Fill(cursor.Location, cursor.Dimensions, Voxels.Empty);
-
-        this.PaintedTranslator.Translate();
-        this.PaintedTranslator.Publish();
-
-        this.PaintedCollider.RefreshCollider();
+        VoxelMeshes.Fill(this.PaintedMesh, cursor.Location, cursor.Dimensions, Voxels.Empty);
+        this.PaintedMesh.Commit();
       }
 
       if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.KeypadEnter))
@@ -57,52 +57,48 @@ namespace org.rnp.voxel.unity.components.painter
         // bug
         Color pickedColor = this.Picker.SelectedColor;
 
+        Debug.Log(pickedColor);
+
         if ((int)(pickedColor.a * 255f) >= 254f)
         {
           pickedColor.a = 0;
         }
         else
         {
-          pickedColor.a = 255;
+          pickedColor.a = 1;
         }
 
-        this.PaintedMesh.Mesh.Fill(cursor.Location, cursor.Dimensions, pickedColor);
+        Debug.Log(pickedColor);
 
-        this.PaintedTranslator.Translate();
-        this.PaintedTranslator.Publish();
-
-        this.PaintedCollider.RefreshCollider();
+        VoxelMeshes.Fill(this.PaintedMesh, cursor.Location, cursor.Dimensions, pickedColor);
+        this.PaintedMesh.Commit();
       }
     }
 
 
     public void SaveMesh()
     {
-            //Ask for file
-            var path = EditorUtility.SaveFilePanel(
-                    "Save Mesh",
-                    "",
-                    "Mesh" + ".vxl",
-                    "vxl");
+      //Ask for file
+      var path = EditorUtility.SaveFilePanel(
+              "Save Mesh",
+              "",
+              "Mesh" + ".vxl",
+              "vxl");
 
 
-            //Save Mesh to file
-            VoxelFile.Save( PaintedMesh.Mesh, path);
+      //Save Mesh to file
+      VoxelFile.Save(PaintedMesh, path);
     }
 
     public void OpenMesh()
     {
-            var file = EditorUtility.OpenFilePanel("", "", "vxl");
+      var file = EditorUtility.OpenFilePanel("", "", "vxl");
 
-            IVoxelMesh vm= VoxelFile.Load(file);
-            if(vm != null)
-                PaintedMesh.Mesh = vm;
+      VoxelMesh vm= VoxelFile.Load(file);
+      if(vm != null)
+          this.PaintedMesh = vm;
 
-            this.PaintedTranslator.Translate();
-            this.PaintedTranslator.Publish();
-
-            this.PaintedCollider.RefreshCollider();
-
-        }
+      this.PaintedMesh.Commit();
+    }
   }
 }

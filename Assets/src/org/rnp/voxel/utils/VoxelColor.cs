@@ -757,6 +757,12 @@ namespace org.rnp.voxel.utils
     {
       return this.R == this.B && this.B == this.G && this.G == 0;
     }
+
+    public bool Equals(VoxelColor other)
+    {
+      return Mathf.Approximately(this._r, other._r) && Mathf.Approximately(this._g, other._g) && Mathf.Approximately(this._b, other._b)
+              && Mathf.Approximately(this._a, other._a);
+    }
     #endregion
 
     #region ICopiable
@@ -767,6 +773,11 @@ namespace org.rnp.voxel.utils
     #endregion
 
     #region Object methods
+    public override int GetHashCode()
+    {
+      return (((int)(this.R * 255f) * 31 + (int)(this.G * 255f)) * 31 + (int)(this.B * 255f)) * 31 + (int)(this.A * 255f);
+    }
+
     public override bool Equals(object obj)
     {
       if (obj == null) return false;
@@ -789,6 +800,16 @@ namespace org.rnp.voxel.utils
 
     #region Operators overinding
 
+    public static bool operator==(VoxelColor a, VoxelColor b)
+    {
+      return a.Equals(b);
+    }
+
+    public static bool operator !=(VoxelColor a, VoxelColor b)
+    {
+      return !a.Equals(b);
+    }
+ 
     #region Cast
     public static implicit operator Color(VoxelColor color)
     {

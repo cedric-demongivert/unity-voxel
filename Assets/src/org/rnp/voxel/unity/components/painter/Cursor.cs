@@ -34,7 +34,7 @@ namespace org.rnp.voxel.unity.components.painter
       }
       set
       {
-        this._location.Set(value);
+        this._location = value;
       }
     }
 
@@ -46,7 +46,7 @@ namespace org.rnp.voxel.unity.components.painter
       }
       set
       {
-        _dimensions.Set(value);
+        _dimensions = value;
       }
     }
 

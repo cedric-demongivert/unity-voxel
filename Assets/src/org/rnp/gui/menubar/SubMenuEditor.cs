@@ -115,7 +115,7 @@ namespace org.rnp.gui.menubar
       if (this.TargetMenuItem.GUIIcon != null)
       {
         this.TargetMenuItem.Icon = EditorGUILayout.ObjectField(
-          "Icon", this.TargetMenuItem.Icon, typeof(Texture)
+          "Icon", this.TargetMenuItem.Icon, typeof(Texture), true
         ) as Texture;
       }
       else
@@ -139,11 +139,11 @@ namespace org.rnp.gui.menubar
       EditorGUILayout.LabelField("GUI Parts", EditorStyles.boldLabel);
 
       this.TargetMenuItem.GUILabel = EditorGUILayout.ObjectField(
-        "Label Element", this.TargetMenuItem.GUILabel, typeof(Text)
+        "Label Element", this.TargetMenuItem.GUILabel, typeof(Text), true
       ) as Text;
 
       this.TargetMenuItem.GUIIcon = EditorGUILayout.ObjectField(
-        "Icon Element", this.TargetMenuItem.GUIIcon, typeof(RawImage)
+        "Icon Element", this.TargetMenuItem.GUIIcon, typeof(RawImage), true
       ) as RawImage;
     }
   }

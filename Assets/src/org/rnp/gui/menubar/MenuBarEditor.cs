@@ -82,8 +82,9 @@ namespace org.rnp.gui.menubar
     private void RegisterNewItems()
     {
       EditorGUILayout.LabelField("Register an existing Menu Item");
+
       MenuItem toRegister = EditorGUILayout.ObjectField(
-        null, typeof(MenuItem), true
+        GUIContent.none, null, typeof(MenuItem), true
       ) as MenuItem;
 
       if (toRegister != null)
