@@ -28,6 +28,9 @@ namespace org.rnp.gui.colorPicker
     private LineColorPicker _linePicker;
 
     [SerializeField]
+    private ColorPickerView _view;
+
+    [SerializeField]
     private GUIColorPicker.ColorAttr _lockedAttribute = GUIColorPicker.ColorAttr.Red;
 
     public GUIColorPicker.ColorAttr LockedAttribute
@@ -40,6 +43,28 @@ namespace org.rnp.gui.colorPicker
       {
         this._lockedAttribute = value;
         this.DispatchLockedAttribute();
+      }
+    }
+
+    public ColorPickerView View
+    {
+      get
+      {
+        return this._view;
+      }
+      set
+      {
+        if (value == this._squarePicker) return;
+
+        ColorPickerView old = this._view;
+        this._view = null;
+
+        if (old != null) old.ParentPicker = null;
+
+        this._view = value;
+        value.ParentPicker = this;
+
+        this.Dispatch();
       }
     }
 
@@ -107,6 +132,11 @@ namespace org.rnp.gui.colorPicker
 
     private void DispatchLockedAttribute()
     {
+      if (this._view != null)
+      {
+        this._view.LockedAttribute = this.LockedAttribute;
+      }
+
       if (this._linePicker != null)
       {
         this._linePicker.LockedAttribute = this.LockedAttribute;
@@ -120,7 +150,12 @@ namespace org.rnp.gui.colorPicker
 
     private void DispatchColor()
     {
-      if(this._linePicker != null)
+      if (this._view != null)
+      {
+        this._view.PickedColor = this.PickedColor;
+      }
+
+      if (this._linePicker != null)
       {
         this._linePicker.PickedColor = this.PickedColor;
       }

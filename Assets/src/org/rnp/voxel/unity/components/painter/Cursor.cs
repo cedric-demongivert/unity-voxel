@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using org.rnp.gui.colorPicker;
 using UnityEngine;
 
 namespace org.rnp.voxel.unity.components.painter
@@ -342,7 +343,7 @@ namespace org.rnp.voxel.unity.components.painter
 
       if (this.ColorPicker != null && this.CursorRenderer != null)
       {
-        this.CursorRenderer.sharedMaterial.color = this.ColorPicker.SelectedColor;
+        this.CursorRenderer.sharedMaterial.color = this.ColorPicker.PickedColor;
       }
     }
   }

@@ -3,79 +3,321 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using org.rnp.gui.colorPicker;
 
 using org.rnp.voxel.utils;
 using UnityEngine;
+using UnityEngine.UI;
 
-namespace org.rnp.voxel.unity.gui
+namespace org.rnp.gui.colorPicker
 {
   /// <author>Cédric DEMONGIVERT [cedric.demongivert@gmail.com]</author>
   /// 
   /// <summary>
   ///   Helper class for color picker GUI.
   /// </summary>
-  public class ColorPickerView
+  public class ColorPickerView : MonoBehaviour
   {
+    [SerializeField]
+    private ColorPicker _parentPicker;
+
+    [SerializeField]
+    private GUIColorPicker.ColorAttr _lockedAttr = GUIColorPicker.ColorAttr.Red;
+
+    [SerializeField]
+    private Toggle _redLockToggle;
+
+    [SerializeField]
+    private Toggle _blueLockToggle;
+
+    [SerializeField]
+    private Toggle _greenLockToggle;
+    
+    [SerializeField]
+    private Toggle _hueLockToggle;
+
+    [SerializeField]
+    private Toggle _luminosityLockToggle;
+    
+    [SerializeField]
+    private Toggle _saturationLockToggle;
+
+    [SerializeField]
+    private InputField _redInputField;
+
+    [SerializeField]
+    private InputField _greenInputField;
+
+    [SerializeField]
+    private InputField _blueInputField;
+
+    [SerializeField]
+    private InputField _alphaInputField;
+
+    [SerializeField]
+    private InputField _luminosityInputField;
+
+    [SerializeField]
+    private InputField _hueInputField;
+
+    [SerializeField]
+    private InputField _saturationInputField;
+
+    [SerializeField]
+    private InputField _hexInputField;
+
     /// <summary>
     ///   Red field value (as string)
     /// </summary>
+    [SerializeField]
     private String _red;
 
     /// <summary>
     ///   Green field value (as string)
     /// </summary>
+    [SerializeField]
     private String _green;
 
     /// <summary>
     ///   Blue field value (as string)
     /// </summary>
+    [SerializeField]
     private String _blue;
 
     /// <summary>
     ///   Hue field value (as string)
     /// </summary>
+    [SerializeField]
     private String _hue;
 
     /// <summary>
     ///   Saturation field value (as string)
     /// </summary>
+    [SerializeField]
     private String _saturation;
 
     /// <summary>
     ///   Ligthness field value (as string)
     /// </summary>
+    [SerializeField]
     private String _luminosity;
 
     /// <summary>
     ///   Alpha field value (as string)
     /// </summary>
+    [SerializeField]
     private String _alpha;
 
     /// <summary>
     ///   Color as an hexadecimal value (as string)
     /// </summary>
+    [SerializeField]
     private String _hex;
 
     /// <summary>
     ///   Is true if one of the Red / Green / Blue fields has changed.
     /// </summary>
+    [SerializeField]
     private bool _rgbDirty;
 
     /// <summary>
     ///   Is true if one of the Hue / Saturation / Luminosity fields has changed.
     /// </summary>
+    [SerializeField]
     private bool _hslDirty;
 
     /// <summary>
     ///   Is true if the alpha field has changed.
     /// </summary>
+    [SerializeField]
     private bool _alphaDirty;
 
     /// <summary>
     ///   Is true if the hexadecimal field has changed.
     /// </summary>
+    [SerializeField]
     private bool _hexDirty;
+
+    public InputField RedInputField
+    {
+      get
+      {
+        return this._redInputField;
+      }
+      set
+      {
+        this._redInputField = value;
+        this.RefreshUI();
+      }
+    }
+
+    public InputField GreenInputField
+    {
+      get
+      {
+        return this._greenInputField;
+      }
+      set
+      {
+        this._greenInputField = value;
+        this.RefreshUI();
+      }
+    }
+
+    public InputField BlueInputField
+    {
+      get
+      {
+        return this._blueInputField;
+      }
+      set
+      {
+        this._blueInputField = value;
+        this.RefreshUI();
+      }
+    }
+
+    public InputField AlphaInputField
+    {
+      get
+      {
+        return this._alphaInputField;
+      }
+      set
+      {
+        this._alphaInputField = value;
+        this.RefreshUI();
+      }
+    }
+
+    public InputField LuminosityInputField
+    {
+      get
+      {
+        return this._luminosityInputField;
+      }
+      set
+      {
+        this._luminosityInputField = value;
+        this.RefreshUI();
+      }
+    }
+
+    public InputField HueInputField
+    {
+      get
+      {
+        return this._hueInputField;
+      }
+      set
+      {
+        this._hueInputField = value;
+        this.RefreshUI();
+      }
+    }
+
+    public InputField SaturationInputField
+    {
+      get
+      {
+        return this._saturationInputField;
+      }
+      set
+      {
+        this._saturationInputField = value;
+        this.RefreshUI();
+      }
+    }
+
+    public InputField HexInputField
+    {
+      get
+      {
+        return this._hexInputField;
+      }
+      set
+      {
+        this._hexInputField = value;
+        this.RefreshUI();
+      }
+    }
+
+    public Toggle RedLockToggle
+    {
+      get
+      {
+        return this._redLockToggle;
+      }
+      set
+      {
+        this._redLockToggle = value;
+        this.RefreshUI();
+      }
+    }
+
+    public Toggle BlueLockToggle
+    {
+      get
+      {
+        return this._blueLockToggle;
+      }
+      set
+      {
+        this._blueLockToggle = value;
+        this.RefreshUI();
+      }
+    }
+
+    public Toggle GreenLockToggle
+    {
+      get
+      {
+        return this._greenLockToggle;
+      }
+      set
+      {
+        this._greenLockToggle = value;
+        this.RefreshUI();
+      }
+    }
+
+    public Toggle SaturationLockToggle
+    {
+      get
+      {
+        return this._saturationLockToggle;
+      }
+      set
+      {
+        this._saturationLockToggle = value;
+        this.RefreshUI();
+      }
+    }
+
+    public Toggle LuminosityLockToggle
+    {
+      get
+      {
+        return this._luminosityLockToggle;
+      }
+      set
+      {
+        this._luminosityLockToggle = value;
+        this.RefreshUI();
+      }
+    }
+
+    public Toggle HueLockToggle
+    {
+      get
+      {
+        return this._hueLockToggle;
+      }
+      set
+      {
+        this._hueLockToggle = value;
+        this.RefreshUI();
+      }
+    }
 
     /// <summary>
     ///   Is true if any field has changed.
@@ -85,6 +327,51 @@ namespace org.rnp.voxel.unity.gui
       get
       {
         return _rgbDirty || _hslDirty || _alphaDirty || _hexDirty;
+      }
+    }
+
+    /// <summary>
+    ///   Parent Color Picker
+    /// </summary>
+    public ColorPicker ParentPicker
+    {
+      get
+      {
+        return this._parentPicker;
+      }
+      set
+      {
+        if (this._parentPicker == value) return;
+
+        ColorPicker old = this._parentPicker;
+        this._parentPicker = null;
+
+        if (old != null) old.View = null;
+
+        this._parentPicker = value;
+        value.View = this;
+
+        this.SynchronizeLockedAttrWithParent(false);
+        this.SynchronizePickedColorWithParent(false);
+      }
+    }
+    
+    /// <summary>
+    ///   The locked attribute 
+    /// </summary>
+    public GUIColorPicker.ColorAttr LockedAttribute
+    {
+      get
+      {
+        return this._lockedAttr;
+      }
+      set
+      {
+        if (this._lockedAttr == value) return;
+
+        this._lockedAttr = value;
+        this.SynchronizeLockedAttrWithParent(true);
+        this.RefreshUI();
       }
     }
 
@@ -106,6 +393,7 @@ namespace org.rnp.voxel.unity.gui
         {
           this._red = this.CheckBounds(value, 0, 255);
           this._rgbDirty = true;
+          this.SynchronizePickedColorWithParent(true);
         }
       }
     }
@@ -128,6 +416,7 @@ namespace org.rnp.voxel.unity.gui
         {
           this._green = this.CheckBounds(value, 0, 255);
           this._rgbDirty = true;
+          this.SynchronizePickedColorWithParent(true);
         }
       }
     }
@@ -150,6 +439,7 @@ namespace org.rnp.voxel.unity.gui
         {
           this._blue = this.CheckBounds(value, 0, 255);
           this._rgbDirty = true;
+          this.SynchronizePickedColorWithParent(true);
         }
       }
     }
@@ -172,6 +462,7 @@ namespace org.rnp.voxel.unity.gui
         {
           this._alpha = this.CheckBounds(value, 0, 255);
           this._alphaDirty = true;
+          this.SynchronizePickedColorWithParent(true);
         }
       }
     }
@@ -194,6 +485,7 @@ namespace org.rnp.voxel.unity.gui
         {
           this._hue = this.CheckBounds(value, 0, 360);
           this._hslDirty = true;
+          this.SynchronizePickedColorWithParent(true);
         }
       }
     }
@@ -216,6 +508,7 @@ namespace org.rnp.voxel.unity.gui
         {
           this._saturation = this.CheckBounds(value, 0, 100);
           this._hslDirty = true;
+          this.SynchronizePickedColorWithParent(true);
         }
       }
     }
@@ -238,6 +531,7 @@ namespace org.rnp.voxel.unity.gui
         {
           this._luminosity = this.CheckBounds(value, 0, 100);
           this._hslDirty = true;
+          this.SynchronizePickedColorWithParent(true);
         }
       }
     }
@@ -260,13 +554,121 @@ namespace org.rnp.voxel.unity.gui
         {
           this._hex = value;
           this._hexDirty = true;
+          this.SynchronizePickedColorWithParent(true);
         }
       }
     }
 
-    public ColorPickerView()
+    public VoxelColor PickedColor
+    {
+      get
+      {
+        VoxelColor color = new VoxelColor();
+        this.CommitView(color);
+        return color;
+      }
+      set
+      {
+        if(value != this.PickedColor)
+        {
+          this.PullModel(value);
+        }
+      }
+    }
+
+    public void Awake()
     {
       this.PullModel(new VoxelColor());
+      this.SynchronizeLockedAttrWithParent(false);
+      this.SynchronizePickedColorWithParent(false);
+    }
+
+    private void SynchronizeLockedAttrWithParent(bool overrideParent)
+    {
+      if (this._parentPicker != null)
+      {
+        if (this._parentPicker.LockedAttribute != this._lockedAttr)
+        {
+          if (overrideParent)
+          {
+            this._parentPicker.LockedAttribute = this._lockedAttr;
+          }
+          else
+          {
+            this._lockedAttr = this._parentPicker.LockedAttribute;
+          }
+        }
+      }
+    }
+
+    private void SynchronizePickedColorWithParent(bool overrideParent)
+    {
+      if (this._parentPicker != null)
+      {
+        if (this._parentPicker.PickedColor != this.PickedColor)
+        {
+          if (overrideParent)
+          {
+            this._parentPicker.PickedColor = this.PickedColor;
+          }
+          else
+          {
+            this.PickedColor = this._parentPicker.PickedColor;
+          }
+        }
+      }
+    }
+
+    /// <summary>
+    ///   Commit view state to UI
+    /// </summary>
+    private void RefreshUI()
+    {
+      if (this.RedLockToggle != null)         this.RedLockToggle.isOn        = (this.LockedAttribute == GUIColorPicker.ColorAttr.Red);
+      if (this.BlueLockToggle != null)        this.BlueLockToggle.isOn       = (this.LockedAttribute == GUIColorPicker.ColorAttr.Blue);
+      if (this.GreenLockToggle != null)       this.GreenLockToggle.isOn      = (this.LockedAttribute == GUIColorPicker.ColorAttr.Green);
+      if (this.LuminosityLockToggle != null)  this.LuminosityLockToggle.isOn = (this.LockedAttribute == GUIColorPicker.ColorAttr.Luminosity);
+      if (this.HueLockToggle != null)         this.HueLockToggle.isOn        = (this.LockedAttribute == GUIColorPicker.ColorAttr.Hue);
+      if (this.SaturationLockToggle != null)  this.SaturationLockToggle.isOn = (this.LockedAttribute == GUIColorPicker.ColorAttr.Saturation);
+
+      if (this.RedInputField != null) this.RedInputField.text = this.Red;
+      if (this.BlueInputField != null) this.BlueInputField.text = this.Blue;
+      if (this.GreenInputField != null) this.GreenInputField.text = this.Green;
+      if (this.AlphaInputField != null) this.AlphaInputField.text = this.Alpha;
+      if (this.HueInputField != null) this.HueInputField.text = this.Hue;
+      if (this.LuminosityInputField != null) this.LuminosityInputField.text = this.Luminosity;
+      if (this.SaturationInputField != null) this.SaturationInputField.text = this.Saturation;
+      if (this.HexInputField != null) this.HexInputField.text = this.Hex;
+    }
+
+    public void LockRed()
+    {
+      this.LockedAttribute = GUIColorPicker.ColorAttr.Red;
+    }
+
+    public void LockGreen()
+    {
+      this.LockedAttribute = GUIColorPicker.ColorAttr.Green;
+    }
+
+    public void LockBlue()
+    {
+      this.LockedAttribute = GUIColorPicker.ColorAttr.Blue;
+    }
+
+    public void LockHue()
+    {
+      this.LockedAttribute = GUIColorPicker.ColorAttr.Hue;
+    }
+
+    public void LockSaturation()
+    {
+      this.LockedAttribute = GUIColorPicker.ColorAttr.Saturation;
+    }
+
+    public void LockLuminosity()
+    {
+      this.LockedAttribute = GUIColorPicker.ColorAttr.Luminosity;
     }
 
     /// <summary>
@@ -280,6 +682,7 @@ namespace org.rnp.voxel.unity.gui
       this.PullHSL(model);
       this.PullHex(model);
       this.Refresh();
+      this.RefreshUI();
     }
 
     /// <summary>
@@ -328,16 +731,33 @@ namespace org.rnp.voxel.unity.gui
     /// <param name="model"></param>
     public void CommitView(VoxelColor model)
     {
-      if(this._hexDirty)
+      if(this.IsDirty)
       {
-        this.CommitHex(model);
+        if (this._hexDirty)
+        {
+          this.CommitHex(model);
+        }
+        else
+        {
+          this.CommitOther(model);
+        }
       }
       else
       {
-        this.CommitOther(model);
+        this.ForceCommit(model);
       }
 
       this.Refresh();
+      this.RefreshUI();
+    }
+
+    private void ForceCommit(VoxelColor model)
+    {
+      model.Set(
+        this.Parse(this._red) / 255f,
+        this.Parse(this._green) / 255f,
+        this.Parse(this._blue) / 255f
+      );
     }
 
     /// <summary>

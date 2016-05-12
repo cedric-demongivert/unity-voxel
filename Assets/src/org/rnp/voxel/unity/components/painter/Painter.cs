@@ -3,6 +3,7 @@ using System.Collections;
 using org.rnp.voxel.mesh;
 using org.rnp.voxel.utils;
 using UnityEditor;
+using org.rnp.gui.colorPicker;
 using System;
 
 namespace org.rnp.voxel.unity.components.painter
@@ -55,7 +56,7 @@ namespace org.rnp.voxel.unity.components.painter
       if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.KeypadEnter))
       {
         // bug
-        Color pickedColor = this.Picker.SelectedColor;
+        Color pickedColor = this.Picker.PickedColor;
 
         Debug.Log(pickedColor);
 

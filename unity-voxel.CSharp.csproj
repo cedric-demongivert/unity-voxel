@@ -111,15 +111,12 @@
     <Compile Include="Assets\src\org\rnp\voxel\translator\marshing\MarshingVoxelMeshTranslator.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\unity\components\painter\CameraBookmarks.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\unity\components\painter\ColorPalette.cs" />
-    <Compile Include="Assets\src\org\rnp\voxel\unity\components\painter\ColorPicker.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\unity\components\painter\Cursor.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\unity\components\painter\Painter.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\unity\components\painter\PainterCamera.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\unity\components\painter\PainterCameraControl.cs" />
     <Compile Include="Assets\src\org\rnp\gui\colorPicker\ColorPickerView.cs" />
     <Compile Include="Assets\src\org\rnp\gui\colorPicker\GUIColorPicker.cs" />
-    <Compile Include="Assets\src\org\rnp\gui\colorPicker\LineColorPickerTexture.cs" />
-    <Compile Include="Assets\src\org\rnp\gui\colorPicker\SquareColorPickerTexture.cs" />
     <Compile Include="Assets\src\org\rnp\gui\colorPicker\exception\ColorPickerMissConfigurationException.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\utils\Dimensions3D.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\utils\ICopiable.cs" />
