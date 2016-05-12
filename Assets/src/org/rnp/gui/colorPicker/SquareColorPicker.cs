@@ -164,6 +164,7 @@ namespace org.rnp.gui.colorPicker
         _pickedColor.Set(value);
         this.RefreshCursor();
         this.SynchronizePickedColorWithParent(true);
+        this.RefreshTexture();
       }
     }
 

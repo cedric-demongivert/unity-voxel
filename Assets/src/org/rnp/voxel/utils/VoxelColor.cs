@@ -15,27 +15,32 @@ namespace org.rnp.voxel.utils
   /// used for color manipulation in general. Without that, you should prefer
   /// the Color struct of Unity.
   /// </summary>
+  [Serializable]
   public sealed class VoxelColor : ICopiable<VoxelColor>
   {
     #region Fields
     /// <summary>
     ///   A red value from 0f to 1f.
     /// </summary>
+    [SerializeField]
     private float _r;
 
     /// <summary>
     ///   A green value from 0f to 1f.
     /// </summary>
+    [SerializeField]
     private float _g;
 
     /// <summary>
     ///   A blue value from 0f to 1f.
     /// </summary>
+    [SerializeField]
     private float _b;
 
     /// <summary>
     ///   An alpha value from 0f to 1f.
     /// </summary>
+    [SerializeField]
     private float _a;
     #endregion
 
