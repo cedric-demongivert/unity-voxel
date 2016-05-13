@@ -14,8 +14,7 @@ namespace org.rnp.gui.menubar
   ///   An item that do something on click.
   /// </summary>
   [ExecuteInEditMode]
-  [RequireComponent(typeof(Selectable))]
-  public class ActionItem : MenuItem, IPointerUpHandler
+  public class ActionItem : MenuItem
   {
     [Serializable]
     public class ActionEvent : UnityEvent
@@ -26,9 +25,7 @@ namespace org.rnp.gui.menubar
     ///   Event listener.
     /// </summary>
     public ActionEvent OnAction;
-
-    private Selectable _selectable;
-    
+        
     /// <summary>
     ///   GUI Component to display MenuItem label.
     /// </summary>
@@ -144,15 +141,7 @@ namespace org.rnp.gui.menubar
       }
     }
     #endregion
-
-    /// <summary>
-    ///   Do registered action.
-    /// </summary>
-    public void OnPointerUp(PointerEventData eventData)
-    {
-      this.OnAction.Invoke();
-    }
-
+    
     /// <summary>
     ///   Change the GameObject name according to this component.
     /// </summary>
@@ -181,7 +170,6 @@ namespace org.rnp.gui.menubar
       }
       
       this.RefreshGameObjectName();
-      this._selectable = this.gameObject.GetComponent<Selectable>();
     }
 
     /// <see cref="http://docs.unity3d.com/ScriptReference/MonoBehaviour.html"/>
@@ -189,5 +177,12 @@ namespace org.rnp.gui.menubar
     {
       this.Parent = null;
     }
+
+    public void Trigger()
+    {
+      if(this.OnAction != null)
+        this.OnAction.Invoke();
+    }
+
   }
 }

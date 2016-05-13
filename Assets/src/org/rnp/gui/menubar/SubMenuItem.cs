@@ -15,15 +15,14 @@ namespace org.rnp.gui.menubar
   ///   A sub-menu.
   /// </summary>
   [ExecuteInEditMode]
-  [RequireComponent(typeof(Selectable))]
-  public class SubMenuItem : ParentMenuItem, ISelectHandler, IDeselectHandler
+  public class SubMenuItem : ParentMenuItem
   {
-    #region Fields
-    /// <summary>
-    ///   Event listener.
-    /// </summary>
-    private Selectable _selectable;
-    
+    #region Fields 
+    private bool _requestClose;
+
+    [SerializeField]
+    private bool _disabled;
+
     /// <summary>
     ///   GUI Component to display MenuItem label.
     /// </summary>
@@ -43,7 +42,6 @@ namespace org.rnp.gui.menubar
     {
       get
       {
-
         return this.ItemsContainer.activeSelf;
       }
       set
@@ -61,11 +59,11 @@ namespace org.rnp.gui.menubar
     {
       get
       {
-        return !this._selectable.interactable;
+        return this._disabled;
       }
       set
       {
-        this._selectable.interactable = !value;
+        this._disabled = value;
       }
     }
 
@@ -99,7 +97,7 @@ namespace org.rnp.gui.menubar
         this.RefreshGUIIconState();
       }
     }
-
+    
     /// <summary>
     ///   Change the MenuItem title.
     /// </summary>
@@ -175,34 +173,48 @@ namespace org.rnp.gui.menubar
       }
     }
 
+    public override void Open()
+    {
+      base.Close();
+      this.Opened = true;
+    }
+
+    public override void Close()
+    {
+      base.Close();
+      this.Opened = false;
+    }
+
+    public void RequestClose()
+    {
+      this._requestClose = true;
+    }
+
     /// <see cref="http://docs.unity3d.com/ScriptReference/MonoBehaviour.html"/>
     public void Awake()
-    {
+    { 
       if (this.Parent != null)
       {
         this.Parent.AddMenuItem(this);
       }
       
       this.RefreshGameObjectName();
-      this._selectable = this.gameObject.GetComponent<Selectable>();
+      this._requestClose = false;
     }
 
+    public void Update()
+    {
+      if(this._requestClose)
+      {
+        this._requestClose = false;
+        this.Close();
+      }
+    }
+    
     /// <see cref="http://docs.unity3d.com/ScriptReference/MonoBehaviour.html"/>
     public void OnDestroy()
     {
       this.Parent = null;
-    }
-
-    /// <see cref="http://docs.unity3d.com/ScriptReference/EventSystems.ISelectHandler.html"/>
-    public void OnSelect(BaseEventData eventData)
-    {
-      this.Opened = true;
-    }
-
-    /// <see cref="http://docs.unity3d.com/ScriptReference/EventSystems.IDeselectHandler.html"/>
-    public void OnDeselect(BaseEventData eventData)
-    {
-      this.Opened = false;
     }
   }
 }

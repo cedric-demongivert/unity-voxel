@@ -156,5 +156,27 @@ namespace org.rnp.gui.menubar
       item.Parent = null;
     }
 
+    /// <summary>
+    ///   Close the menu item container
+    /// </summary>
+    public virtual void Close()
+    {
+      if(this.Parent != null)
+      {
+        this.Parent.Close();
+      }
+    }
+
+    /// <summary>
+    ///   Open the menu item container
+    /// </summary>
+    public virtual void Open()
+    {
+      if (this.Parent != null)
+      {
+        this.Parent.Open();
+      }
+    }
+
   }
 }

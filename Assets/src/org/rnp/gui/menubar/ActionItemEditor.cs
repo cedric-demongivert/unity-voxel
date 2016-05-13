@@ -87,7 +87,7 @@ namespace org.rnp.gui.menubar
     private void EditGUIParts()
     {
       EditorGUILayout.LabelField("GUI Parts", EditorStyles.boldLabel);
-
+      
       this.TargetMenuItem.GUILabel = EditorGUILayout.ObjectField(
         "Label Element", this.TargetMenuItem.GUILabel, typeof(Text), true
       ) as Text;
