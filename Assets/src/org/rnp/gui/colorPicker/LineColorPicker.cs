@@ -329,6 +329,7 @@ namespace org.rnp.gui.colorPicker
     /// </summary>
     public void RefreshTexture()
     {
+      if (this._texture == null) return;
       VoxelColor color = new VoxelColor();
       
       for (int i = 0; i < 255; ++i)
