@@ -13,7 +13,7 @@ namespace org.rnp.voxel.utils
     {
       if (string.IsNullOrEmpty(path)) return null;
 
-      path = FileUtil.GetProjectRelativePath(path);
+      //path = FileUtil.GetProjectRelativePath(path);
 
       VoxelMesh mesh = new MapVoxelMesh(new Dimensions3D(8, 8, 8));
       mesh.Clear();
@@ -56,7 +56,7 @@ namespace org.rnp.voxel.utils
     {
       if (string.IsNullOrEmpty(path)) return;
 
-      path = FileUtil.GetProjectRelativePath(path);
+      //path = FileUtil.GetProjectRelativePath(path);
 
       // Create a file to write to.
       using (BinaryWriter bw = new BinaryWriter(File.Open(path, FileMode.Create)))
