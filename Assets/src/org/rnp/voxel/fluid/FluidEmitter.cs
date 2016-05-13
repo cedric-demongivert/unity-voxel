@@ -49,7 +49,13 @@ namespace org.rnp.voxel.fluid
 
       while(timeLeft > emitionTime)
       {
-        this.simulation.Add(position, speed);
+        for(int i = -1; i <= 1; ++i)
+        {
+          for (int j = -1; j <= 1; ++j)
+          {
+            this.simulation.Add(position + new Vector3(i, j, 0), speed);
+          }
+        }
         timeLeft -= emitionTime;
       }
     }

@@ -13,13 +13,11 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile>
-    </CompilerResponseFile>
+    <CompilerResponseFile></CompilerResponseFile>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows:5</UnityBuildTarget>
     <UnityVersion>5.3.4f1</UnityVersion>
-    <RootNamespace>
-    </RootNamespace>
+    <RootNamespace></RootNamespace>
     <LangVersion Condition=" '$(VisualStudioVersion)' != '10.0' ">4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -65,22 +63,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\src\org\rnp\gui\menubar\ActionItem.cs" />
-    <Compile Include="Assets\src\org\rnp\gui\menubar\ActionItemEditor.cs" />
-    <Compile Include="Assets\src\org\rnp\gui\menubar\MenuBar.cs" />
-    <Compile Include="Assets\src\org\rnp\gui\menubar\MenuBarEditor.cs" />
-    <Compile Include="Assets\src\org\rnp\gui\menubar\MenuItem.cs" />
-    <Compile Include="Assets\src\org\rnp\gui\menubar\MenuItemEditor.cs" />
-    <Compile Include="Assets\src\org\rnp\gui\menubar\ParentMenuItem.cs" />
-    <Compile Include="Assets\src\org\rnp\gui\menubar\SubMenuEditor.cs" />
-    <Compile Include="Assets\src\org\rnp\gui\menubar\SubMenuItem.cs" />
-    <Compile Include="Assets\src\org\rnp\voxel\fluid\EularianGrid.cs" />
-    <Compile Include="Assets\src\org\rnp\voxel\fluid\EulerianSimulation2D.cs" />
+    <Compile Include="Assets\Emetteur.cs" />
+    <Compile Include="Assets\Water.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\RandomMesh.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\SimpleTerrain.cs" />
-    <Compile Include="Assets\src\org\rnp\voxel\utils\RNPMath.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\VoxelMeshContainer.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\fluid\EularianGrid.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\fluid\EulerianSimulation.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\fluid\EulerianSimulation2D.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\fluid\FluidEmitter.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\fluid\FluidSimulation.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\mesh\ArrayVoxelMesh.cs" />
@@ -109,13 +99,9 @@
     <Compile Include="Assets\src\org\rnp\voxel\translator\marshing\MarshingChunckVoxelMeshTranslator.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\translator\marshing\MarshingVoxelMeshBuilder.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\translator\marshing\MarshingVoxelMeshTranslator.cs" />
-    <Compile Include="Assets\src\org\rnp\voxel\unity\gui\ColorPickerView.cs" />
-    <Compile Include="Assets\src\org\rnp\voxel\unity\gui\GUIColorPicker.cs" />
-    <Compile Include="Assets\src\org\rnp\voxel\unity\gui\LineColorPickerTexture.cs" />
-    <Compile Include="Assets\src\org\rnp\voxel\unity\gui\SquareColorPickerTexture.cs" />
-    <Compile Include="Assets\src\org\rnp\voxel\unity\gui\exception\ColorPickerMissConfigurationException.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\utils\Dimensions3D.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\utils\ICopiable.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\utils\RNPMath.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\utils\VoxelColor.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\utils\VoxelLocation.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\utils\Voxels.cs" />
