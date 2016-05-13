@@ -6,7 +6,7 @@ using UnityEditor;
 using org.rnp.gui.colorPicker;
 using System;
 
-namespace org.rnp.voxel.unity.components.painter
+namespace org.rnp.voxel.painter
 {
   /// <author>Cédric DEMONGIVERT [cedric.demongivert@gmail.com]</author>
   /// <summary>
@@ -66,8 +66,6 @@ namespace org.rnp.voxel.unity.components.painter
         {
           pickedColor.a = 1;
         }
-
-        Debug.Log(pickedColor);
 
         VoxelMeshes.Fill(this.PaintedMesh, cursor.Location, cursor.Dimensions, pickedColor);
         this.PaintedMesh.Commit();

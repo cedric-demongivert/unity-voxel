@@ -6,7 +6,7 @@ using System.Text;
 using org.rnp.gui.colorPicker;
 using UnityEngine;
 
-namespace org.rnp.voxel.unity.components.painter
+namespace org.rnp.voxel.painter
 {
   /// <author>Cédric DEMONGIVERT [cedric.demongivert@gmail.com]</author>
   ///
@@ -69,34 +69,34 @@ namespace org.rnp.voxel.unity.components.painter
     {
       Vector3 right = Voxels.KeepMax(this.View.transform.right);
       Vector3 up = Voxels.KeepMax(this.View.transform.up);
-      this._location += Vector3.Cross(right, up);
+      this._location = this._location.Add(Vector3.Cross(right, up));
     }
 
     public void Backward()
     {
       Vector3 right = Voxels.KeepMax(this.View.transform.right);
       Vector3 up = Voxels.KeepMax(this.View.transform.up);
-      this._location -= Vector3.Cross(right, up);
+      this._location = this._location.Sub(Vector3.Cross(right, up));
     }
 
     public void Left()
     {
-      this._location -= Voxels.KeepMax(this.View.transform.right);
+      this._location = this._location.Sub(Voxels.KeepMax(this.View.transform.right));
     }
 
     public void Right()
     {
-      this._location += Voxels.KeepMax(this.View.transform.right);
+      this._location = this._location.Add(Voxels.KeepMax(this.View.transform.right));
     }
 
     public void Top()
     {
-      this._location += Voxels.KeepMax(this.View.transform.up);
+      this._location = this._location.Add(Voxels.KeepMax(this.View.transform.up));
     }
 
     public void Bottom()
     {
-      this._location -= Voxels.KeepMax(this.View.transform.up);
+      this._location = this._location.Sub(Voxels.KeepMax(this.View.transform.up));
     }
 
     public void ExtendForward()
@@ -143,12 +143,12 @@ namespace org.rnp.voxel.unity.components.painter
     {
       if (Voxels.HasNegative(extension))
       {
-        this._dimensions.Sub(extension);
-        this._location += extension;
+        this._dimensions = this._dimensions.Sub(extension);
+        this._location = this._location.Add(extension);
       }
       else
       {
-        this._dimensions.Add(extension);
+        this._dimensions = this._dimensions.Add(extension);
       }
     }
 
@@ -196,24 +196,24 @@ namespace org.rnp.voxel.unity.components.painter
     {
       if (Voxels.HasPositive(reduction))
       {
-        this._dimensions.Sub(reduction);
+        this._dimensions = this._dimensions.Sub(reduction);
 
         if (this._dimensions.HasNull())
         {
-          this._dimensions.Add(reduction);
+          this._dimensions = this._dimensions.Add(reduction);
         }
         else
         {
-          this._location += reduction;
+          this._location = this._location.Add(reduction);
         }
       }
       else
       {
-        this._dimensions.Add(reduction);
+        this._dimensions = this._dimensions.Add(reduction);
 
         if (this._dimensions.HasNull())
         {
-          this._dimensions.Sub(reduction);
+          this._dimensions = this._dimensions.Sub(reduction);
         }
       }
     }
