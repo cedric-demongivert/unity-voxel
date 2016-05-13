@@ -47,6 +47,7 @@
   <ItemGroup>
      <Compile Include="Assets\Emetteur.cs" />
      <Compile Include="Assets\Water.cs" />
+     <Compile Include="Assets\Water3D.cs" />
      <Compile Include="Assets\src\org\rnp\gui\menubar\ActionItem.cs" />
      <Compile Include="Assets\src\org\rnp\gui\menubar\ActionItemEditor.cs" />
      <Compile Include="Assets\src\org\rnp\gui\menubar\MenuBar.cs" />
@@ -56,8 +57,13 @@
      <Compile Include="Assets\src\org\rnp\gui\menubar\ParentMenuItem.cs" />
      <Compile Include="Assets\src\org\rnp\gui\menubar\SubMenuEditor.cs" />
      <Compile Include="Assets\src\org\rnp\gui\menubar\SubMenuItem.cs" />
+     <Compile Include="Assets\src\org\rnp\voxel\RandomMesh.cs" />
+     <Compile Include="Assets\src\org\rnp\voxel\SimpleTerrain.cs" />
+     <Compile Include="Assets\src\org\rnp\voxel\VoxelMeshContainer.cs" />
+     <Compile Include="Assets\src\org\rnp\voxel\fluid\FluidSimulation.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\mesh\ArrayVoxelMesh.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\mesh\ChunckVoxelMesh.cs" />
+     <Compile Include="Assets\src\org\rnp\voxel\mesh\ChunckedVoxelMesh.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\mesh\MapVoxelMesh.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\mesh\SubMesh.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\mesh\VoxelMesh.cs" />
@@ -67,7 +73,6 @@
      <Compile Include="Assets\src\org\rnp\voxel\mesh\readonly\ReadonlyChunckVoxelMesh.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\mesh\readonly\ReadonlyVoxelMesh.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\mesh\shapes\SphereVoxelMesh.cs" />
-     <Compile Include="Assets\src\org\rnp\voxel\mesh\shapes\SphereVoxelMeshEditor.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\translator\ComposedTranslator.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\translator\IVoxelFilterCommitListener.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\translator\Translate.cs" />
@@ -76,7 +81,7 @@
      <Compile Include="Assets\src\org\rnp\voxel\translator\VoxelFilter.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\translator\VoxelFilterEditor.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\translator\VoxelRenderer.cs" />
-     <Compile Include="Assets\src\org\rnp\voxel\translator\cubic\CubicChunckVoxelMeshTranslator.cs" />
+     <Compile Include="Assets\src\org\rnp\voxel\translator\cubic\CubicChunckedVoxelMeshTranslator.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\translator\cubic\CubicVoxelMeshBuilder.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\translator\cubic\CubicVoxelMeshTranslator.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\translator\marshing\MarshingChunckVoxelMeshTranslator.cs" />
@@ -94,14 +99,21 @@
      <Compile Include="Assets\src\org\rnp\voxel\utils\Voxels.cs" />
      <None Include="Assets\shaders\UnityVC\StandardVC.shader" />
      <None Include="Assets\shaders\UnityVC\StandardSpecularVC.shader" />
+     <None Include="Assets\shaders\ToonishWater.shader" />
      <None Include="Assets\src\org\rnp\Shaders\NewSurfaceShader.shader" />
      <None Include="Assets\shaders\UnityVC\UnityVC.cginc" />
      <None Include="Assets\shaders\GridShader.shader" />
+ <Reference Include="UnityEngine.Advertisements">
+ <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/Advertisements/UnityEngine.Advertisements.dll</HintPath>
+ </Reference>
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.Networking">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.Analytics">
+ <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/UnityAnalytics/UnityEngine.Analytics.dll</HintPath>
  </Reference>
  <Reference Include="Mono.Cecil">
  <HintPath>C:/Program Files/Unity/Editor/Data/Managed/Mono.Cecil.dll</HintPath>

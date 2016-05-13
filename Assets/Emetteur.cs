@@ -5,7 +5,7 @@ using org.rnp.voxel.utils;
 
 public class Emetteur : MonoBehaviour {
 
-    public Water water;
+    public Water3D water;
 
     public Vector3 position;
 

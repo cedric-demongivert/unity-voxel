@@ -1,11 +1,6 @@
 fileFormatVersion: 2
-<<<<<<< HEAD
-guid: 0dcadf6dcec08e64e8580cc66ae2852a
-timeCreated: 1460808264
-=======
-guid: 75e4b48e30a1b9c469cb6549b1e64c0e
-timeCreated: 1460530671
->>>>>>> origin/simple_simu_3d
+guid: a20e9b82b514a554e99391e61339eca6
+timeCreated: 1462129212
 licenseType: Free
 MonoImporter:
   serializedVersion: 2
