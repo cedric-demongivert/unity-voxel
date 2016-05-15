@@ -13,13 +13,11 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile>
-    </CompilerResponseFile>
+    <CompilerResponseFile></CompilerResponseFile>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows:5</UnityBuildTarget>
     <UnityVersion>5.3.4f1</UnityVersion>
-    <RootNamespace>
-    </RootNamespace>
+    <RootNamespace></RootNamespace>
     <LangVersion Condition=" '$(VisualStudioVersion)' != '10.0' ">4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -65,14 +63,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\src\org\rnp\gui\colorPalette\PainterColorPaletteItemEditor.cs" />
-    <Compile Include="Assets\src\org\rnp\gui\colorPalette\PainterColorPaletteItem.cs" />
-    <Compile Include="Assets\src\org\rnp\gui\colorPalette\PainterColorPaletteEditor.cs" />
-    <Compile Include="Assets\src\org\rnp\gui\colorPalette\ColorPaletteItemEditor.cs" />
-    <Compile Include="Assets\src\org\rnp\gui\colorPalette\ColorPaletteEditor.cs" />
+    <Compile Include="Assets\src\org\rnp\gui\SelectableTrigger.cs" />
     <Compile Include="Assets\src\org\rnp\gui\colorPalette\ColorPalette.cs" />
     <Compile Include="Assets\src\org\rnp\gui\colorPalette\ColorPaletteItem.cs" />
     <Compile Include="Assets\src\org\rnp\gui\colorPalette\PainterColorPalette.cs" />
+    <Compile Include="Assets\src\org\rnp\gui\colorPalette\PainterColorPaletteItem.cs" />
     <Compile Include="Assets\src\org\rnp\gui\colorPicker\ColorPicker.cs" />
     <Compile Include="Assets\src\org\rnp\gui\colorPicker\ColorPickerView.cs" />
     <Compile Include="Assets\src\org\rnp\gui\colorPicker\GUIColorPicker.cs" />
@@ -80,18 +75,13 @@
     <Compile Include="Assets\src\org\rnp\gui\colorPicker\SquareColorPicker.cs" />
     <Compile Include="Assets\src\org\rnp\gui\colorPicker\exception\ColorPickerMissConfigurationException.cs" />
     <Compile Include="Assets\src\org\rnp\gui\menubar\ActionItem.cs" />
-    <Compile Include="Assets\src\org\rnp\gui\menubar\ActionItemEditor.cs" />
     <Compile Include="Assets\src\org\rnp\gui\menubar\MenuBar.cs" />
-    <Compile Include="Assets\src\org\rnp\gui\menubar\MenuBarEditor.cs" />
     <Compile Include="Assets\src\org\rnp\gui\menubar\MenuItem.cs" />
-    <Compile Include="Assets\src\org\rnp\gui\menubar\MenuItemEditor.cs" />
     <Compile Include="Assets\src\org\rnp\gui\menubar\ParentMenuItem.cs" />
-    <Compile Include="Assets\src\org\rnp\gui\menubar\SubMenuEditor.cs" />
     <Compile Include="Assets\src\org\rnp\gui\menubar\SubMenuItem.cs" />
-    <Compile Include="Assets\src\org\rnp\gui\SelectableTrigger.cs" />
     <Compile Include="Assets\src\org\rnp\gui\window\Window.cs" />
-    <Compile Include="Assets\src\org\rnp\gui\window\WindowEditor.cs" />
     <Compile Include="Assets\src\org\rnp\gui\window\WindowToggleButton.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\FileVoxelMesh.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\RandomMesh.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\SimpleTerrain.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\VoxelMeshContainer.cs" />
@@ -118,7 +108,6 @@
     <Compile Include="Assets\src\org\rnp\voxel\translator\Translator.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\translator\Translators.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\translator\VoxelFilter.cs" />
-    <Compile Include="Assets\src\org\rnp\voxel\translator\VoxelFilterEditor.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\translator\VoxelRenderer.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\translator\cubic\CubicChunckedVoxelMeshTranslator.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\translator\cubic\CubicVoxelMeshBuilder.cs" />

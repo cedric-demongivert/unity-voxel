@@ -9,8 +9,7 @@ using UnityEngine;
 
 namespace org.rnp.gui.colorPalette
 {
-  public class PainterColorPalette : ColorPalette
-  {
+  public class PainterColorPalette : ColorPalette {
     public ColorPicker Picker;
     
     public void PushColor(Color32 color)

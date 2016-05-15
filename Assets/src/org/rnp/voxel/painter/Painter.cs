@@ -2,10 +2,10 @@
 using System.Collections;
 using org.rnp.voxel.mesh;
 using org.rnp.voxel.utils;
-using UnityEditor;
 using org.rnp.gui.colorPicker;
 using System;
 using org.rnp.gui.colorPalette;
+using UnityEditor;
 
 namespace org.rnp.voxel.painter
 {
