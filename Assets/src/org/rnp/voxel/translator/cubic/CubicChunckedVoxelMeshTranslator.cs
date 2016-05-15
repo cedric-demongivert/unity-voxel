@@ -68,7 +68,7 @@ namespace org.rnp.voxel.translator.cubic
             "Cubes", this._map.GetChunck(location)
           );
 
-          genered.transform.SetParent(this.transform);
+          genered.transform.SetParent(this.transform, false);
           genered.transform.localPosition = worldLocation;
 
           this._chuncks[location] = genered;

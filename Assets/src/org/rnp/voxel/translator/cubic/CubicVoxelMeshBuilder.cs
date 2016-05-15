@@ -91,7 +91,7 @@ namespace org.rnp.voxel.translator.cubic
       
       this._mesh.RecalculateBounds();
       this._mesh.RecalculateNormals();
-
+      
       this._mesh.UploadMeshData(false);
       
       this.Clear();
@@ -245,6 +245,8 @@ namespace org.rnp.voxel.translator.cubic
       }, color);
     }
 
+    private static int TESTS = 5;
+
     /// <summary>
     ///   Create a face.
     /// </summary>
@@ -253,6 +255,11 @@ namespace org.rnp.voxel.translator.cubic
     private void TranslateFace(Vector3[] vertices, Color32 color)
     {
       int indexBase = this._meshVertices.Count;
+      
+      for(int i = 0; i < vertices.Length; ++i)
+      {
+        vertices[i] = this.gameObject.transform.TransformPoint(vertices[i]);
+      }
 
       this._meshVertices.AddRange(vertices);
 

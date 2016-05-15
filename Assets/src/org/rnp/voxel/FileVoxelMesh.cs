@@ -13,7 +13,23 @@ namespace org.rnp.voxel
   {
     private VoxelMesh _mesh = new MapVoxelMesh(new Dimensions3D(8,8,8));
     
-    public TextAsset MeshFile;
+    [SerializeField]
+    private TextAsset _meshFile;
+
+    public TextAsset MeshFile
+    {
+      get
+      {
+        return this._meshFile;
+      }
+      set
+      {
+        if (this._meshFile == value) return;
+
+        this._meshFile = value;
+        this.Refresh();
+      }
+    }
 
     public override VoxelMesh Mesh
     {
@@ -23,10 +39,23 @@ namespace org.rnp.voxel
       }
     }
 
+    public void Refresh()
+    {
+      if (this._meshFile != null)
+      {
+        this._mesh = VoxelFile.Load(_meshFile.bytes, this._mesh);
+      }
+      else
+      {
+        this._mesh.Clear();
+      }
+
+      this._mesh.Commit();
+    }
+
     public void Awake()
     {
-      this._mesh = VoxelFile.Load(MeshFile.bytes, this._mesh);
-      this._mesh.Commit();
+      this.Refresh();
     }
   }
 }

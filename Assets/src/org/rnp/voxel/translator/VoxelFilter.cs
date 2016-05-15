@@ -98,21 +98,19 @@ namespace org.rnp.voxel.translator
     /// <see cref="http://docs.unity3d.com/ScriptReference/MonoBehaviour.html"/>
     public void Update()
     {
-      if(this._mesh == null || this._oldMesh != this._mesh.Mesh)
+      if((this._mesh == null && this._oldMesh != null) || this._oldMesh != this._mesh.Mesh)
       {
         if (this._oldMesh != null)
         {
           this._oldMesh.UnregisterCommitListener(this);
+          this._oldMesh = null;
         }
 
-        if(this._mesh == null)
+        if(this._mesh != null)
         {
           this._oldMesh = this._mesh.Mesh;
         }
-        else
-        {
-          this._oldMesh = null;
-        }
+
         this.Reset();
       }
     }
@@ -201,7 +199,7 @@ namespace org.rnp.voxel.translator
           this._mesh.Mesh
         );
 
-        this._translator.transform.SetParent(this.transform);
+        this._translator.transform.SetParent(this.transform, false);
       }
 
       foreach (IVoxelFilterCommitListener listener in this._listeners)
