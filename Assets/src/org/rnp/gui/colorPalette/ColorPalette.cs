@@ -144,6 +144,7 @@ namespace org.rnp.gui.colorPalette
       {
         GameObject child = Instantiate(this.ColorItem);
         child.transform.SetParent((this.Palette != null) ? this.Palette.transform : null);
+        child.SetActive(true);
 
         this._colors[color] = child;
 
