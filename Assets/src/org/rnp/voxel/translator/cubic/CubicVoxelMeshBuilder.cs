@@ -256,10 +256,10 @@ namespace org.rnp.voxel.translator.cubic
     {
       int indexBase = this._meshVertices.Count;
       
-      for(int i = 0; i < vertices.Length; ++i)
+      /*for(int i = 0; i < vertices.Length; ++i)
       {
         vertices[i] = this.gameObject.transform.TransformPoint(vertices[i]);
-      }
+      }*/
 
       this._meshVertices.AddRange(vertices);
 
