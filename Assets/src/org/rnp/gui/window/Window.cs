@@ -281,6 +281,8 @@ namespace org.rnp.gui.window
 
     private void UpdateSize()
     {
+      if (this._transform == null) return;
+
       if(this.Minimized)
       {
         this._transform.sizeDelta = new Vector2(

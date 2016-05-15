@@ -22,10 +22,12 @@ namespace org.rnp.voxel.utils
       {
         // Use BaseStream.
         int length = (int)br.BaseStream.Length;
-
-        int width = br.ReadInt32();
-        int height = br.ReadInt32();
-        int depth = br.ReadInt32();
+        br.ReadInt32();
+        br.ReadInt32();
+        br.ReadInt32();
+        //int width = br.ReadInt32();
+        //int height = br.ReadInt32();
+        //int depth = br.ReadInt32();
         int pos = sizeof(int) * 3;
 
         int cpt = 0;

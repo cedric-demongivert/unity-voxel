@@ -65,6 +65,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\src\org\rnp\gui\colorPalette\PainterColorPaletteItemEditor.cs" />
+    <Compile Include="Assets\src\org\rnp\gui\colorPalette\PainterColorPaletteItem.cs" />
+    <Compile Include="Assets\src\org\rnp\gui\colorPalette\PainterColorPaletteEditor.cs" />
+    <Compile Include="Assets\src\org\rnp\gui\colorPalette\ColorPaletteItemEditor.cs" />
+    <Compile Include="Assets\src\org\rnp\gui\colorPalette\ColorPaletteEditor.cs" />
+    <Compile Include="Assets\src\org\rnp\gui\colorPalette\ColorPalette.cs" />
+    <Compile Include="Assets\src\org\rnp\gui\colorPalette\ColorPaletteItem.cs" />
+    <Compile Include="Assets\src\org\rnp\gui\colorPalette\PainterColorPalette.cs" />
     <Compile Include="Assets\src\org\rnp\gui\colorPicker\ColorPicker.cs" />
     <Compile Include="Assets\src\org\rnp\gui\colorPicker\ColorPickerView.cs" />
     <Compile Include="Assets\src\org\rnp\gui\colorPicker\GUIColorPicker.cs" />

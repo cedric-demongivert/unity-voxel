@@ -5,6 +5,7 @@ using org.rnp.voxel.utils;
 using UnityEditor;
 using org.rnp.gui.colorPicker;
 using System;
+using org.rnp.gui.colorPalette;
 
 namespace org.rnp.voxel.painter
 {
@@ -16,6 +17,8 @@ namespace org.rnp.voxel.painter
   public sealed class Painter : VoxelMeshContainer 
   {
     public VoxelMesh PaintedMesh;
+
+    public PainterColorPalette Palette;
 
     public ColorPicker Picker;
     public Cursor cursor;
@@ -57,6 +60,7 @@ namespace org.rnp.voxel.painter
       {
         // bug
         Color pickedColor = this.Picker.PickedColor;
+        this.Palette.AddColor(pickedColor);
         
         if ((int)(pickedColor.a * 255f) >= 254f)
         {
@@ -96,6 +100,11 @@ namespace org.rnp.voxel.painter
           this.PaintedMesh = vm;
 
       this.PaintedMesh.Commit();
+
+      this.Palette.Clear();
+
+      if (vm != null)
+        this.Palette.AnalyseVoxel(vm);
     }
   }
 }
