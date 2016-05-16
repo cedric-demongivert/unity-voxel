@@ -24,17 +24,36 @@ namespace org.rnp.voxel.painter
 
     public override void OnToolUpdate()
     {
-      if(Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))
+      if((Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1)) && !(Input.GetKey(KeyCode.LeftAlt) || Input.GetKey(KeyCode.RightAlt)))
       {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        VoxelHit result; 
 
-        if (VoxelPhysics.IsRayCollideVoxelMesh(ray, filter))
+        if (VoxelPhysics.IsRayCollideVoxelMesh(ray, filter, out result))
         {
-          Debug.Log("YEEESSS !");
-        }
-        else
-        {
-          Debug.Log("NOOOOOOOOOOOO !");
+          // bug
+          Color pickedColor = this.Parent.Picker.PickedColor;
+          this.Parent.Palette.AddColor(pickedColor);
+
+          if ((int)(pickedColor.a * 255f) >= 254f)
+          {
+            pickedColor.a = 0;
+          }
+          else
+          {
+            pickedColor.a = 1;
+          }
+
+          if (Input.GetMouseButtonDown(0))
+          {
+            this.Parent.PaintedMesh[result.HittedFaceVoxel] = pickedColor;
+          }
+          else
+          {
+            this.Parent.PaintedMesh[result.HittedVoxel] = Voxels.Empty;
+          }
+
+          this.Parent.PaintedMesh.Commit();
         }
       }
     }

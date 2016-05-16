@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-namespace src.org.rnp.voxel.physics
+namespace org.rnp.voxel.physics
 {
   /// <author>Cédric DEMONGIVERT [cedric.demongivert@gmail.com]</author>
   /// <summary>
@@ -16,24 +16,29 @@ namespace src.org.rnp.voxel.physics
   {
     [SerializeField]
     private VoxelLocation _hittedVoxel;
-
+    
     [SerializeField]
-    private VoxelLocation _hittedFaceVoxel;
+    private RaycastHit _hitInfo;
 
-    [SerializeField]
-    private Vector3 _hitPoint;
-
-    public VoxelHit(VoxelLocation hittedVoxel, Vector3 hitPoint)
+    public VoxelHit(VoxelLocation hittedVoxel, RaycastHit hitInfo)
     {
       this._hittedVoxel = hittedVoxel;
-      this._hitPoint = hitPoint;
+      this._hitInfo = hitInfo;
+    }
+
+    public RaycastHit HitInfo
+    {
+      get
+      {
+        return this._hitInfo;
+      }
     }
 
     public Vector3 HitPoint
     {
       get
       {
-        return this._hitPoint;
+        return this._hitInfo.point;
       }
     }
 
@@ -49,7 +54,7 @@ namespace src.org.rnp.voxel.physics
     {
       get
       {
-        return this._hittedFaceVoxel;
+        return this.HittedVoxel.Add(this._hitInfo.normal);
       }
     }
   }

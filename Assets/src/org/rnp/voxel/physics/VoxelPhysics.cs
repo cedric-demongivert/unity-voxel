@@ -33,12 +33,17 @@ namespace org.rnp.voxel.physics
     /// </summary>
     /// <param name="ray"></param>
     /// <param name="filter"></param>
+    /// <param name="hitInfo"></param>
     /// <returns></returns>
-    public static bool IsRayCollideVoxelMesh(Ray ray, VoxelFilter filter)
+    public static bool IsRayCollideVoxelMesh(Ray ray, VoxelFilter filter, out VoxelHit hitInfo)
     {
-      if (filter == null || filter.Mesh == null || filter.Mesh.Mesh == null) return false;
+      if (filter == null || filter.Mesh == null || filter.Mesh.Mesh == null)
+      {
+        hitInfo = null;
+        return false;
+      }
 
-      return VoxelPhysics.IsRayCollideVoxelMesh(ray, filter.Mesh.Mesh, filter.transform.FindChild("Genered Translator").transform);
+      return VoxelPhysics.IsRayCollideVoxelMesh(ray, filter.Mesh.Mesh, filter.transform.FindChild("Genered Translator").transform, out hitInfo);
     }
 
     /// <summary>
@@ -47,10 +52,15 @@ namespace org.rnp.voxel.physics
     /// <param name="ray"></param>
     /// <param name="mesh"></param>
     /// <param name="transform"></param>
+    /// <param name="hitInfo"></param>
     /// <returns></returns>
-    public static bool IsRayCollideVoxelMesh(Ray ray, VoxelMesh mesh, Transform transform)
+    public static bool IsRayCollideVoxelMesh(Ray ray, VoxelMesh mesh, Transform transform, out VoxelHit hitInfo)
     {
-      if (mesh == null) return false;
+      if (mesh == null)
+      {
+        hitInfo = null;
+        return false;
+      }
 
       GameObject tmpObject = new GameObject();
 
@@ -66,7 +76,11 @@ namespace org.rnp.voxel.physics
 
       if(VoxelPhysics.IsRayCollideBox(ray, box))
       {
-        result = VoxelPhysics.ResolveNode(ray, mesh, mesh.Start, mesh.Dimensions, box);
+        result = VoxelPhysics.ResolveNode(ray, mesh, mesh.Start, mesh.Dimensions, box, out hitInfo);
+      }
+      else
+      {
+        hitInfo = null;
       }
 
       GameObject.Destroy(tmpObject);
@@ -84,27 +98,45 @@ namespace org.rnp.voxel.physics
     /// <param name="dimensions"></param>
     /// <param name="box"></param>
     /// <returns></returns>
-    private static bool ResolveNode(Ray ray, VoxelMesh mesh, VoxelLocation start, Dimensions3D dimensions, BoxCollider box)
+    private static bool ResolveNode(Ray ray, VoxelMesh mesh, VoxelLocation start, Dimensions3D dimensions, BoxCollider box, out VoxelHit hit)
     {
       if(dimensions.Width <= 0 || dimensions.Height <= 0 || dimensions.Depth <= 0)
       {
+        hit = null;
         return false;
       }
       else if(dimensions.Width == 1 && dimensions.Height == 1 && dimensions.Depth == 1)
       {
-        return !Voxels.IsEmpty(mesh[start]);
+        if(Voxels.IsEmpty(mesh[start]))
+        {
+          hit = null;
+          return false;
+        }
+        else
+        {
+          box.center = ((Vector3)start.Add(start.Add(dimensions))) / 2f;
+          box.size = new Vector3(dimensions.Width, dimensions.Height, dimensions.Depth);
+
+          RaycastHit hitInfo;
+          box.Raycast(ray, out hitInfo, float.MaxValue);
+
+          hit = new VoxelHit(start, hitInfo);
+
+          return true;
+        }
       }
       else
       {
-        return VoxelPhysics.DoResolution(ray, mesh, start, dimensions, box);
+        return VoxelPhysics.DoResolution(ray, mesh, start, dimensions, box, out hit);
       }
     }
 
-    private static bool DoResolution(Ray ray, VoxelMesh mesh, VoxelLocation start, Dimensions3D dimensions, BoxCollider box)
+    private static bool DoResolution(Ray ray, VoxelMesh mesh, VoxelLocation start, Dimensions3D dimensions, BoxCollider box, out VoxelHit hit)
     {
       Dimensions3D baseChildDimension = dimensions.Div(2);
 
       bool result = false;
+      VoxelHit resultHit = null;
 
       for (int i = 0; i < 2; ++i)
       {
@@ -133,11 +165,23 @@ namespace org.rnp.voxel.physics
             // Compute collision
             if (VoxelPhysics.IsRayCollideBox(ray, box))
             {
-              result =  result || VoxelPhysics.ResolveNode(ray, mesh, childStart, childDimension, box);
+              VoxelHit tmpHit = null;
+
+              if(VoxelPhysics.ResolveNode(ray, mesh, childStart, childDimension, box, out tmpHit))
+              {
+                result = true;
+
+                if(resultHit == null || resultHit.HitInfo.distance > tmpHit.HitInfo.distance)
+                {
+                  resultHit = tmpHit;
+                }
+              }
             }
           }
         }
       }
+      
+      hit = resultHit;
 
       return result;
     }
