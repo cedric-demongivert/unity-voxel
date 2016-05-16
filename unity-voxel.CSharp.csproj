@@ -84,6 +84,7 @@
     <Compile Include="Assets\src\org\rnp\gui\window\Window.cs" />
     <Compile Include="Assets\src\org\rnp\gui\window\WindowToggleButton.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\FileVoxelMesh.cs" />
+    <Compile Include="Assets\src\org\rnp\voxel\painter\PipettePainterTool.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\painter\ReplacePainterTool.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\painter\MousePainterTool.cs" />
     <Compile Include="Assets\src\org\rnp\voxel\painter\KeyBoardPainterTool.cs" />
