@@ -763,11 +763,11 @@ namespace org.rnp.voxel.utils
       return this.R == this.B && this.B == this.G && this.G == 0;
     }
 
-    public bool Equals(VoxelColor other)
+    /*public bool Equals(VoxelColor other)
     {
       return Mathf.Approximately(this._r, other._r) && Mathf.Approximately(this._g, other._g) && Mathf.Approximately(this._b, other._b)
               && Mathf.Approximately(this._a, other._a);
-    }
+    }*/
     #endregion
 
     #region ICopiable
@@ -789,17 +789,22 @@ namespace org.rnp.voxel.utils
 
       if (base.Equals(obj)) return true;
 
-      if(obj is VoxelColor)
+      if (obj is VoxelColor || obj is Color32 || obj is Color)
       {
-        VoxelColor toCmp = (VoxelColor) obj;
-
-        return (int)(toCmp.R * 255f) == (int)(this.R * 255f)
-                && (int)(toCmp.G * 255f) == (int)(this.G * 255f)
-                && (int)(toCmp.B * 255f) == (int)(this.B * 255f)
-                && (int)(toCmp.A * 255f) == (int)(this.A * 255f);
+        VoxelColor toCmp = obj as VoxelColor;
+        
+        return ((int)(toCmp.R * 255f)) == ((int)(this.R * 255f))
+                && ((int)(toCmp.G * 255f)) == ((int)(this.G * 255f))
+                && ((int)(toCmp.B * 255f)) == ((int)(this.B * 255f))
+                && ((int)(toCmp.A * 255f)) == ((int)(this.A * 255f));
       }
       
       return base.Equals(obj);
+    }
+
+    public override string ToString()
+    {
+      return "Voxel Color (" + (int)(this.R * 255f) + ", " + (int)(this.G * 255f) + ", " + (int)(this.B * 255f) + ", " + (int)(this.A * 255f) + ")";
     }
     #endregion
 

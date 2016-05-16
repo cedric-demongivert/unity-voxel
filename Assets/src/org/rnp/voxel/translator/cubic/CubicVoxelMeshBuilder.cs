@@ -245,8 +245,6 @@ namespace org.rnp.voxel.translator.cubic
       }, color);
     }
 
-    private static int TESTS = 5;
-
     /// <summary>
     ///   Create a face.
     /// </summary>
