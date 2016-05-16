@@ -6,6 +6,7 @@ using org.rnp.gui.colorPicker;
 using System;
 using org.rnp.gui.colorPalette;
 using UnityEditor;
+using System.Collections.Generic;
 
 namespace org.rnp.voxel.painter
 {
@@ -17,11 +18,36 @@ namespace org.rnp.voxel.painter
   public sealed class Painter : VoxelMeshContainer 
   {
     public VoxelMesh PaintedMesh;
-
     public PainterColorPalette Palette;
-
     public ColorPicker Picker;
-    public Cursor cursor;
+
+    [SerializeField]
+    private List<PainterTool> _tools = new List<PainterTool>();
+
+    [SerializeField]
+    private int _activeTool = -1;
+
+    public int ActiveTool
+    {
+      get
+      {
+        return this._activeTool;
+      }
+      set
+      {
+        if (this.HasTool(this.ActiveTool))
+        {
+          this._tools[this._activeTool].OnToolEnd();
+        }
+
+        this._activeTool = value;
+
+        if (this.HasTool(this.ActiveTool))
+        {
+          this._tools[this._activeTool].OnToolStart();
+        }
+      }
+    }
 
     public override VoxelMesh Mesh
     {
@@ -30,10 +56,49 @@ namespace org.rnp.voxel.painter
         return this.PaintedMesh;
       }
     }
-
-    public void DitPlopl()
+    
+    public int ToolsCount
     {
-      Debug.Log("plopl !");
+      get
+      {
+        return this._tools.Count;
+      }
+    }
+
+    public IEnumerable<PainterTool> Tools
+    {
+      get
+      {
+        foreach(PainterTool tool in this._tools)
+        {
+          yield return tool;
+        }
+      }
+    }
+    
+    public void RegisterTool(PainterTool tool)
+    {
+      if (!this._tools.Contains(tool))
+      {
+        this._tools.Add(tool);
+        tool.Parent = this;
+      }
+    }
+
+    public void UnregisterTool(PainterTool tool)
+    {
+      if (this._tools.Contains(tool))
+      {
+        this._tools.Remove(tool);
+        tool.Parent = null;
+      }
+    }
+
+    public void MoveTool(int start, int end)
+    {
+      PainterTool item = this._tools[start];
+      this._tools.RemoveAt(start);
+      this._tools.Insert(end, item);
     }
 
     /// <see cref="http://docs.unity3d.com/ScriptReference/MonoBehaviour.html"/>
@@ -43,43 +108,32 @@ namespace org.rnp.voxel.painter
     }
 
     /// <see cref="http://docs.unity3d.com/ScriptReference/MonoBehaviour.html"/>
-    public void Start() 
+    public void Start()
     {
+      if (this._activeTool >= 0)
+      {
+        this._tools[this._activeTool].OnToolStart();
+      }
     }
 
     /// <see cref="http://docs.unity3d.com/ScriptReference/MonoBehaviour.html"/>
     public void Update() 
     {
-      if (Input.GetKeyDown(KeyCode.Backspace))
+      if(this.HasTool(this.ActiveTool))
       {
-        VoxelMeshes.Fill(this.PaintedMesh, cursor.Location, cursor.Dimensions, Voxels.Empty);
-        this.PaintedMesh.Commit();
-      }
-
-      if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.KeypadEnter))
-      {
-        // bug
-        Color pickedColor = this.Picker.PickedColor;
-        this.Palette.AddColor(pickedColor);
-        
-        if ((int)(pickedColor.a * 255f) >= 254f)
-        {
-          pickedColor.a = 0;
-        }
-        else
-        {
-          pickedColor.a = 1;
-        }
-
-        VoxelMeshes.Fill(this.PaintedMesh, cursor.Location, cursor.Dimensions, pickedColor);
-        this.PaintedMesh.Commit();
+        this._tools[this.ActiveTool].OnToolUpdate();
       }
     }
 
-
+    public bool HasTool(int i)
+    {
+      return i >= 0 && i < this._tools.Count;
+    }
+    
     public void SaveMesh()
     {
       //Ask for file
+      //Don't compile
       var path = EditorUtility.SaveFilePanel(
               "Save Mesh",
               "",

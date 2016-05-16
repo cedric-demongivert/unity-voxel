@@ -107,6 +107,7 @@
     <Compile Include="Assets\Editor\src\org\rnp\gui\menubar\MenuItemEditor.cs" />
     <Compile Include="Assets\Editor\src\org\rnp\gui\menubar\SubMenuEditor.cs" />
     <Compile Include="Assets\Editor\src\org\rnp\gui\window\WindowEditor.cs" />
+    <Compile Include="Assets\Editor\src\org\rnp\voxel\painter\PainterEditor.cs" />
     <Compile Include="Assets\Editor\src\org\rnp\voxel\translator\VoxelFilterEditor.cs" />
     <Compile Include="Assets\Editor\src\org\rnp\voxel\FileVoxelMeshEditor.cs" />
     <Compile Include="Assets\shaders\UnityVC\Editor\StandardShaderVCGUI.cs" />
