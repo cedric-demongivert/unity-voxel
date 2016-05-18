@@ -6,7 +6,7 @@
 	<ProductVersion>10.0.20506</ProductVersion>
 	<SchemaVersion>2.0</SchemaVersion>
 	<RootNamespace></RootNamespace>
-	<ProjectGuid>{D78867C2-4478-67AC-4064-FD3690BCE8F6}</ProjectGuid>
+	<ProjectGuid>{C37BE796-A8D2-BB78-8873-A5C9B6BBAEA3}</ProjectGuid>
 	<OutputType>Library</OutputType>
 	<AppDesignerFolder>Properties</AppDesignerFolder>
 	<AssemblyName>Assembly-CSharp-Editor</AssemblyName>
@@ -45,21 +45,27 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\MeshSaver\Editor\MeshSaverEditor.cs" />
-     <Compile Include="Assets\MeshSaver\Editor\VoxelLoader.cs" />
-     <Compile Include="Assets\MeshSaver\Editor\VoxelSaverEditor.cs" />
+     <Compile Include="Assets\Editor\src\org\rnp\gui\colorPalette\ColorPaletteEditor.cs" />
+     <Compile Include="Assets\Editor\src\org\rnp\gui\colorPalette\ColorPaletteItemEditor.cs" />
+     <Compile Include="Assets\Editor\src\org\rnp\gui\colorPalette\PainterColorPaletteEditor.cs" />
+     <Compile Include="Assets\Editor\src\org\rnp\gui\colorPalette\PainterColorPaletteItemEditor.cs" />
+     <Compile Include="Assets\Editor\src\org\rnp\gui\menubar\ActionItemEditor.cs" />
+     <Compile Include="Assets\Editor\src\org\rnp\gui\menubar\MenuBarEditor.cs" />
+     <Compile Include="Assets\Editor\src\org\rnp\gui\menubar\MenuItemEditor.cs" />
+     <Compile Include="Assets\Editor\src\org\rnp\gui\menubar\SubMenuEditor.cs" />
+     <Compile Include="Assets\Editor\src\org\rnp\gui\window\WindowEditor.cs" />
+     <Compile Include="Assets\Editor\src\org\rnp\voxel\FileVoxelMeshEditor.cs" />
+     <Compile Include="Assets\Editor\src\org\rnp\voxel\painter\PainterEditor.cs" />
+     <Compile Include="Assets\Editor\src\org\rnp\voxel\translator\VoxelFilterEditor.cs" />
      <Compile Include="Assets\shaders\UnityVC\Editor\StandardShaderVCGUI.cs" />
      <None Include="Assets\shaders\UnityVC\StandardVC.shader" />
      <None Include="Assets\shaders\UnityVC\StandardSpecularVC.shader" />
-     <None Include="Assets\src\org\rnp\Shaders\NewSurfaceShader.shader" />
+     <None Include="Assets\shaders\ToonishWater.shader" />
      <None Include="Assets\shaders\UnityVC\UnityVC.cginc" />
      <None Include="Assets\shaders\GridShader.shader" />
-<<<<<<< HEAD
  <Reference Include="UnityEngine.Advertisements">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/Advertisements/UnityEngine.Advertisements.dll</HintPath>
  </Reference>
-=======
->>>>>>> simulation-fluides
  <Reference Include="UnityEditor.Advertisements">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/Advertisements/Editor/UnityEditor.Advertisements.dll</HintPath>
  </Reference>
@@ -74,12 +80,9 @@
  </Reference>
  <Reference Include="UnityEditor.Networking">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/Networking/Editor/UnityEditor.Networking.dll</HintPath>
-<<<<<<< HEAD
  </Reference>
  <Reference Include="UnityEngine.Analytics">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/UnityAnalytics/UnityEngine.Analytics.dll</HintPath>
-=======
->>>>>>> simulation-fluides
  </Reference>
  <Reference Include="UnityEditor.Graphs">
  <HintPath>C:/Program Files/Unity/Editor/Data/Managed/UnityEditor.Graphs.dll</HintPath>
@@ -123,7 +126,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Assembly-CSharp.csproj">
-      <Project>{030EE5D3-DE60-AFC5-2AA8-D9CBE1D051A1}</Project>      <Name>Assembly-CSharp</Name>    </ProjectReference>
+      <Project>{207F7920-58FB-258F-7D27-E3DF25F30FB8}</Project>      <Name>Assembly-CSharp</Name>    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
