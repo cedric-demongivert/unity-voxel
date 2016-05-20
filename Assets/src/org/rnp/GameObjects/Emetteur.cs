@@ -3,26 +3,62 @@ using System.Collections;
 
 public class Emetteur : MonoBehaviour {
     
-    public GameObject missileTemplate;
+    public GameObject TemplateToEmit;
+    public int spawnDelay;
+    public bool onCollision;
+    public float range;
 
-    private float spawnDelay=5f, spawnTime=5f;
+
+    private int spawnTime = 0;
+    private bool targetInZone = false;
+    private GameObject target;
+    SphereCollider col;
 
     // Use this for initialization
     void Start () {
         //InvokeRepeating("Create", spawnDelay, spawnTime);
-
+        col= GetComponent<SphereCollider>();
+        col.radius = range;
     }
 
     // Update is called once per frame
     void Update () {
-	
+        if (spawnTime > spawnDelay)
+        {
+            if (onCollision && targetInZone)
+            {
+                if (target == null || Vector3.Distance(transform.position, target.transform.position) > range)
+                {
+                    targetInZone = false;
+                    target = null;
+                }
+                else
+                {
+
+                    Debug.LogError("Distance:" + Vector3.Distance(transform.position, target.transform.position));
+
+                    GameObject emittedObj = (GameObject)Create();
+                    Emitted emitted = emittedObj.GetComponent<Emitted>();
+                    emitted.Aim(target);
+                    spawnTime = 0;
+
+                }
+                    
+
+            }
+        }
+        else spawnTime++;
 	}
 
-    public void Create()
+    public Object Create()
     {
-        Instantiate(missileTemplate, transform.position, transform.rotation);
+        return Instantiate(TemplateToEmit, transform.position, transform.rotation);
     }
 
-
+    void OnCollisionEnter(Collision col)
+    {
+        target = col.gameObject;
+        targetInZone = true;
+    }
 
 }
