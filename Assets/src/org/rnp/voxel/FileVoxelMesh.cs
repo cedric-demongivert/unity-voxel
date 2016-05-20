@@ -15,7 +15,7 @@ namespace org.rnp.voxel
     
     [SerializeField]
     private TextAsset _meshFile;
-
+    
     public TextAsset MeshFile
     {
       get
@@ -38,12 +38,14 @@ namespace org.rnp.voxel
         return this._mesh;
       }
     }
-
+        
     public void Refresh()
     {
       if (this._meshFile != null)
       {
-        this._mesh = VoxelFile.Load(_meshFile.bytes, this._mesh);
+        this._mesh.Clear();
+        this._mesh.Commit();
+        VoxelFile.Load(_meshFile.bytes, this._mesh);
       }
       else
       {

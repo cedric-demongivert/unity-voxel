@@ -135,10 +135,54 @@ namespace org.rnp.voxel.mesh
     /// <param name="color"></param>
     public static void Fill(VoxelMesh mesh, VoxelLocation start, VoxelLocation end, Color32 color)
     {
+      VoxelLocation min = start.SetIfMin(end);
+      VoxelLocation max = start.SetIfMax(end);
+
       VoxelMeshes.Fill(
         mesh,
-        start,
-        new Dimensions3D(start, end),
+        min,
+        new Dimensions3D(min, max),
+        color
+      );
+    }
+
+    /// <summary>
+    ///   Fill a part of the voxel mesh with a color.
+    /// </summary>
+    /// <param name="mesh"></param>
+    /// <param name="start"></param>
+    /// <param name="size"></param>
+    /// <param name="color"></param>
+    public static void FillInclusive(VoxelMesh mesh, VoxelLocation start, Dimensions3D size, Color32 color)
+    {
+      for (int x = 0; x <= size.Width; ++x)
+      {
+        for (int y = 0; y <= size.Height; ++y)
+        {
+          for (int z = 0; z <= size.Depth; ++z)
+          {
+            mesh.Set(x + start.X, y + start.Y, z + start.Z, color);
+          }
+        }
+      }
+    }
+
+    /// <summary>
+    ///   Fill a part of the voxel mesh with a color.
+    /// </summary>
+    /// <param name="mesh"></param>
+    /// <param name="start"></param>
+    /// <param name="end"></param>
+    /// <param name="color"></param>
+    public static void FillInclusive(VoxelMesh mesh, VoxelLocation start, VoxelLocation end, Color32 color)
+    {
+      VoxelLocation min = start.SetIfMin(end);
+      VoxelLocation max = start.SetIfMax(end);
+
+      VoxelMeshes.FillInclusive(
+        mesh,
+        min,
+        new Dimensions3D(min, max),
         color
       );
     }
