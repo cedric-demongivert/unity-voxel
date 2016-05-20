@@ -31,10 +31,14 @@ public class Emetteur : MonoBehaviour {
                 {
                     targetInZone = false;
                     target = null;
+                    Debug.Log("Range =" + range);
+                    Debug.Log("Distance:" + Vector3.Distance(transform.position, target.transform.position));
+                    Debug.LogError("No target");
                 }
                 else
                 {
-
+                    Debug.Log("FIRE");
+                    Debug.Log("Range =" + range);
                     Debug.LogError("Distance:" + Vector3.Distance(transform.position, target.transform.position));
 
                     GameObject emittedObj = (GameObject)Create();
@@ -59,6 +63,7 @@ public class Emetteur : MonoBehaviour {
     {
         target = col.gameObject;
         targetInZone = true;
+        Debug.LogError("Collision");
     }
 
 }
