@@ -152,12 +152,22 @@ namespace org.rnp.voxel.translator.cubic
     /// <param name="color"></param>
     private void TranslateUp(int x, int y, int z, Color32 color)
     {
-      this.TranslateFace(new Vector3[] {
-        new Vector3(x + 0, y + 1, z + 1),
-        new Vector3(x + 1, y + 1, z + 1),
-        new Vector3(x + 1, y + 1, z + 0),
-        new Vector3(x + 0, y + 1, z + 0)
-      }, color);
+      this.TranslateFace(
+        new Vector3[] {
+          new Vector3(x + 0, y + 1, z + 1),
+          new Vector3(x + 1, y + 1, z + 1),
+          new Vector3(x + 1, y + 1, z + 0),
+          new Vector3(x + 0, y + 1, z + 0)
+        }, 
+        color,
+        new Vector2[]
+        {
+          new Vector2(x + 0f + this.MeshToTranslate.Start.X, z + 1f + this.MeshToTranslate.Start.Z),
+          new Vector2(x + 1f + this.MeshToTranslate.Start.X, z + 1f + this.MeshToTranslate.Start.Z),
+          new Vector2(x + 1f + this.MeshToTranslate.Start.X, z + 0f + this.MeshToTranslate.Start.Z),
+          new Vector2(x + 0f + this.MeshToTranslate.Start.X, z + 0f + this.MeshToTranslate.Start.Z)
+        }
+      );
     }
 
     /// <summary>
@@ -169,12 +179,22 @@ namespace org.rnp.voxel.translator.cubic
     /// <param name="color"></param>
     private void TranslateDown(int x, int y, int z, Color32 color)
     {
-      this.TranslateFace(new Vector3[] {
-        new Vector3(x + 0, y + 0, z + 0),
-        new Vector3(x + 1, y + 0, z + 0),
-        new Vector3(x + 1, y + 0, z + 1),
-        new Vector3(x + 0, y + 0, z + 1)
-      }, color);
+      this.TranslateFace(
+        new Vector3[] {
+          new Vector3(x + 0, y + 0, z + 0),
+          new Vector3(x + 1, y + 0, z + 0),
+          new Vector3(x + 1, y + 0, z + 1),
+          new Vector3(x + 0, y + 0, z + 1)
+        }, 
+        color,
+        new Vector2[]
+        {
+          new Vector2(x + 0f + this.MeshToTranslate.Start.X, z + 0f + this.MeshToTranslate.Start.Z),
+          new Vector2(x + 1f + this.MeshToTranslate.Start.X, z + 0f + this.MeshToTranslate.Start.Z),
+          new Vector2(x + 1f + this.MeshToTranslate.Start.X, z + 1f + this.MeshToTranslate.Start.Z),
+          new Vector2(x + 0f + this.MeshToTranslate.Start.X, z + 1f + this.MeshToTranslate.Start.Z)
+        }
+      );
     }
 
     /// <summary>
@@ -186,12 +206,22 @@ namespace org.rnp.voxel.translator.cubic
     /// <param name="color"></param>
     private void TranslateLeft(int x, int y, int z, Color32 color)
     {
-      this.TranslateFace(new Vector3[] {
-        new Vector3(x + 0, y + 0, z + 1),
-        new Vector3(x + 0, y + 1, z + 1),
-        new Vector3(x + 0, y + 1, z + 0),
-        new Vector3(x + 0, y + 0, z + 0)
-      }, color);
+      this.TranslateFace(
+        new Vector3[] {
+          new Vector3(x + 0, y + 0, z + 1),
+          new Vector3(x + 0, y + 1, z + 1),
+          new Vector3(x + 0, y + 1, z + 0),
+          new Vector3(x + 0, y + 0, z + 0)
+        }, 
+        color, 
+        new Vector2[]
+        {
+          new Vector2(y + 0f + this.MeshToTranslate.Start.Y, z + 1f + this.MeshToTranslate.Start.Z),
+          new Vector2(y + 1f + this.MeshToTranslate.Start.Y, z + 1f + this.MeshToTranslate.Start.Z),
+          new Vector2(y + 1f + this.MeshToTranslate.Start.Y, z + 0f + this.MeshToTranslate.Start.Z),
+          new Vector2(y + 0f + this.MeshToTranslate.Start.Y, z + 0f + this.MeshToTranslate.Start.Z)
+        }
+      );
     }
 
     /// <summary>
@@ -203,12 +233,22 @@ namespace org.rnp.voxel.translator.cubic
     /// <param name="color"></param>
     private void TranslateRight(int x, int y, int z, Color32 color)
     {
-      this.TranslateFace(new Vector3[] {
-        new Vector3(x + 1, y + 0, z + 0),
-        new Vector3(x + 1, y + 1, z + 0),
-        new Vector3(x + 1, y + 1, z + 1),
-        new Vector3(x + 1, y + 0, z + 1)
-      }, color);
+      this.TranslateFace(
+        new Vector3[] {
+          new Vector3(x + 1, y + 0, z + 0),
+          new Vector3(x + 1, y + 1, z + 0),
+          new Vector3(x + 1, y + 1, z + 1),
+          new Vector3(x + 1, y + 0, z + 1)
+        }, 
+        color,
+        new Vector2[]
+        {
+          new Vector2(y + 0f + this.MeshToTranslate.Start.Y, z + 0f + this.MeshToTranslate.Start.Z),
+          new Vector2(y + 1f + this.MeshToTranslate.Start.Y, z + 0f + this.MeshToTranslate.Start.Z),
+          new Vector2(y + 1f + this.MeshToTranslate.Start.Y, z + 1f + this.MeshToTranslate.Start.Z),
+          new Vector2(y + 0f + this.MeshToTranslate.Start.Y, z + 1f + this.MeshToTranslate.Start.Z)
+        }
+      );
     }
 
     /// <summary>
@@ -220,12 +260,22 @@ namespace org.rnp.voxel.translator.cubic
     /// <param name="color"></param>
     private void TranslateBack(int x, int y, int z, Color32 color)
     {
-      this.TranslateFace(new Vector3[] {
-        new Vector3(x + 0, y + 0, z + 0),
-        new Vector3(x + 0, y + 1, z + 0),
-        new Vector3(x + 1, y + 1, z + 0),
-        new Vector3(x + 1, y + 0, z + 0)
-      }, color);
+      this.TranslateFace(
+        new Vector3[] {
+          new Vector3(x + 0, y + 0, z + 0),
+          new Vector3(x + 0, y + 1, z + 0),
+          new Vector3(x + 1, y + 1, z + 0),
+          new Vector3(x + 1, y + 0, z + 0)
+        }, 
+        color,
+        new Vector2[]
+        {
+          new Vector2(x + 0f + this.MeshToTranslate.Start.X, y + 0f + this.MeshToTranslate.Start.Y),
+          new Vector2(x + 0f + this.MeshToTranslate.Start.X, y + 1f + this.MeshToTranslate.Start.Y),
+          new Vector2(x + 1f + this.MeshToTranslate.Start.X, y + 1f + this.MeshToTranslate.Start.Y),
+          new Vector2(x + 1f + this.MeshToTranslate.Start.X, y + 0f + this.MeshToTranslate.Start.Y)
+        }
+      );
     }
 
     /// <summary>
@@ -237,12 +287,22 @@ namespace org.rnp.voxel.translator.cubic
     /// <param name="color"></param>
     private void TranslateFront(int x, int y, int z, Color32 color)
     {
-      this.TranslateFace(new Vector3[] {
-        new Vector3(x + 1, y + 0, z + 1),
-        new Vector3(x + 1, y + 1, z + 1),
-        new Vector3(x + 0, y + 1, z + 1),
-        new Vector3(x + 0, y + 0, z + 1)
-      }, color);
+      this.TranslateFace(
+        new Vector3[] {
+          new Vector3(x + 1, y + 0, z + 1),
+          new Vector3(x + 1, y + 1, z + 1),
+          new Vector3(x + 0, y + 1, z + 1),
+          new Vector3(x + 0, y + 0, z + 1)
+        }, 
+        color,
+        new Vector2[]
+        {
+          new Vector2(x + 1f + this.MeshToTranslate.Start.X, y + 0f + this.MeshToTranslate.Start.Y),
+          new Vector2(x + 1f + this.MeshToTranslate.Start.X, y + 1f + this.MeshToTranslate.Start.Y),
+          new Vector2(x + 0f + this.MeshToTranslate.Start.X, y + 1f + this.MeshToTranslate.Start.Y),
+          new Vector2(x + 0f + this.MeshToTranslate.Start.X, y + 0f + this.MeshToTranslate.Start.Y)
+        }
+      );
     }
 
     /// <summary>
@@ -250,23 +310,15 @@ namespace org.rnp.voxel.translator.cubic
     /// </summary>
     /// <param name="vertices"></param>
     /// <param name="color"></param>
-    private void TranslateFace(Vector3[] vertices, Color32 color)
+    private void TranslateFace(Vector3[] vertices, Color32 color, Vector2[] uv)
     {
       int indexBase = this._meshVertices.Count;
       
-      /*for(int i = 0; i < vertices.Length; ++i)
-      {
-        vertices[i] = this.gameObject.transform.TransformPoint(vertices[i]);
-      }*/
-
       this._meshVertices.AddRange(vertices);
+      this._meshUV.AddRange(uv);
 
       this._meshVerticesColor.AddRange(new Color32[] { 
         color, color, color, color 
-      });
-
-      this._meshUV.AddRange(new Vector2[] {
-        Vector2.zero, Vector2.zero, Vector2.zero, Vector2.zero
       });
 
       this._meshTriangles.AddRange(new int[] {

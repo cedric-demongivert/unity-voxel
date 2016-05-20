@@ -30,6 +30,34 @@ namespace org.rnp.voxel.mesh
     }
 
     /// <summary>
+    ///   Delete a chunck at a specific location.
+    /// </summary>
+    /// <param name="x"></param>
+    /// <param name="y"></param>
+    /// <param name="z"></param>
+    public abstract void RemoveChunckAt(int x, int y, int z);
+
+    /// <summary>
+    ///   Delete a chunck at a specific location.
+    /// </summary>
+    /// <param name="location"></param>
+    public abstract void RemoveChunckAt(VoxelLocation location);
+
+    /// <summary>
+    ///   Delete a chunck (chunck location).
+    /// </summary>
+    /// <param name="x"></param>
+    /// <param name="y"></param>
+    /// <param name="z"></param>
+    public abstract void RemoveChunck(int x, int y, int z);
+
+    /// <summary>
+    ///   Delete a chunck (chunck location).
+    /// </summary>
+    /// <param name="location"></param>
+    public abstract void RemoveChunck(VoxelLocation location);
+
+    /// <summary>
     ///   Return a chunck of the mesh.
     ///   
     ///   This methods use chunck's coordinates, in other words if you

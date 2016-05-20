@@ -198,7 +198,7 @@ namespace org.rnp.voxel.mesh
     }
 
     /// <summary>
-    ///   Get the chunck that contains the specified location.
+    ///   Remove a chunck at a specific location.
     /// </summary>
     /// <param name="x"></param>
     /// <param name="y"></param>
@@ -207,37 +207,57 @@ namespace org.rnp.voxel.mesh
     private void DeleteChunckAt(int x, int y, int z)
     {
       VoxelLocation chunckLocation = this.ToChunckLocation(x, y, z);
+      this.DeleteChunck(chunckLocation);
+    }
 
-      this._chunks.Remove(chunckLocation);
-
-      VoxelLocation max = new VoxelLocation(chunckLocation);
-      VoxelLocation min = new VoxelLocation(chunckLocation);
-      max.Add(1, 1, 1).Mul(this._chunckDimensions);
-      min.Mul(this._chunckDimensions);
-
-      if(min.AnyEquals(this._min) || max.AnyEquals(this._max))
+    /// <summary>
+    ///   Remove a chunck with a chunck location.
+    /// </summary>
+    /// <param name="chunckLocation"></param>
+    private void DeleteChunck(VoxelLocation chunckLocation)
+    {
+      if (this._chunks.ContainsKey(chunckLocation))
       {
-        this.EvaluateSize();
+        VoxelMesh removed = this._chunks[chunckLocation];
+        this._chunks.Remove(chunckLocation);
+        removed.Destroy();
+
+        VoxelLocation max = new VoxelLocation(chunckLocation);
+        VoxelLocation min = new VoxelLocation(chunckLocation);
+        max.Add(1, 1, 1).Mul(this._chunckDimensions);
+        min.Mul(this._chunckDimensions);
+
+        if (min.AnyEquals(this._min) || max.AnyEquals(this._max))
+        {
+          this.EvaluateSize();
+        }
       }
     }
 
     /// <summary>
-    ///   Create a chunck at a specified location.
+    ///   Create (or return) a chunck at a specified location.
     /// </summary>
     /// <param name="chunckLocation"></param>
     /// <returns></returns>
     private VoxelMesh CreateChunck(VoxelLocation chunckLocation)
     {
-      VoxelMesh chunckContainer = this._chunkFactory(this._chunckDimensions);
-      ChunckVoxelMesh chunck = new ChunckVoxelMesh(this, chunckLocation, chunckContainer);
-      this._chunks[chunckLocation] = chunck;
+      if (!this._chunks.ContainsKey(chunckLocation))
+      {
+        VoxelMesh chunckContainer = this._chunkFactory(this._chunckDimensions);
+        ChunckVoxelMesh chunck = new ChunckVoxelMesh(this, chunckLocation, chunckContainer);
+        this._chunks[chunckLocation] = chunck;
 
-      VoxelLocation max = new VoxelLocation(chunckLocation).Add(1, 1, 1).Mul(this._chunckDimensions);
-      VoxelLocation min = new VoxelLocation(chunckLocation).Mul(this._chunckDimensions);
-      this._min = this._min.SetIfMin(min);
-      this._max = this._max.SetIfMax(max);
+        VoxelLocation max = new VoxelLocation(chunckLocation).Add(1, 1, 1).Mul(this._chunckDimensions);
+        VoxelLocation min = new VoxelLocation(chunckLocation).Mul(this._chunckDimensions);
+        this._min = this._min.SetIfMin(min);
+        this._max = this._max.SetIfMax(max);
 
-      return chunck;
+        return chunck;
+      }
+      else
+      {
+        return this._chunks[chunckLocation];
+      }
     }
 
     /// <summary>
@@ -285,6 +305,30 @@ namespace org.rnp.voxel.mesh
     public override ChunckVoxelMesh GetChunckAt(int x, int y, int z)
     {
       return this.GetChunckAt(new VoxelLocation(x, y, z));
+    }
+
+    /// <see cref="org.rnp.voxel.mesh.ChunckedVoxelMesh"/>
+    public override void RemoveChunckAt(int x, int y, int z)
+    {
+      this.DeleteChunckAt(x, y, z);
+    }
+
+    /// <see cref="org.rnp.voxel.mesh.ChunckedVoxelMesh"/>
+    public override void RemoveChunckAt(VoxelLocation location)
+    {
+      this.DeleteChunckAt(location.X, location.Y, location.Z);
+    }
+
+    /// <see cref="org.rnp.voxel.mesh.ChunckedVoxelMesh"/>
+    public override void RemoveChunck(int x, int y, int z)
+    {
+      this.DeleteChunck(new VoxelLocation(x, y, z));
+    }
+
+    /// <see cref="org.rnp.voxel.mesh.ChunckedVoxelMesh"/>
+    public override void RemoveChunck(VoxelLocation location)
+    {
+      this.DeleteChunck(location);
     }
 
     /// <see cref="org.rnp.voxel.mesh.ChunckedVoxelMesh"/>
@@ -380,6 +424,19 @@ namespace org.rnp.voxel.mesh
     {
       this._chunks.Clear();
       this.MarkDirty();
+    }
+
+    /// <summary>
+    ///   Clean the voxel mesh.
+    /// </summary>
+    public override void Destroy()
+    {
+      foreach(VoxelLocation location in new List<VoxelLocation>(this._chunks.Keys))
+      {
+        this.DeleteChunck(location);
+      }
+
+      base.Destroy();
     }
 
     /// <see cref="org.rnp.voxel.mesh.VoxelMesh"/>

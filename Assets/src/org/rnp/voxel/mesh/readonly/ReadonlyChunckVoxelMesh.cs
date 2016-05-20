@@ -96,6 +96,30 @@ namespace org.rnp.voxel.mesh
     {
       return this;
     }
+    
+    /// <see cref="org.rnp.voxel.mesh.ChunckedVoxelMesh"/>
+    public override void RemoveChunckAt(int x, int y, int z)
+    {
+      throw new UnmodifiableVoxelMeshException(this);
+    }
+
+    /// <see cref="org.rnp.voxel.mesh.ChunckedVoxelMesh"/>
+    public override void RemoveChunckAt(VoxelLocation location)
+    {
+      throw new UnmodifiableVoxelMeshException(this);
+    }
+
+    /// <see cref="org.rnp.voxel.mesh.ChunckedVoxelMesh"/>
+    public override void RemoveChunck(int x, int y, int z)
+    {
+      throw new UnmodifiableVoxelMeshException(this);
+    }
+
+    /// <see cref="org.rnp.voxel.mesh.ChunckedVoxelMesh"/>
+    public override void RemoveChunck(VoxelLocation location)
+    {
+      throw new UnmodifiableVoxelMeshException(this);
+    }
 
     /// <see cref="org.rnp.voxel.mesh.map.ChunckVoxelMesh"/>
     public override ChunckVoxelMesh GetChunck(int x, int y, int z)

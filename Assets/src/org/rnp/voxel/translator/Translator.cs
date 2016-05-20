@@ -20,6 +20,11 @@ namespace org.rnp.voxel.translator
     ///   The computed mesh.
     /// </summary>
     private VoxelMesh _meshToTranslate;
+
+    /// <summary>
+    ///   The entire mesh, can be equals to _meshToTranslate
+    /// </summary>
+    private VoxelMesh _worldMesh;
         
     /// <summary>
     ///   The computed part of the mesh.
@@ -28,6 +33,17 @@ namespace org.rnp.voxel.translator
     {
       get {
         return _meshToTranslate;
+      }
+    }
+
+    /// <summary>
+    ///   The entire mesh, can be equals to MeshToTranslate
+    /// </summary>
+    public VoxelMesh WorldMesh
+    {
+      get
+      {
+        return _worldMesh;
       }
     }
     
@@ -58,8 +74,13 @@ namespace org.rnp.voxel.translator
     ///   A translator can be initialized only one time.
     /// </summary>
     /// <param name="meshToTranslate"></param>
-    public void Initialize(VoxelMesh meshToTranslate)
+    public void Initialize(VoxelMesh meshToTranslate, VoxelMesh worldMesh = null)
     {
+      if(worldMesh == null)
+      {
+        worldMesh = meshToTranslate;
+      }
+
       if(_initialized)
       {
         throw new InvalidOperationException("Translator has already been initialized.");
@@ -69,6 +90,7 @@ namespace org.rnp.voxel.translator
         _initialized = true;
 
         this._meshToTranslate = meshToTranslate;
+        this._worldMesh = worldMesh;
         this._meshToTranslate.RegisterCommitListener(this);
       }
     }
@@ -80,6 +102,14 @@ namespace org.rnp.voxel.translator
       {
         this._meshToTranslate.UnregisterCommitListener(this);
       }
+    }
+
+    /// <summary>
+    ///   Force a translation.
+    /// </summary>
+    public void ForceTranslation()
+    {
+      this.DoTranslation();
     }
     
     /// <summary>

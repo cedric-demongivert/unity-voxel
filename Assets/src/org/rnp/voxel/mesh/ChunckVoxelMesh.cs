@@ -174,6 +174,15 @@ namespace org.rnp.voxel.mesh
       return Voxels.IsEmpty(this[location]);
     }
 
+    /// <summary>
+    ///   Clean the voxel mesh.
+    /// </summary>
+    public override void Destroy()
+    {
+      this._parentMesh.RemoveChunck(this._location);
+      base.Destroy();
+    }
+
     /// <see cref="org.rnp.voxel.mesh.VoxelMesh"/>
     public override VoxelMesh Copy()
     {

@@ -218,6 +218,30 @@ namespace org.rnp.voxel.mesh
       return new SphereVoxelMesh(this);
     }
 
+    /// <see cref="org.rnp.voxel.mesh.ChunckedVoxelMesh"/>
+    public override void RemoveChunckAt(int x, int y, int z)
+    {
+      throw new UnmodifiableVoxelMeshException(this, "A sphere voxel mesh can't be directly modified.");
+    }
+
+    /// <see cref="org.rnp.voxel.mesh.ChunckedVoxelMesh"/>
+    public override void RemoveChunckAt(VoxelLocation location)
+    {
+      throw new UnmodifiableVoxelMeshException(this, "A sphere voxel mesh can't be directly modified.");
+    }
+
+    /// <see cref="org.rnp.voxel.mesh.ChunckedVoxelMesh"/>
+    public override void RemoveChunck(int x, int y, int z)
+    {
+      throw new UnmodifiableVoxelMeshException(this, "A sphere voxel mesh can't be directly modified.");
+    }
+
+    /// <see cref="org.rnp.voxel.mesh.ChunckedVoxelMesh"/>
+    public override void RemoveChunck(VoxelLocation location)
+    {
+      throw new UnmodifiableVoxelMeshException(this, "A sphere voxel mesh can't be directly modified.");
+    }
+
     /// <see cref="org.rnp.voxel.mesh.VoxelMesh"></see>
     public override void Set(int x, int y, int z, Color32 value)
     {

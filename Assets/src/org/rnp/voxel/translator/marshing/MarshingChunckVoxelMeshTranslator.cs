@@ -65,7 +65,7 @@ namespace org.rnp.voxel.translator.cubic
           VoxelLocation worldLocation = location.Mul(this._map.ChunckDimensions);
                     
           Translator genered = Translators.Instance().Generate(
-            "Marshing", this._map.GetChunck(location)
+            "Marshing", this._map.GetChunck(location), this._map
           );
 
           genered.transform.SetParent(this.transform);
@@ -81,14 +81,42 @@ namespace org.rnp.voxel.translator.cubic
     /// </summary>
     private void CheckForDelete()
     { 
-      foreach(VoxelLocation location in new HashSet<VoxelLocation>(this._chuncks.Keys))
+      List<VoxelLocation> removed = new List<VoxelLocation>();
+      foreach (VoxelLocation location in new HashSet<VoxelLocation>(this._chuncks.Keys))
       {
         Translator translator = this._chuncks[location];
 
-        if(translator.DestroyOnCommit)
+        if (translator.DestroyOnCommit)
         {
           this._chuncks.Remove(location);
           Destroy(translator.gameObject);
+          removed.Add(location);
+        }
+      }
+
+      foreach (VoxelLocation location in removed)
+      {
+        this.UpdateNeighboors(location);
+      }
+    }
+
+    private void UpdateNeighboors(VoxelLocation location)
+    {
+      foreach (int i in new int[] { -1, 1 })
+      {
+        if (this._chuncks.ContainsKey(location.Add(i, 0, 0)))
+        {
+          this._chuncks[location.Add(i, 0, 0)].ForceTranslation();
+        }
+
+        if (this._chuncks.ContainsKey(location.Add(0, i, 0)))
+        {
+          this._chuncks[location.Add(0, i, 0)].ForceTranslation();
+        }
+
+        if (this._chuncks.ContainsKey(location.Add(0, 0, i)))
+        {
+          this._chuncks[location.Add(0, 0, i)].ForceTranslation();
         }
       }
     }

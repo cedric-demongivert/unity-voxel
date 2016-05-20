@@ -107,16 +107,15 @@ namespace org.rnp.voxel.translator
         }
       }
     }
-    
+
     /// <summary>
     ///   Instanciate a translator for a voxel mesh.
     /// </summary>
     /// <param name="style"></param>
-    /// <param name="globalMesh"></param>
-    /// <param name="localMesh"></param>
-    /// <param name="worldLocation"></param>
+    /// <param name="meshToTranslate"></param>
+    /// <param name="worldMesh"></param>
     /// <returns></returns>
-    public Translator Generate(string style, VoxelMesh meshToTranslate)
+    public Translator Generate(string style, VoxelMesh meshToTranslate, VoxelMesh worldMesh = null)
     {
       if (!this.ExistStyle(style))
       {
@@ -134,7 +133,7 @@ namespace org.rnp.voxel.translator
       result.AddComponent(translator);
 
       Translator componentTranslator = result.GetComponent<Translator>();
-      componentTranslator.Initialize(meshToTranslate);
+      componentTranslator.Initialize(meshToTranslate, worldMesh);
 
       return componentTranslator;
     }

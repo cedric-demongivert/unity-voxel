@@ -13,13 +13,11 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Full v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile>
-    </CompilerResponseFile>
+    <CompilerResponseFile></CompilerResponseFile>
     <UnityProjectType>Editor:5</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows:5</UnityBuildTarget>
     <UnityVersion>5.3.4f1</UnityVersion>
-    <RootNamespace>
-    </RootNamespace>
+    <RootNamespace></RootNamespace>
     <LangVersion Condition=" '$(VisualStudioVersion)' != '10.0' ">4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -107,14 +105,16 @@
     <Compile Include="Assets\Editor\src\org\rnp\gui\menubar\MenuItemEditor.cs" />
     <Compile Include="Assets\Editor\src\org\rnp\gui\menubar\SubMenuEditor.cs" />
     <Compile Include="Assets\Editor\src\org\rnp\gui\window\WindowEditor.cs" />
+    <Compile Include="Assets\Editor\src\org\rnp\voxel\FileVoxelMeshEditor.cs" />
     <Compile Include="Assets\Editor\src\org\rnp\voxel\painter\PainterEditor.cs" />
     <Compile Include="Assets\Editor\src\org\rnp\voxel\translator\VoxelFilterEditor.cs" />
-    <Compile Include="Assets\Editor\src\org\rnp\voxel\FileVoxelMeshEditor.cs" />
     <Compile Include="Assets\shaders\UnityVC\Editor\StandardShaderVCGUI.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\shaders\GridShader.shader" />
     <None Include="Assets\shaders\ToonishWater.shader" />
+    <None Include="Assets\shaders\ToonishWaterV2.shader" />
+    <None Include="Assets\shaders\UVDebug.shader" />
     <None Include="Assets\shaders\UnityVC\StandardSpecularVC.shader" />
     <None Include="Assets\shaders\UnityVC\StandardVC.shader" />
     <None Include="Assets\shaders\UnityVC\UnityVC.cginc" />
