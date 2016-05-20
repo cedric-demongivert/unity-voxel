@@ -143,8 +143,8 @@ namespace org.rnp.voxel.painter
       var path = EditorUtility.SaveFilePanel(
               "Save Mesh",
               "",
-              "Mesh" + ".vxl",
-              "vxl");
+              "Mesh" + ".bytes",
+              "bytes");
 
 
       //Save Mesh to file
@@ -153,7 +153,7 @@ namespace org.rnp.voxel.painter
 
     public void OpenMesh()
     {
-      var file = EditorUtility.OpenFilePanel("", "", "vxl");
+      var file = EditorUtility.OpenFilePanel("", "", "bytes");
 
       VoxelMesh vm= VoxelFile.Load(file);
       if(vm != null)
