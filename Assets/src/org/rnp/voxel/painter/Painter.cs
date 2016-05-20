@@ -94,6 +94,12 @@ namespace org.rnp.voxel.painter
       }
     }
 
+    public void NewMesh()
+    {
+      this.PaintedMesh = new MapVoxelMesh(new Dimensions3D(8, 8, 8));
+      this.Palette.Clear();
+    }
+
     public void MoveTool(int start, int end)
     {
       PainterTool item = this._tools[start];
