@@ -16,7 +16,7 @@ namespace org.rnp.voxel
   public abstract class VoxelMeshContainer : MonoBehaviour
   {
     /// <summary>
-    ///   
+    ///   Return the voxel mesh hold by the container.
     /// </summary>
     public abstract VoxelMesh Mesh
     {
