@@ -17,9 +17,18 @@ public class Emetteur : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+
         InvokeRepeating("Create", spawnDelay, spawnTime);
-        //col= GetComponent<SphereCollider>();
-        //col.radius = range;
+
+
+        col= GetComponent<SphereCollider>();
+        if(onCollision)
+            col.radius = range; 
+        else
+            col.enabled = false;
+        
+
+
     }
 
     // Update is called once per frame
@@ -28,43 +37,38 @@ public class Emetteur : MonoBehaviour {
         {
             if (onCollision && targetInZone)
             {
-                if (target == null || Vector3.Distance(transform.position, target.transform.position) > range)
+
+                if(target == null)
                 {
                     targetInZone = false;
                     target = null;
-                    Debug.Log("Range =" + range);
-                    Debug.Log("Distance:" + Vector3.Distance(transform.position, target.transform.position));
-                    Debug.LogError("No target");
                 }
-                else
+                else if(Vector3.Distance(transform.position, target.transform.position) < range)
                 {
-                    Debug.Log("FIRE");
-                    Debug.Log("Range =" + range);
-                    Debug.LogError("Distance:" + Vector3.Distance(transform.position, target.transform.position));
-
                     GameObject emittedObj = (GameObject)Create();
                     Emitted emitted = emittedObj.GetComponent<Emitted>();
                     emitted.Aim(target);
                     spawnTime = 0;
-
                 }
-                    
 
             }
         }
         else spawnTime++;
 	}
 
+    void OnCollisionEnter(Collision col)
+    {
+        target = col.gameObject;
+        if (target == null) Debug.Log(System.DateTime.Now + "   NULLLLLLLLLLLLL");
+        targetInZone = true;
+        Debug.Log(System.DateTime.Now + "   Collision");
+    }
+
     public Object Create()
     {
         return Instantiate(TemplateToEmit, transform.position, transform.rotation);
     }
 
-    void OnCollisionEnter(Collision col)
-    {
-        target = col.gameObject;
-        targetInZone = true;
-        Debug.LogError("Collision");
-    }
+    
 
 }
