@@ -9,16 +9,17 @@ public class Emetteur : MonoBehaviour {
     public float range;
 
 
-    private int spawnTime = 0;
+    private int spawnTime = 5;
     private bool targetInZone = false;
     private GameObject target;
     SphereCollider col;
 
+
     // Use this for initialization
     void Start () {
-        //InvokeRepeating("Create", spawnDelay, spawnTime);
-        col= GetComponent<SphereCollider>();
-        col.radius = range;
+        InvokeRepeating("Create", spawnDelay, spawnTime);
+        //col= GetComponent<SphereCollider>();
+        //col.radius = range;
     }
 
     // Update is called once per frame
