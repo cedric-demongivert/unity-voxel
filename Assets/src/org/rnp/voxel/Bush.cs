@@ -22,7 +22,7 @@ namespace org.rnp.voxel
 
     public Color32 TrunckColor = new Color32(108, 40, 26, 0);
     public Color32 LeafMainColor = new Color32(38, 154, 81, 0);
-    public Color32 LeafSecondaryColor = new Color32(38, 154, 81, 0);
+    public Color32 LeafSecondaryColor = new Color32(14, 103, 62, 0);
 
     public int Levels = 1;
 
