@@ -4,14 +4,18 @@ using System.Collections;
 public class MoveEnnemy : MonoBehaviour {
 
     private GameObject[] waypoints;
-    public GameObject road;
+    private GameObject road;
     private int currentWaypoint = 0;
     private float lastWaypointSwitchTime;
     public float speed = 1.0f;
 
+    private bool initialized = false;
 
-	// Use this for initialization
-	void Start () {
+
+    public void Init(GameObject Path)
+    {
+        road = Path;
+
         // Initialize to the current time
 
         lastWaypointSwitchTime = Time.time;
@@ -27,39 +31,48 @@ public class MoveEnnemy : MonoBehaviour {
         Debug.Log("wp size: " + waypoints.Length);
 
         currentWaypoint = 0;
+        initialized = true;
+    }
+
+	// Use this for initialization
+	void Start () {
+
     }
 	
 	// Update is called once per frame
 	void Update () {
 
-        // Gets the start and end position for the path
-        Vector3 startPosition = waypoints[currentWaypoint].transform.position;
-        Vector3 endPosition = waypoints[currentWaypoint + 1].transform.position;
-
-
-        // 
-        float pathLength = Vector3.Distance(startPosition, endPosition);
-        float totalTimeForPath = pathLength / speed;
-        float currentTimeOnPath = Time.time - lastWaypointSwitchTime;
-        gameObject.transform.position = Vector3.Lerp(startPosition, endPosition, currentTimeOnPath / totalTimeForPath);
-        // 3 
-        if (gameObject.transform.position.Equals(endPosition))
+        if (initialized)
         {
-            if (currentWaypoint < waypoints.Length - 2)
+
+            // Gets the start and end position for the path
+            Vector3 startPosition = waypoints[currentWaypoint].transform.position;
+            Vector3 endPosition = waypoints[currentWaypoint + 1].transform.position;
+
+
+            // 
+            float pathLength = Vector3.Distance(startPosition, endPosition);
+            float totalTimeForPath = pathLength / speed;
+            float currentTimeOnPath = Time.time - lastWaypointSwitchTime;
+            gameObject.transform.position = Vector3.Lerp(startPosition, endPosition, currentTimeOnPath / totalTimeForPath);
+            // 3 
+            if (gameObject.transform.position.Equals(endPosition))
             {
-                // 3.a 
-                currentWaypoint++;
-                lastWaypointSwitchTime = Time.time;
-                // TODO: Rotate into move direction
-            }
-            else
-            {
-                // 3.b 
-                Destroy(gameObject);
-                // TODO: deduct health
+                if (currentWaypoint < waypoints.Length - 2)
+                {
+                    // 3.a 
+                    currentWaypoint++;
+                    lastWaypointSwitchTime = Time.time;
+                    // TODO: Rotate into move direction
+                }
+                else
+                {
+                    // 3.b 
+                    Destroy(gameObject);
+                    // TODO: deduct health
+                }
             }
         }
-
 
 
     }

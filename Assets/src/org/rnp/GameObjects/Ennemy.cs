@@ -18,6 +18,8 @@ public class Ennemy : Emitted {
         speed = 0.1f;
         attack_speed = 1;
         range = 10;
+
+        transform.Rotate(0, 90, 0);
 	}
 	
 	// Update is called once per frame
@@ -38,5 +40,10 @@ public class Ennemy : Emitted {
     void Die ()
     {
         if (HP <= 0) gameObject.SetActive(false);
+    }
+
+    public GameObject GetPath()
+    {
+        return this.target;
     }
 }
