@@ -1,3 +1,7 @@
 /Temp
 /Temp/**
 *.meta
+Assets/shaders/Materials/defaultMat.mat
+*.csproj
+*.cache
+*.suo

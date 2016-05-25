@@ -33,13 +33,13 @@ public class Ennemy : Emitted {
     void TakeDamage(int damage)
     {
         HP -= damage;
-        Die();
+        Kill();
     }
 
     // Ennemy Die
-    void Die ()
+    private void Kill()
     {
-        if (HP <= 0) gameObject.SetActive(false);
+        Destroy(gameObject);
     }
 
     public GameObject GetPath()
