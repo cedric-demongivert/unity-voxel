@@ -5,7 +5,6 @@ using System;
 public class CompMissile : Comportement {
 
     public int spawnDelay;
-    public bool onCollision;
     public float range;
 
 
@@ -17,10 +16,8 @@ public class CompMissile : Comportement {
     // Use this for initialization
     void Start () {
         col = GetComponent<SphereCollider>();
-        if (onCollision)
-            col.radius = range;
-        else
-            col.enabled = false;
+        col.radius = range;
+
     }
 	
 	// Update is called once per frame
@@ -42,7 +39,7 @@ public class CompMissile : Comportement {
     {
         if (spawnTime > spawnDelay)
         {
-            if (onCollision && targetInZone)
+            if (targetInZone)
             {
 
                 if (target == null)

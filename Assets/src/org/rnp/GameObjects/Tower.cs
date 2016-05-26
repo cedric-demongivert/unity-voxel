@@ -6,10 +6,7 @@ public class Tower : MonoBehaviour {
 
 
     #region Attributes
-    private int HP_init, HP;
-    private int level;
-    private int cost;
-    public Emetteur emet;
+    public Emetteur emetteur;
     GameObject go;
     #endregion
 
@@ -20,23 +17,13 @@ public class Tower : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        #region Init Character
-        HP_init = 100; HP= HP_init;
-        level = 1;
-        cost = 1;
-        #endregion
-
-
+        #region Init
         go = this.GetComponent<GameObject>();
-
-        
+        #endregion
     }
 	
 	// Update is called once per frame
 	void Update () {
-        
-
-
     }
 
 
@@ -47,14 +34,6 @@ public class Tower : MonoBehaviour {
     {
         Destroy(gameObject);
     }
-
-    public void TakeDamage(int damage)
-    {
-        HP -= damage;
-        if (HP <= 0)
-            this.Die();
-    }
-
 
 
     #endregion
