@@ -21,14 +21,14 @@ public class MoveEnnemy : MonoBehaviour {
         lastWaypointSwitchTime = Time.time;
         Transform parent = road.transform;
         int children = parent.childCount;
-        Debug.Log("ChildCount : " + children);
+        //Debug.Log("ChildCount : " + children);
         waypoints = new GameObject[children];
         for (int i = 0; i < children; i++)
         {
             waypoints[i] = parent.GetChild(i).gameObject;
         }
 
-        Debug.Log("wp size: " + waypoints.Length);
+        //Debug.Log("wp size: " + waypoints.Length);
 
         currentWaypoint = 0;
         initialized = true;

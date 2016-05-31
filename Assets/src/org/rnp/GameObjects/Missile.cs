@@ -4,9 +4,12 @@ using org.rnp.voxel.utils;
 
 public class Missile : Emitted {
 
+    public int damagePoints;
+
 
     private VoxelLocation posDepart;
     private float speed = 1f;
+
 
 
 	// Use this for initialization
@@ -38,6 +41,12 @@ public class Missile : Emitted {
 
     void OnCollisionEnter(Collision col)
     {
+        if (col.gameObject.tag == "enemy")
+        {
+            Life enemyLife = col.gameObject.GetComponent<Life>();
+            if (enemyLife != null)
+                enemyLife.takeDamage(damagePoints);
+        }
         Kill();
     }
 

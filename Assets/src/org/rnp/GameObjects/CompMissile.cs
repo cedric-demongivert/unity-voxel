@@ -11,12 +11,12 @@ public class CompMissile : Comportement {
     private int spawnTime = 0;
     private bool targetInZone = false;
     private GameObject target;
-    SphereCollider col;
+    SphereCollider myCol;
 
     // Use this for initialization
     void Start () {
-        col = GetComponent<SphereCollider>();
-        col.radius = range;
+        myCol = GetComponent<SphereCollider>();
+        myCol.radius = range;
 
     }
 	

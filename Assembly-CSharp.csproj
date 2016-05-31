@@ -45,19 +45,47 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Emetteur.cs" />
-     <Compile Include="Assets\Water.cs" />
+     <Compile Include="Assets\Move.cs" />
+     <Compile Include="Assets\Tree.cs" />
+     <Compile Include="Assets\src\org\rnp\GameObjects\CompEnemy.cs" />
+     <Compile Include="Assets\src\org\rnp\GameObjects\CompMissile.cs" />
+     <Compile Include="Assets\src\org\rnp\GameObjects\Comportement.cs" />
+     <Compile Include="Assets\src\org\rnp\GameObjects\Emetteur.cs" />
+     <Compile Include="Assets\src\org\rnp\GameObjects\Emitted.cs" />
+     <Compile Include="Assets\src\org\rnp\GameObjects\Ennemy.cs" />
+     <Compile Include="Assets\src\org\rnp\GameObjects\Game.cs" />
+     <Compile Include="Assets\src\org\rnp\GameObjects\Life.cs" />
+     <Compile Include="Assets\src\org\rnp\GameObjects\Missile.cs" />
+     <Compile Include="Assets\src\org\rnp\GameObjects\MoveEnnemy.cs" />
+     <Compile Include="Assets\src\org\rnp\GameObjects\Player.cs" />
+     <Compile Include="Assets\src\org\rnp\GameObjects\Tower.cs" />
+     <Compile Include="Assets\src\org\rnp\gui\SelectableTrigger.cs" />
+     <Compile Include="Assets\src\org\rnp\gui\colorPalette\ColorPalette.cs" />
+     <Compile Include="Assets\src\org\rnp\gui\colorPalette\ColorPaletteItem.cs" />
+     <Compile Include="Assets\src\org\rnp\gui\colorPalette\PainterColorPalette.cs" />
+     <Compile Include="Assets\src\org\rnp\gui\colorPalette\PainterColorPaletteItem.cs" />
+     <Compile Include="Assets\src\org\rnp\gui\colorPicker\ColorPicker.cs" />
+     <Compile Include="Assets\src\org\rnp\gui\colorPicker\ColorPickerView.cs" />
+     <Compile Include="Assets\src\org\rnp\gui\colorPicker\GUIColorPicker.cs" />
+     <Compile Include="Assets\src\org\rnp\gui\colorPicker\LineColorPicker.cs" />
+     <Compile Include="Assets\src\org\rnp\gui\colorPicker\SquareColorPicker.cs" />
+     <Compile Include="Assets\src\org\rnp\gui\colorPicker\exception\ColorPickerMissConfigurationException.cs" />
      <Compile Include="Assets\src\org\rnp\gui\menubar\ActionItem.cs" />
-     <Compile Include="Assets\src\org\rnp\gui\menubar\ActionItemEditor.cs" />
      <Compile Include="Assets\src\org\rnp\gui\menubar\MenuBar.cs" />
-     <Compile Include="Assets\src\org\rnp\gui\menubar\MenuBarEditor.cs" />
      <Compile Include="Assets\src\org\rnp\gui\menubar\MenuItem.cs" />
-     <Compile Include="Assets\src\org\rnp\gui\menubar\MenuItemEditor.cs" />
      <Compile Include="Assets\src\org\rnp\gui\menubar\ParentMenuItem.cs" />
-     <Compile Include="Assets\src\org\rnp\gui\menubar\SubMenuEditor.cs" />
      <Compile Include="Assets\src\org\rnp\gui\menubar\SubMenuItem.cs" />
+     <Compile Include="Assets\src\org\rnp\gui\window\Window.cs" />
+     <Compile Include="Assets\src\org\rnp\gui\window\WindowToggleButton.cs" />
+     <Compile Include="Assets\src\org\rnp\voxel\Bush.cs" />
+     <Compile Include="Assets\src\org\rnp\voxel\FileVoxelMesh.cs" />
+     <Compile Include="Assets\src\org\rnp\voxel\RandomMesh.cs" />
+     <Compile Include="Assets\src\org\rnp\voxel\SimpleTerrain.cs" />
+     <Compile Include="Assets\src\org\rnp\voxel\SimpleTree.cs" />
+     <Compile Include="Assets\src\org\rnp\voxel\VoxelMeshContainer.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\mesh\ArrayVoxelMesh.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\mesh\ChunckVoxelMesh.cs" />
+     <Compile Include="Assets\src\org\rnp\voxel\mesh\ChunckedVoxelMesh.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\mesh\MapVoxelMesh.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\mesh\SubMesh.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\mesh\VoxelMesh.cs" />
@@ -67,52 +95,50 @@
      <Compile Include="Assets\src\org\rnp\voxel\mesh\readonly\ReadonlyChunckVoxelMesh.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\mesh\readonly\ReadonlyVoxelMesh.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\mesh\shapes\SphereVoxelMesh.cs" />
-     <Compile Include="Assets\src\org\rnp\voxel\mesh\shapes\SphereVoxelMeshEditor.cs" />
+     <Compile Include="Assets\src\org\rnp\voxel\painter\CameraBookmarks.cs" />
+     <Compile Include="Assets\src\org\rnp\voxel\painter\Cursor.cs" />
+     <Compile Include="Assets\src\org\rnp\voxel\painter\KeyBoardPainterTool.cs" />
+     <Compile Include="Assets\src\org\rnp\voxel\painter\MousePainterTool.cs" />
+     <Compile Include="Assets\src\org\rnp\voxel\painter\Painter.cs" />
+     <Compile Include="Assets\src\org\rnp\voxel\painter\PainterCamera.cs" />
+     <Compile Include="Assets\src\org\rnp\voxel\painter\PainterCameraControl.cs" />
+     <Compile Include="Assets\src\org\rnp\voxel\painter\PainterTool.cs" />
+     <Compile Include="Assets\src\org\rnp\voxel\painter\PipettePainterTool.cs" />
+     <Compile Include="Assets\src\org\rnp\voxel\painter\ReplacePainterTool.cs" />
+     <Compile Include="Assets\src\org\rnp\voxel\physics\VoxelHit.cs" />
+     <Compile Include="Assets\src\org\rnp\voxel\physics\VoxelPhysics.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\translator\ComposedTranslator.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\translator\IVoxelFilterCommitListener.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\translator\Translate.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\translator\Translator.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\translator\Translators.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\translator\VoxelFilter.cs" />
-     <Compile Include="Assets\src\org\rnp\voxel\translator\VoxelFilterEditor.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\translator\VoxelRenderer.cs" />
-     <Compile Include="Assets\src\org\rnp\voxel\translator\cubic\CubicChunckVoxelMeshTranslator.cs" />
+     <Compile Include="Assets\src\org\rnp\voxel\translator\cubic\CubicChunckedVoxelMeshTranslator.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\translator\cubic\CubicVoxelMeshBuilder.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\translator\cubic\CubicVoxelMeshTranslator.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\translator\marshing\MarshingChunckVoxelMeshTranslator.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\translator\marshing\MarshingVoxelMeshBuilder.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\translator\marshing\MarshingVoxelMeshTranslator.cs" />
-     <Compile Include="Assets\src\org\rnp\voxel\unity\gui\ColorPickerView.cs" />
-     <Compile Include="Assets\src\org\rnp\voxel\unity\gui\GUIColorPicker.cs" />
-     <Compile Include="Assets\src\org\rnp\voxel\unity\gui\LineColorPickerTexture.cs" />
-     <Compile Include="Assets\src\org\rnp\voxel\unity\gui\SquareColorPickerTexture.cs" />
-     <Compile Include="Assets\src\org\rnp\voxel\unity\gui\exception\ColorPickerMissConfigurationException.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\utils\Dimensions3D.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\utils\ICopiable.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\utils\VoxelColor.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\utils\VoxelFile.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\utils\VoxelLocation.cs" />
      <Compile Include="Assets\src\org\rnp\voxel\utils\Voxels.cs" />
+     <None Include="Assets\shaders\ToonishWaterV2.shader" />
      <None Include="Assets\shaders\UnityVC\StandardVC.shader" />
      <None Include="Assets\shaders\UnityVC\StandardSpecularVC.shader" />
-     <None Include="Assets\src\org\rnp\Shaders\NewSurfaceShader.shader" />
+     <None Include="Assets\shaders\ToonishWater.shader" />
      <None Include="Assets\shaders\UnityVC\UnityVC.cginc" />
+     <None Include="Assets\shaders\UVDebug.shader" />
      <None Include="Assets\shaders\GridShader.shader" />
- <Reference Include="UnityEngine.Advertisements">
- <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/Advertisements/UnityEngine.Advertisements.dll</HintPath>
- </Reference>
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.Networking">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
  </Reference>
-<<<<<<< HEAD
- <Reference Include="UnityEngine.Analytics">
- <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/UnityAnalytics/UnityEngine.Analytics.dll</HintPath>
- </Reference>
-=======
->>>>>>> simulation-fluides
  <Reference Include="Mono.Cecil">
  <HintPath>C:/Program Files/Unity/Editor/Data/Managed/Mono.Cecil.dll</HintPath>
  </Reference>
